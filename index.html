@@ -1,276 +1,183 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Macy's USA — Full Product Catalog · E0005r</title>
-<style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:'DM Sans',system-ui,sans-serif;background:#f8f7f4;color:#1a1a18;line-height:1.5}
-  a{color:#185FA5;text-decoration:none}
-  a:hover{text-decoration:underline}
-
-  .page{max-width:900px;margin:2rem auto;background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;overflow:hidden}
-
-  .hero{padding:2.5rem 2.5rem 2rem;border-bottom:0.5px solid #e5e4de}
-  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:#888780;text-transform:uppercase;margin-bottom:.6rem}
-  h1{font-family:'DM Serif Display',Georgia,serif;font-size:30px;font-weight:400;line-height:1.2;margin-bottom:.5rem}
-  .hero-sub{font-size:14px;color:#5f5e5a;line-height:1.7;max-width:680px}
-
-  .meta{display:flex;flex-wrap:wrap;gap:6px;padding:1rem 2.5rem;border-bottom:0.5px solid #e5e4de;background:#f8f7f4}
-  .badge{font-family:'DM Mono',monospace;font-size:11px;padding:3px 10px;border-radius:4px;background:#fff;border:0.5px solid #d3d1c7;color:#5f5e5a}
-  .badge-green{background:#EAF3DE;color:#3B6D11;border-color:#C0DD97}
-
-  .content{padding:2rem 2.5rem}
-  .sec{margin-bottom:2.5rem}
-  .sec-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#888780;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:0.5px solid #e5e4de}
-
-  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.5rem}
-  .stat{background:#f8f7f4;border-radius:8px;padding:.875rem 1rem}
-  .stat-lbl{font-size:11px;color:#888780;margin-bottom:4px}
-  .stat-val{font-size:20px;font-weight:500}
-
-  .explainer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
-  .ex-card{background:#f8f7f4;border-radius:8px;padding:1rem}
-  .ex-label{font-size:11px;color:#888780;margin-bottom:4px}
-  .ex-val{font-size:14px;font-weight:500;margin-bottom:6px}
-  .ex-note{font-size:12px;color:#5f5e5a;line-height:1.6}
-
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  th{text-align:left;padding:6px 10px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#888780;background:#f8f7f4;border-bottom:0.5px solid #e5e4de}
-  td{padding:8px 10px;border-bottom:0.5px solid #e5e4de;vertical-align:middle}
-  tr:last-child td{border-bottom:none}
-
-  .bar-wrap{display:flex;align-items:center;gap:8px}
-  .bar{height:5px;border-radius:3px;flex:1;background:#e5e4de;overflow:hidden}
-  .bar-inner{height:100%;border-radius:3px}
-
-  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
-  .dot-g{background:#639922}.dot-a{background:#BA7517}.dot-x{background:#B4B2A9}
-
-  .mono{font-family:'DM Mono',monospace;font-size:11px}
-  .note{color:#5f5e5a}
-
-  .dept-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-  .dept-item{display:flex;justify-content:space-between;padding:6px 10px;border-radius:8px;background:#f8f7f4;font-size:13px}
-  .dept-share{font-family:'DM Mono',monospace;font-size:11px;color:#888780}
-
-  .sample-wrap{overflow-x:auto;border:0.5px solid #d3d1c7;border-radius:8px}
-  .sample-wrap table{font-size:11px;white-space:nowrap}
-  .sample-wrap td,.sample-wrap th{padding:5px 12px;max-width:200px;overflow:hidden;text-overflow:ellipsis}
-
-  .imp-row{display:flex;gap:12px;padding:8px 0;border-bottom:0.5px solid #e5e4de;font-size:13px;align-items:baseline}
-  .imp-row:last-child{border-bottom:none}
-  .imp-f{font-family:'DM Mono',monospace;font-size:11px;min-width:170px;flex-shrink:0}
-  .ease{font-size:11px;padding:2px 8px;border-radius:3px;flex-shrink:0}
-  .e-easy{background:#EAF3DE;color:#3B6D11}
-  .e-med{background:#FAEEDA;color:#854F0B}
-
-  .path-box{background:#f8f7f4;border-radius:8px;padding:1rem;font-family:'DM Mono',monospace;font-size:12px;color:#5f5e5a;word-break:break-all;line-height:1.8}
-  .path-box span{color:#1a1a18;font-weight:500}
-
-  .legend{display:flex;gap:16px;font-size:12px;color:#888780;margin-top:10px}
-
-  footer{padding:1.5rem 2.5rem;border-top:0.5px solid #e5e4de;background:#f8f7f4;font-size:13px;color:#5f5e5a;line-height:2}
-
-  @media(max-width:600px){
-    .hero,.content{padding-left:1.25rem;padding-right:1.25rem}
-    .meta{padding-left:1.25rem;padding-right:1.25rem}
-    .explainer,.dept-grid{grid-template-columns:1fr}
-    footer{padding-left:1.25rem;padding-right:1.25rem}
-  }
-</style>
+<title>Ifeanyi Muotoe — Data Datasets</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--bg4:#30363d;
+  --border:#30363d;--border2:#444c56;
+  --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+  --accent:#58a6ff;--accent-bg:#1f3a5f;
+  --green:#3fb950;--green-bg:#1a3a1f;--green-text:#56d364;
+  --purple:#bc8cff;--purple-bg:#2d1f5e;
+  --amber:#e3b341;--amber-bg:#3a2e00;
+}
+:root[data-theme="light"]{
+  --bg:#ffffff;--bg2:#f6f8fa;--bg3:#eaeef2;--bg4:#d0d7de;
+  --border:#d0d7de;--border2:#b7bfc8;
+  --text:#1f2328;--text2:#636c76;--text3:#8c959f;
+  --accent:#0969da;--accent-bg:#ddf4ff;
+  --green:#1a7f37;--green-bg:#dafbe1;--green-text:#1a7f37;
+  --purple:#8250df;--purple-bg:#fbefff;
+  --amber:#9a6700;--amber-bg:#fff8c5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .2s,color .2s}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+
+nav{display:flex;align-items:center;justify-content:space-between;padding:.875rem 2rem;border-bottom:1px solid var(--border);background:var(--bg2)}
+.nav-brand{font-family:'DM Mono',monospace;font-size:14px;font-weight:500;color:var(--text)}
+.toggle-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 14px;border-radius:20px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace;transition:all .15s}
+.toggle-btn:hover{background:var(--bg4);color:var(--text)}
+
+.profile{max-width:900px;margin:0 auto;padding:3.5rem 2rem 2.5rem;border-bottom:1px solid var(--border)}
+.profile-inner{display:flex;gap:2rem;align-items:flex-start}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--accent-bg);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:600;font-size:22px;color:var(--accent);flex-shrink:0;font-family:'DM Mono',monospace}
+.profile-text h1{font-family:'DM Serif Display',Georgia,serif;font-size:28px;font-weight:400;line-height:1.2;margin-bottom:.35rem}
+.profile-text .role{font-size:14px;color:var(--text2);margin-bottom:1rem;line-height:1.6}
+.profile-text .bio{font-size:14px;color:var(--text2);line-height:1.7;max-width:540px;margin-bottom:1.25rem}
+.links{display:flex;flex-wrap:wrap;gap:8px}
+.link-badge{font-family:'DM Mono',monospace;font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text2);display:inline-flex;align-items:center;gap:5px;transition:all .15s}
+.link-badge:hover{border-color:var(--accent);color:var(--accent);text-decoration:none}
+.link-icon{width:14px;height:14px;fill:currentColor}
+
+.stack{max-width:900px;margin:0 auto;padding:2rem 2rem;border-bottom:1px solid var(--border)}
+.sec-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.pills{display:flex;flex-wrap:wrap;gap:6px}
+.pill{font-family:'DM Mono',monospace;font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);color:var(--text2);background:var(--bg2)}
+.pill-blue{border-color:var(--accent-bg);color:var(--accent);background:var(--accent-bg)}
+.pill-green{border-color:var(--green-bg);color:var(--green-text);background:var(--green-bg)}
+.pill-purple{border-color:var(--purple-bg);color:var(--purple);background:var(--purple-bg)}
+
+.datasets-section{max-width:900px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.datasets-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px;margin-top:.25rem}
+.ds-card{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:1.375rem 1.5rem;text-decoration:none;display:block;transition:border-color .15s,background .15s;color:var(--text)}
+.ds-card:hover{border-color:var(--accent);background:var(--bg3);text-decoration:none}
+.ds-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;margin-bottom:.75rem}
+.ds-name{font-size:15px;font-weight:600;color:var(--text);line-height:1.3}
+.ds-status{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:20px;flex-shrink:0;background:var(--green-bg);color:var(--green-text)}
+.ds-desc{font-size:13px;color:var(--text2);line-height:1.6;margin-bottom:1rem}
+.ds-meta{display:flex;flex-wrap:wrap;gap:5px}
+.ds-tag{font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:20px;border:1px solid var(--border);color:var(--text3)}
+.ds-arrow{font-size:14px;color:var(--text3);margin-top:1rem;display:block;font-family:'DM Mono',monospace}
+.ds-card:hover .ds-arrow{color:var(--accent)}
+
+.coming-soon{opacity:.5;pointer-events:none}
+.ds-status-soon{background:var(--bg3);color:var(--text3);font-family:'DM Mono',monospace;font-size:10px;padding:2px 8px;border-radius:20px}
+
+footer{border-top:1px solid var(--border);padding:1.5rem 2rem;text-align:center;font-size:12px;color:var(--text3);background:var(--bg2)}
+
+@media(max-width:640px){
+  .profile-inner{flex-direction:column;gap:1rem}
+  .profile,.stack,.datasets-section{padding-left:1.25rem;padding-right:1.25rem}
+  nav{padding:.75rem 1rem}
+}
+</style>
 </head>
 <body>
 
-<div class="page">
+<nav>
+  <span class="nav-brand">anzywiz.github.io</span>
+  <button class="toggle-btn" onclick="toggleTheme()" id="theme-btn">☀ light</button>
+</nav>
 
-  <div class="hero">
-    <div class="eyebrow">Dataset documentation · mac_001 · E0005r</div>
-    <h1>Macy's USA — Full Product Catalog</h1>
-    <p class="hero-sub">Color-variant level product data from macys.com — every distinct color option for every product captured as its own row, with individual pricing, images, and a direct deep link. 325K+ rows · 5,300+ brands · all departments.</p>
+<div class="profile">
+  <div class="profile-inner">
+    <div class="avatar">IM</div>
+    <div class="profile-text">
+      <h1>Ifeanyi Muotoe</h1>
+      <div class="role">Web Scraping Specialist &nbsp;·&nbsp; ML Engineering &amp; AI &nbsp;·&nbsp; Bot Developer</div>
+      <div class="bio">Data is the new oil, and I'm here to extract and refine it. I build data pipelines that power AI systems by collecting data through web scraping and APIs, engineering datasets, and training machine learning models to solve real-world problems.</div>
+      <div class="links">
+        <a href="https://github.com/Anzywiz" class="link-badge" target="_blank">
+          <svg class="link-icon" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+          github.com/Anzywiz
+        </a>
+        <a href="https://ifeanyimuotoe.streamlit.app/" class="link-badge" target="_blank">
+          <svg class="link-icon" viewBox="0 0 16 16"><path d="M0 0h16v16H0z" fill="none"/><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM2 8a6 6 0 1112 0A6 6 0 012 8z"/><path d="M8 4v4l3 2"/></svg>
+          Portfolio
+        </a>
+        <a href="mailto:ifeanyi.webapp@gmail.com" class="link-badge">
+          <svg class="link-icon" viewBox="0 0 16 16"><path d="M0 4a2 2 0 012-2h12a2 2 0 012 2v8a2 2 0 01-2 2H2a2 2 0 01-2-2V4zm2-1a1 1 0 00-1 1v.217l7 4.2 7-4.2V4a1 1 0 00-1-1H2zm13 2.383l-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583l-1.271-.764-5.695 3.44A1 1 0 002 13h12a1 1 0 00.966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z"/></svg>
+          Email
+        </a>
+        <a href="https://t.me/bot_arena_chat" class="link-badge" target="_blank">
+          <svg class="link-icon" viewBox="0 0 16 16"><path d="M16 8A8 8 0 110 8a8 8 0 0116 0zM8.287 5.906c-.778.324-2.334.994-4.666 2.01-.378.15-.577.298-.595.442-.03.243.275.339.69.47l.175.055c.408.133.958.288 1.243.294.26.006.549-.1.868-.32 2.179-1.471 3.304-2.214 3.374-2.23.05-.012.12-.026.166.016.047.041.042.12.037.141-.03.129-1.227 1.241-1.846 1.817-.193.18-.33.307-.358.336a8.154 8.154 0 01-.188.186c-.38.366-.664.64.015 1.088.327.216.589.393.85.571.284.194.568.387.936.629.093.06.183.125.27.187.331.236.63.448.997.414.214-.02.435-.22.547-.82.265-1.417.786-4.486.906-5.751a1.426 1.426 0 00-.013-.315.337.337 0 00-.114-.217.526.526 0 00-.31-.093c-.3.005-.763.166-2.984 1.09z"/></svg>
+          Telegram
+        </a>
+      </div>
+    </div>
   </div>
-
-  <div class="meta">
-    <span class="badge badge-green">&#10003; Active</span>
-    <span class="badge">Schema: E0005r</span>
-    <span class="badge">Country: USA</span>
-    <span class="badge">Currency: USD</span>
-    <span class="badge">Language: English</span>
-    <span class="badge">Last delivered: 2026-04-15</span>
-    <span class="badge">Started: 2026-04-08</span>
-    <span class="badge">Price: €90.00 / delivery</span>
-  </div>
-
-  <div class="content">
-
-    <div class="sec">
-      <div class="sec-title">What "color-variant level" means</div>
-      <div class="explainer">
-        <div class="ex-card">
-          <div class="ex-label">Standard product-level scraper</div>
-          <div class="ex-val">1 row per product</div>
-          <div class="ex-note">A blazer is 1 row. No visibility into its 5 colors, no per-color image, no way to know if colors differ in price.</div>
-        </div>
-        <div class="ex-card">
-          <div class="ex-label">This dataset — color-variant level</div>
-          <div class="ex-val">1 row per product × color</div>
-          <div class="ex-note">Same blazer → 5 rows (Pink Rose Gem, Sweet Pea, Skyride, Icy Rose, Deep Black). Each has its own image, deep link, and price — because Macy's sometimes prices colors differently.</div>
-        </div>
-      </div>
-      <p style="font-size:13px;color:#5f5e5a;line-height:1.7">For example, the Forever Grown Diamonds ring in the sample data appears as two rows — "Sterling Silver" and "Gold-Plated Sterling Silver" — each priced at $199 (full price $1,000, 80% off). A product-level scraper would capture only one color and miss the other's image and URL entirely.</p>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">Scale</div>
-      <div class="stats-grid">
-        <div class="stat"><div class="stat-lbl">Unique products</div><div class="stat-val">~293K</div></div>
-        <div class="stat"><div class="stat-lbl">Color-variant rows</div><div class="stat-val">~325K</div></div>
-        <div class="stat"><div class="stat-lbl">Brands</div><div class="stat-val">5,338</div></div>
-        <div class="stat"><div class="stat-lbl">Avg colors / product</div><div class="stat-val">1.4×</div></div>
-        <div class="stat"><div class="stat-lbl">Max colors seen</div><div class="stat-val">35</div></div>
-        <div class="stat"><div class="stat-lbl">Competence date</div><div class="stat-val" style="font-size:14px">2026-04-14</div></div>
-      </div>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">Sample rows</div>
-      <div class="sample-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>product_code</th><th>brand</th><th>product_title</th><th>color_info</th>
-              <th>full_price</th><th>price</th><th>promotion</th><th>category2</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr><td class="mono">23476271::defaultCategoryId</td><td>I.N.C. International Concepts</td><td>Women's Menswear Blazer</td><td>Pink Rose Gem, Sweet Pea, Skyride, Icy Rose, Deep Black</td><td>$39.75</td><td>$39.75</td><td>—</td><td>Women's Blazers</td></tr>
-            <tr><td class="mono">19848686::21176</td><td>Forever Grown Diamonds</td><td>Lab-Grown Diamond Three Stone Ring (2 ct. t.w.)</td><td>Sterling Silver, Gold-Plated Sterling Silver</td><td>$1,000</td><td>$199</td><td style="color:#3B6D11;font-weight:500">80% off</td><td>Ring</td></tr>
-            <tr><td class="mono">12469739::10835</td><td>EFFY Collection</td><td>EFFY Sapphire &amp; Diamond Stud Earrings in 14k White Gold</td><td>Sapphire, Ruby, Emerald</td><td>$3,850</td><td>$1,347.50</td><td style="color:#3B6D11;font-weight:500">65% off</td><td>Earrings</td></tr>
-            <tr><td class="mono">25909866::269</td><td>KARL LAGERFELD PARIS</td><td>Women's Placed Floral Printed Collared Blazer</td><td>Soft White</td><td>$209</td><td>$209</td><td>—</td><td>Women's Coats &amp; Jackets</td></tr>
-            <tr><td class="mono">19399749::157</td><td>Cupshe</td><td>Women's V-Neck Short Sleeve Straight Leg Jumpsuit</td><td>Green, Pastel Blue, Yellow, Beige, Purple</td><td>$65.99</td><td>$65.99</td><td>—</td><td>Women's Pants</td></tr>
-          </tbody>
-        </table>
-      </div>
-      <p style="font-size:11px;color:#888780;margin-top:6px">Showing 5 of 325,906 rows. product_code format: product_id::color_id</p>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">Department breakdown</div>
-      <div class="dept-grid">
-        <div class="dept-item"><span>Women's Fashion, Shoes &amp; Accessories</span><span class="dept-share">~27%</span></div>
-        <div class="dept-item"><span>Home</span><span class="dept-share">~27%</span></div>
-        <div class="dept-item"><span>Jewelry &amp; Watches</span><span class="dept-share">~12%</span></div>
-        <div class="dept-item"><span>Kids</span><span class="dept-share">~6%</span></div>
-        <div class="dept-item"><span>Beauty</span><span class="dept-share">~6%</span></div>
-        <div class="dept-item"><span>Men's Fashion, Shoes &amp; Accessories</span><span class="dept-share">~5%</span></div>
-        <div class="dept-item"><span>Toys</span><span class="dept-share">~5%</span></div>
-        <div class="dept-item"><span>Electronics</span><span class="dept-share">~4%</span></div>
-        <div class="dept-item"><span>Other (Luggage, Juniors, Lifestyle)</span><span class="dept-share">~8%</span></div>
-      </div>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">Field fill rates</div>
-      <table>
-        <thead><tr><th>Field</th><th>Fill rate</th><th style="width:200px">Coverage</th></tr></thead>
-        <tbody id="fill-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">All fields — status &amp; notes</div>
-      <table>
-        <thead><tr><th>Field</th><th>Status</th><th>Notes</th></tr></thead>
-        <tbody>
-          <tr><td class="mono">product_code</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Format product_id::color_id — unique per product-color pair</td></tr>
-          <tr><td class="mono">additional_code_1</td><td><span class="dot dot-g"></span>Filled</td><td class="note">UPC barcode — first available UPC for the color (~74% fill)</td></tr>
-          <tr><td class="mono">additional_code_1_type</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"UPC" when code is present</td></tr>
-          <tr><td class="mono">brand</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Brand name as displayed on site — 5,338 unique brands</td></tr>
-          <tr><td class="mono">color_info</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Color name for this variant (e.g., "Deep Black")</td></tr>
-          <tr><td class="mono">variant_info</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Same as color_info — color is the variant dimension</td></tr>
-          <tr><td class="mono">size_info</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Available sizes, comma-separated (~76% fill)</td></tr>
-          <tr><td class="mono">material_info</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Materials &amp; care instructions (~24% fill)</td></tr>
-          <tr><td class="mono">product_title</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Product name exactly as shown on site</td></tr>
-          <tr><td class="mono">description</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Description + size &amp; fit info (pipe-separated)</td></tr>
-          <tr><td class="mono">specifications</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Detail bullet points, pipe-separated (~99.8% fill)</td></tr>
-          <tr><td class="mono">in_stock</td><td><span class="dot dot-x"></span>Not collected</td><td class="note">Visible per size on site — improvement opportunity</td></tr>
-          <tr><td class="mono">quantity</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Macy's does not expose inventory counts</td></tr>
-          <tr><td class="mono">category1</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Top-level department (~96% fill)</td></tr>
-          <tr><td class="mono">category2</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Sub-category (~85% fill)</td></tr>
-          <tr><td class="mono">category3–10</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Macy's uses a 2-level hierarchy only</td></tr>
-          <tr><td class="mono">full_price</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Regular retail price before any discount</td></tr>
-          <tr><td class="mono">price</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Actual offered price — sale when promoted</td></tr>
-          <tr><td class="mono">ppu / unit_type</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Macy's does not show price-per-unit</td></tr>
-          <tr><td class="mono">promotion_type</td><td><span class="dot dot-x"></span>Not collected</td><td class="note">Labels like "80% off", "EXTRA 25% OFF" on listings</td></tr>
-          <tr><td class="mono">promotion_end_date</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Collected when displayed on page (~32% fill)</td></tr>
-          <tr><td class="mono">additional_tags</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Badges like "NEW", "BEST SELLER" (~22% fill)</td></tr>
-          <tr><td class="mono">itemurl</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Deep link — opens directly to this color variant</td></tr>
-          <tr><td class="mono">main_image_url</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Color-specific product image</td></tr>
-          <tr><td class="mono">all_images</td><td><span class="dot dot-g"></span>Filled</td><td class="note">JSON array of all images for the color variant</td></tr>
-          <tr><td class="mono">store_id / store_*</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Online catalog — no physical store data</td></tr>
-          <tr><td class="mono">merchant_* fields</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Single retailer — no marketplace seller data</td></tr>
-          <tr><td class="mono">delivery</td><td><span class="dot dot-x"></span>Not collected</td><td class="note">Present on some PDPs — improvement opportunity</td></tr>
-          <tr><td class="mono">website_name</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"macys.com"</td></tr>
-          <tr><td class="mono">competence_date</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Date of collection (YYYY-MM-DD)</td></tr>
-          <tr><td class="mono">country_code</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"USA"</td></tr>
-          <tr><td class="mono">currency_code</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"USD"</td></tr>
-        </tbody>
-      </table>
-      <div class="legend">
-        <span><span class="dot dot-g"></span>Filled</span>
-        <span><span class="dot dot-a"></span>Partial fill</span>
-        <span><span class="dot dot-x"></span>Not collected / N/A on site</span>
-      </div>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">Improvement opportunities</div>
-      <div class="imp-row"><span class="imp-f">additional_tags</span><span class="ease e-easy">Easy</span><span class="note">Product badges ("NEW", "BEST SELLER", "ONLY AT MACY'S") on listing pages</span></div>
-      <div class="imp-row"><span class="imp-f">delivery</span><span class="ease e-easy">Easy</span><span class="note">Shipping info occasionally on PDP</span></div>
-      <div class="imp-row"><span class="imp-f">promotion_type</span><span class="ease e-easy">Easy</span><span class="note">Promo labels ("SALE", "EXTRA 25% OFF") on listing pages</span></div>
-      <div class="imp-row"><span class="imp-f">in_stock</span><span class="ease e-med">Medium</span><span class="note">Per-size stock on PDP — requires size-level scraping</span></div>
-      <div class="imp-row"><span class="imp-f">promotion_end_date</span><span class="ease e-med">Medium</span><span class="note">Sometimes shown alongside promotional pricing</span></div>
-      <div class="imp-row"><span class="imp-f">additional_code_2 (GTIN)</span><span class="ease e-med">Medium</span><span class="note">May require size-level lookup or external enrichment</span></div>
-    </div>
-
-    <div class="sec">
-      <div class="sec-title">File delivery path</div>
-      <div class="path-box">s3://databoutique.com/sellers/<span>YOUR_SELLER_ID</span>/<span>YOUR_CONTRACT_ID</span>/<span>YYYY-MM-DD</span>/data_file.txt</div>
-    </div>
-
-  </div>
-
-  <footer>
-    <strong>Provider:</strong> Ifeanyi Muotoe &nbsp;·&nbsp;
-    <strong>Email:</strong> <a href="mailto:ifeanyi.webapp@gmail.com">ifeanyi.webapp@gmail.com</a> &nbsp;·&nbsp;
-  </footer>
-
 </div>
 
+<div class="stack">
+  <div class="sec-label">Tech stack</div>
+  <div class="pills">
+    <span class="pill pill-blue">Python</span>
+    <span class="pill pill-blue">BeautifulSoup</span>
+    <span class="pill pill-blue">Selenium</span>
+    <span class="pill pill-blue">Playwright</span>
+    <span class="pill pill-blue">Requests</span>
+    <span class="pill pill-green">Pandas</span>
+    <span class="pill pill-green">scikit-learn</span>
+    <span class="pill pill-green">TensorFlow</span>
+    <span class="pill pill-green">MySQL</span>
+    <span class="pill pill-purple">Git</span>
+    <span class="pill pill-purple">Linux</span>
+    <span class="pill pill-purple">SQL</span>
+  </div>
+</div>
+
+<div class="datasets-section">
+  <div class="sec-label">Published datasets</div>
+  <div class="datasets-grid">
+
+    <a href="https://anzywiz.github.io/macys" class="ds-card">
+      <div class="ds-top">
+        <div class="ds-name">Macy's USA — Full Product Catalog</div>
+        <span class="ds-status">Active</span>
+      </div>
+      <div class="ds-desc">Color-variant level product data from macys.com. 325K+ rows covering pricing, images, descriptions, and attributes across all departments.</div>
+      <div class="ds-meta">
+        <span class="ds-tag">E0005r</span>
+        <span class="ds-tag">USA</span>
+        <span class="ds-tag">USD</span>
+        <span class="ds-tag">325K+ rows</span>
+        <span class="ds-tag">5,338 brands</span>
+      </div>
+      <span class="ds-arrow">View documentation →</span>
+    </a>
+
+    <div class="ds-card coming-soon">
+      <div class="ds-top">
+        <div class="ds-name">More datasets coming soon</div>
+        <span class="ds-status-soon">Soon</span>
+      </div>
+      <div class="ds-desc">Additional e-commerce datasets are in development. Contact me to discuss custom data requirements.</div>
+      <div class="ds-meta">
+        <span class="ds-tag">contact to enquire</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  &copy; 2026 Ifeanyi Muotoe &nbsp;·&nbsp; <a href="https://github.com/Anzywiz">github.com/Anzywiz</a>
+</footer>
+
 <script>
-const fills=[
-  {n:"product_code",p:100,c:"#639922"},{n:"additional_code_1 (UPC)",p:74,c:"#639922"},
-  {n:"brand",p:100,c:"#639922"},{n:"product_title",p:100,c:"#639922"},
-  {n:"description",p:100,c:"#639922"},{n:"specifications",p:99.8,c:"#639922"},
-  {n:"full_price",p:100,c:"#639922"},{n:"price",p:100,c:"#639922"},
-  {n:"color_info",p:100,c:"#639922"},{n:"variant_info",p:100,c:"#639922"},
-  {n:"itemurl",p:100,c:"#639922"},{n:"main_image_url",p:100,c:"#639922"},
-  {n:"all_images",p:100,c:"#639922"},{n:"category1",p:96,c:"#639922"},
-  {n:"category2",p:85,c:"#639922"},{n:"size_info",p:76,c:"#639922"},
-  {n:"material_info",p:24,c:"#BA7517"},{n:"promotion_end_date",p:32,c:"#BA7517"},
-  {n:"additional_tags",p:22,c:"#BA7517"},
-];
-const tb=document.getElementById("fill-tbody");
-fills.forEach(f=>{
-  const tr=document.createElement("tr");
-  tr.innerHTML=`<td style="font-family:'DM Mono',monospace;font-size:11px">${f.n}</td>
-    <td style="font-family:'DM Mono',monospace;font-size:12px">${f.p}%</td>
-    <td><div class="bar-wrap"><div class="bar"><div class="bar-inner" style="width:${Math.round(f.p)}%;background:${f.c}"></div></div></div></td>`;
-  tb.appendChild(tr);
-});
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute("data-theme")==="dark";
+  html.setAttribute("data-theme",isDark?"light":"dark");
+  document.getElementById("theme-btn").textContent=isDark?"☾ dark":"☀ light";
+}
 </script>
 </body>
 </html>
