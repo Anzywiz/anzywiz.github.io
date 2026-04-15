@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Macy's USA — Full Product Catalog · E0005r</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',system-ui,sans-serif;background:#f8f7f4;color:#1a1a18;line-height:1.5}
+  a{color:#185FA5;text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  .page{max-width:900px;margin:2rem auto;background:#fff;border:0.5px solid #d3d1c7;border-radius:12px;overflow:hidden}
+
+  .hero{padding:2.5rem 2.5rem 2rem;border-bottom:0.5px solid #e5e4de}
+  .eyebrow{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;color:#888780;text-transform:uppercase;margin-bottom:.6rem}
+  h1{font-family:'DM Serif Display',Georgia,serif;font-size:30px;font-weight:400;line-height:1.2;margin-bottom:.5rem}
+  .hero-sub{font-size:14px;color:#5f5e5a;line-height:1.7;max-width:680px}
+
+  .meta{display:flex;flex-wrap:wrap;gap:6px;padding:1rem 2.5rem;border-bottom:0.5px solid #e5e4de;background:#f8f7f4}
+  .badge{font-family:'DM Mono',monospace;font-size:11px;padding:3px 10px;border-radius:4px;background:#fff;border:0.5px solid #d3d1c7;color:#5f5e5a}
+  .badge-green{background:#EAF3DE;color:#3B6D11;border-color:#C0DD97}
+
+  .content{padding:2rem 2.5rem}
+  .sec{margin-bottom:2.5rem}
+  .sec-title{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#888780;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:0.5px solid #e5e4de}
+
+  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px;margin-bottom:1.5rem}
+  .stat{background:#f8f7f4;border-radius:8px;padding:.875rem 1rem}
+  .stat-lbl{font-size:11px;color:#888780;margin-bottom:4px}
+  .stat-val{font-size:20px;font-weight:500}
+
+  .explainer{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem}
+  .ex-card{background:#f8f7f4;border-radius:8px;padding:1rem}
+  .ex-label{font-size:11px;color:#888780;margin-bottom:4px}
+  .ex-val{font-size:14px;font-weight:500;margin-bottom:6px}
+  .ex-note{font-size:12px;color:#5f5e5a;line-height:1.6}
+
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;padding:6px 10px;font-size:11px;font-weight:500;text-transform:uppercase;letter-spacing:.05em;color:#888780;background:#f8f7f4;border-bottom:0.5px solid #e5e4de}
+  td{padding:8px 10px;border-bottom:0.5px solid #e5e4de;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+
+  .bar-wrap{display:flex;align-items:center;gap:8px}
+  .bar{height:5px;border-radius:3px;flex:1;background:#e5e4de;overflow:hidden}
+  .bar-inner{height:100%;border-radius:3px}
+
+  .dot{width:6px;height:6px;border-radius:50%;display:inline-block;margin-right:5px}
+  .dot-g{background:#639922}.dot-a{background:#BA7517}.dot-x{background:#B4B2A9}
+
+  .mono{font-family:'DM Mono',monospace;font-size:11px}
+  .note{color:#5f5e5a}
+
+  .dept-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+  .dept-item{display:flex;justify-content:space-between;padding:6px 10px;border-radius:8px;background:#f8f7f4;font-size:13px}
+  .dept-share{font-family:'DM Mono',monospace;font-size:11px;color:#888780}
+
+  .sample-wrap{overflow-x:auto;border:0.5px solid #d3d1c7;border-radius:8px}
+  .sample-wrap table{font-size:11px;white-space:nowrap}
+  .sample-wrap td,.sample-wrap th{padding:5px 12px;max-width:200px;overflow:hidden;text-overflow:ellipsis}
+
+  .imp-row{display:flex;gap:12px;padding:8px 0;border-bottom:0.5px solid #e5e4de;font-size:13px;align-items:baseline}
+  .imp-row:last-child{border-bottom:none}
+  .imp-f{font-family:'DM Mono',monospace;font-size:11px;min-width:170px;flex-shrink:0}
+  .ease{font-size:11px;padding:2px 8px;border-radius:3px;flex-shrink:0}
+  .e-easy{background:#EAF3DE;color:#3B6D11}
+  .e-med{background:#FAEEDA;color:#854F0B}
+
+  .path-box{background:#f8f7f4;border-radius:8px;padding:1rem;font-family:'DM Mono',monospace;font-size:12px;color:#5f5e5a;word-break:break-all;line-height:1.8}
+  .path-box span{color:#1a1a18;font-weight:500}
+
+  .legend{display:flex;gap:16px;font-size:12px;color:#888780;margin-top:10px}
+
+  footer{padding:1.5rem 2.5rem;border-top:0.5px solid #e5e4de;background:#f8f7f4;font-size:13px;color:#5f5e5a;line-height:2}
+
+  @media(max-width:600px){
+    .hero,.content{padding-left:1.25rem;padding-right:1.25rem}
+    .meta{padding-left:1.25rem;padding-right:1.25rem}
+    .explainer,.dept-grid{grid-template-columns:1fr}
+    footer{padding-left:1.25rem;padding-right:1.25rem}
+  }
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="page">
+
+  <div class="hero">
+    <div class="eyebrow">Dataset documentation · mac_001 · E0005r</div>
+    <h1>Macy's USA — Full Product Catalog</h1>
+    <p class="hero-sub">Color-variant level product data from macys.com — every distinct color option for every product captured as its own row, with individual pricing, images, and a direct deep link. 325K+ rows · 5,300+ brands · all departments.</p>
+  </div>
+
+  <div class="meta">
+    <span class="badge badge-green">&#10003; Active</span>
+    <span class="badge">Schema: E0005r</span>
+    <span class="badge">Country: USA</span>
+    <span class="badge">Currency: USD</span>
+    <span class="badge">Language: English</span>
+    <span class="badge">Last delivered: 2026-04-15</span>
+    <span class="badge">Started: 2026-04-08</span>
+    <span class="badge">Price: €90.00 / delivery</span>
+  </div>
+
+  <div class="content">
+
+    <div class="sec">
+      <div class="sec-title">What "color-variant level" means</div>
+      <div class="explainer">
+        <div class="ex-card">
+          <div class="ex-label">Standard product-level scraper</div>
+          <div class="ex-val">1 row per product</div>
+          <div class="ex-note">A blazer is 1 row. No visibility into its 5 colors, no per-color image, no way to know if colors differ in price.</div>
+        </div>
+        <div class="ex-card">
+          <div class="ex-label">This dataset — color-variant level</div>
+          <div class="ex-val">1 row per product × color</div>
+          <div class="ex-note">Same blazer → 5 rows (Pink Rose Gem, Sweet Pea, Skyride, Icy Rose, Deep Black). Each has its own image, deep link, and price — because Macy's sometimes prices colors differently.</div>
+        </div>
+      </div>
+      <p style="font-size:13px;color:#5f5e5a;line-height:1.7">For example, the Forever Grown Diamonds ring in the sample data appears as two rows — "Sterling Silver" and "Gold-Plated Sterling Silver" — each priced at $199 (full price $1,000, 80% off). A product-level scraper would capture only one color and miss the other's image and URL entirely.</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Scale</div>
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-lbl">Unique products</div><div class="stat-val">~293K</div></div>
+        <div class="stat"><div class="stat-lbl">Color-variant rows</div><div class="stat-val">~325K</div></div>
+        <div class="stat"><div class="stat-lbl">Brands</div><div class="stat-val">5,338</div></div>
+        <div class="stat"><div class="stat-lbl">Avg colors / product</div><div class="stat-val">1.4×</div></div>
+        <div class="stat"><div class="stat-lbl">Max colors seen</div><div class="stat-val">35</div></div>
+        <div class="stat"><div class="stat-lbl">Competence date</div><div class="stat-val" style="font-size:14px">2026-04-14</div></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Sample rows</div>
+      <div class="sample-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>product_code</th><th>brand</th><th>product_title</th><th>color_info</th>
+              <th>full_price</th><th>price</th><th>promotion</th><th>category2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td class="mono">23476271::defaultCategoryId</td><td>I.N.C. International Concepts</td><td>Women's Menswear Blazer</td><td>Pink Rose Gem, Sweet Pea, Skyride, Icy Rose, Deep Black</td><td>$39.75</td><td>$39.75</td><td>—</td><td>Women's Blazers</td></tr>
+            <tr><td class="mono">19848686::21176</td><td>Forever Grown Diamonds</td><td>Lab-Grown Diamond Three Stone Ring (2 ct. t.w.)</td><td>Sterling Silver, Gold-Plated Sterling Silver</td><td>$1,000</td><td>$199</td><td style="color:#3B6D11;font-weight:500">80% off</td><td>Ring</td></tr>
+            <tr><td class="mono">12469739::10835</td><td>EFFY Collection</td><td>EFFY Sapphire &amp; Diamond Stud Earrings in 14k White Gold</td><td>Sapphire, Ruby, Emerald</td><td>$3,850</td><td>$1,347.50</td><td style="color:#3B6D11;font-weight:500">65% off</td><td>Earrings</td></tr>
+            <tr><td class="mono">25909866::269</td><td>KARL LAGERFELD PARIS</td><td>Women's Placed Floral Printed Collared Blazer</td><td>Soft White</td><td>$209</td><td>$209</td><td>—</td><td>Women's Coats &amp; Jackets</td></tr>
+            <tr><td class="mono">19399749::157</td><td>Cupshe</td><td>Women's V-Neck Short Sleeve Straight Leg Jumpsuit</td><td>Green, Pastel Blue, Yellow, Beige, Purple</td><td>$65.99</td><td>$65.99</td><td>—</td><td>Women's Pants</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="font-size:11px;color:#888780;margin-top:6px">Showing 5 of 325,906 rows. product_code format: product_id::color_id</p>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Department breakdown</div>
+      <div class="dept-grid">
+        <div class="dept-item"><span>Women's Fashion, Shoes &amp; Accessories</span><span class="dept-share">~27%</span></div>
+        <div class="dept-item"><span>Home</span><span class="dept-share">~27%</span></div>
+        <div class="dept-item"><span>Jewelry &amp; Watches</span><span class="dept-share">~12%</span></div>
+        <div class="dept-item"><span>Kids</span><span class="dept-share">~6%</span></div>
+        <div class="dept-item"><span>Beauty</span><span class="dept-share">~6%</span></div>
+        <div class="dept-item"><span>Men's Fashion, Shoes &amp; Accessories</span><span class="dept-share">~5%</span></div>
+        <div class="dept-item"><span>Toys</span><span class="dept-share">~5%</span></div>
+        <div class="dept-item"><span>Electronics</span><span class="dept-share">~4%</span></div>
+        <div class="dept-item"><span>Other (Luggage, Juniors, Lifestyle)</span><span class="dept-share">~8%</span></div>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Field fill rates</div>
+      <table>
+        <thead><tr><th>Field</th><th>Fill rate</th><th style="width:200px">Coverage</th></tr></thead>
+        <tbody id="fill-tbody"></tbody>
+      </table>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">All fields — status &amp; notes</div>
+      <table>
+        <thead><tr><th>Field</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">product_code</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Format product_id::color_id — unique per product-color pair</td></tr>
+          <tr><td class="mono">additional_code_1</td><td><span class="dot dot-g"></span>Filled</td><td class="note">UPC barcode — first available UPC for the color (~74% fill)</td></tr>
+          <tr><td class="mono">additional_code_1_type</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"UPC" when code is present</td></tr>
+          <tr><td class="mono">brand</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Brand name as displayed on site — 5,338 unique brands</td></tr>
+          <tr><td class="mono">color_info</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Color name for this variant (e.g., "Deep Black")</td></tr>
+          <tr><td class="mono">variant_info</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Same as color_info — color is the variant dimension</td></tr>
+          <tr><td class="mono">size_info</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Available sizes, comma-separated (~76% fill)</td></tr>
+          <tr><td class="mono">material_info</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Materials &amp; care instructions (~24% fill)</td></tr>
+          <tr><td class="mono">product_title</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Product name exactly as shown on site</td></tr>
+          <tr><td class="mono">description</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Description + size &amp; fit info (pipe-separated)</td></tr>
+          <tr><td class="mono">specifications</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Detail bullet points, pipe-separated (~99.8% fill)</td></tr>
+          <tr><td class="mono">in_stock</td><td><span class="dot dot-x"></span>Not collected</td><td class="note">Visible per size on site — improvement opportunity</td></tr>
+          <tr><td class="mono">quantity</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Macy's does not expose inventory counts</td></tr>
+          <tr><td class="mono">category1</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Top-level department (~96% fill)</td></tr>
+          <tr><td class="mono">category2</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Sub-category (~85% fill)</td></tr>
+          <tr><td class="mono">category3–10</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Macy's uses a 2-level hierarchy only</td></tr>
+          <tr><td class="mono">full_price</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Regular retail price before any discount</td></tr>
+          <tr><td class="mono">price</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Actual offered price — sale when promoted</td></tr>
+          <tr><td class="mono">ppu / unit_type</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Macy's does not show price-per-unit</td></tr>
+          <tr><td class="mono">promotion_type</td><td><span class="dot dot-x"></span>Not collected</td><td class="note">Labels like "80% off", "EXTRA 25% OFF" on listings</td></tr>
+          <tr><td class="mono">promotion_end_date</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Collected when displayed on page (~32% fill)</td></tr>
+          <tr><td class="mono">additional_tags</td><td><span class="dot dot-a"></span>Partial</td><td class="note">Badges like "NEW", "BEST SELLER" (~22% fill)</td></tr>
+          <tr><td class="mono">itemurl</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Deep link — opens directly to this color variant</td></tr>
+          <tr><td class="mono">main_image_url</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Color-specific product image</td></tr>
+          <tr><td class="mono">all_images</td><td><span class="dot dot-g"></span>Filled</td><td class="note">JSON array of all images for the color variant</td></tr>
+          <tr><td class="mono">store_id / store_*</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Online catalog — no physical store data</td></tr>
+          <tr><td class="mono">merchant_* fields</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note">Single retailer — no marketplace seller data</td></tr>
+          <tr><td class="mono">delivery</td><td><span class="dot dot-x"></span>Not collected</td><td class="note">Present on some PDPs — improvement opportunity</td></tr>
+          <tr><td class="mono">website_name</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"macys.com"</td></tr>
+          <tr><td class="mono">competence_date</td><td><span class="dot dot-g"></span>Filled</td><td class="note">Date of collection (YYYY-MM-DD)</td></tr>
+          <tr><td class="mono">country_code</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"USA"</td></tr>
+          <tr><td class="mono">currency_code</td><td><span class="dot dot-g"></span>Filled</td><td class="note">"USD"</td></tr>
+        </tbody>
+      </table>
+      <div class="legend">
+        <span><span class="dot dot-g"></span>Filled</span>
+        <span><span class="dot dot-a"></span>Partial fill</span>
+        <span><span class="dot dot-x"></span>Not collected / N/A on site</span>
+      </div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">Improvement opportunities</div>
+      <div class="imp-row"><span class="imp-f">additional_tags</span><span class="ease e-easy">Easy</span><span class="note">Product badges ("NEW", "BEST SELLER", "ONLY AT MACY'S") on listing pages</span></div>
+      <div class="imp-row"><span class="imp-f">delivery</span><span class="ease e-easy">Easy</span><span class="note">Shipping info occasionally on PDP</span></div>
+      <div class="imp-row"><span class="imp-f">promotion_type</span><span class="ease e-easy">Easy</span><span class="note">Promo labels ("SALE", "EXTRA 25% OFF") on listing pages</span></div>
+      <div class="imp-row"><span class="imp-f">in_stock</span><span class="ease e-med">Medium</span><span class="note">Per-size stock on PDP — requires size-level scraping</span></div>
+      <div class="imp-row"><span class="imp-f">promotion_end_date</span><span class="ease e-med">Medium</span><span class="note">Sometimes shown alongside promotional pricing</span></div>
+      <div class="imp-row"><span class="imp-f">additional_code_2 (GTIN)</span><span class="ease e-med">Medium</span><span class="note">May require size-level lookup or external enrichment</span></div>
+    </div>
+
+    <div class="sec">
+      <div class="sec-title">File delivery path</div>
+      <div class="path-box">s3://databoutique.com/sellers/<span>YOUR_SELLER_ID</span>/<span>YOUR_CONTRACT_ID</span>/<span>YYYY-MM-DD</span>/data_file.txt</div>
+    </div>
+
+  </div>
+
+  <footer>
+    <strong>Provider:</strong> Ifeanyi Muotoe &nbsp;·&nbsp;
+    <strong>Email:</strong> <a href="mailto:ifeanyi.webapp@gmail.com">ifeanyi.webapp@gmail.com</a> &nbsp;·&nbsp;
+  </footer>
+
+</div>
+
+<script>
+const fills=[
+  {n:"product_code",p:100,c:"#639922"},{n:"additional_code_1 (UPC)",p:74,c:"#639922"},
+  {n:"brand",p:100,c:"#639922"},{n:"product_title",p:100,c:"#639922"},
+  {n:"description",p:100,c:"#639922"},{n:"specifications",p:99.8,c:"#639922"},
+  {n:"full_price",p:100,c:"#639922"},{n:"price",p:100,c:"#639922"},
+  {n:"color_info",p:100,c:"#639922"},{n:"variant_info",p:100,c:"#639922"},
+  {n:"itemurl",p:100,c:"#639922"},{n:"main_image_url",p:100,c:"#639922"},
+  {n:"all_images",p:100,c:"#639922"},{n:"category1",p:96,c:"#639922"},
+  {n:"category2",p:85,c:"#639922"},{n:"size_info",p:76,c:"#639922"},
+  {n:"material_info",p:24,c:"#BA7517"},{n:"promotion_end_date",p:32,c:"#BA7517"},
+  {n:"additional_tags",p:22,c:"#BA7517"},
+];
+const tb=document.getElementById("fill-tbody");
+fills.forEach(f=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td style="font-family:'DM Mono',monospace;font-size:11px">${f.n}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:12px">${f.p}%</td>
+    <td><div class="bar-wrap"><div class="bar"><div class="bar-inner" style="width:${Math.round(f.p)}%;background:${f.c}"></div></div></div></td>`;
+  tb.appendChild(tr);
+});
+</script>
+</body>
+</html>
