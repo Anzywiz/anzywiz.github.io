@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ounass UAE — Luxury Fashion Catalog · oun_001</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root[data-theme="dark"]{
+  --bg:#0d1117;--bg2:#161b22;--bg3:#21262d;--bg4:#30363d;
+  --border:#30363d;--border2:#444c56;
+  --text:#e6edf3;--text2:#8b949e;--text3:#6e7681;
+  --accent:#58a6ff;--accent-bg:#1f3a5f;
+  --green:#3fb950;--green-bg:#1a3a1f;--green-text:#56d364;
+  --amber:#d29922;--amber-bg:#3a2e00;--amber-text:#e3b341;
+  --gold:#c9a84c;--gold-bg:#2a2200;
+}
+:root[data-theme="light"]{
+  --bg:#ffffff;--bg2:#f6f8fa;--bg3:#eaeef2;--bg4:#d0d7de;
+  --border:#d0d7de;--border2:#b7bfc8;
+  --text:#1f2328;--text2:#636c76;--text3:#8c959f;
+  --accent:#0969da;--accent-bg:#ddf4ff;
+  --green:#1a7f37;--green-bg:#dafbe1;--green-text:#1a7f37;
+  --amber:#9a6700;--amber-bg:#fff8c5;--amber-text:#9a6700;
+  --gold:#8a6d00;--gold-bg:#fff9e6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;transition:background .2s,color .2s}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+nav{display:flex;align-items:center;justify-content:space-between;padding:.875rem 2rem;border-bottom:1px solid var(--border);background:var(--bg2);position:sticky;top:0;z-index:100}
+.nav-brand{font-family:'DM Mono',monospace;font-size:13px;color:var(--text2)}
+.nav-brand a{color:var(--accent);font-weight:500}
+.nav-right{display:flex;align-items:center;gap:12px}
+.toggle-btn{background:var(--bg3);border:1px solid var(--border);color:var(--text2);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:12px;font-family:'DM Mono',monospace;transition:all .15s}
+.toggle-btn:hover{background:var(--bg4);color:var(--text)}
+.back-link{font-size:12px;color:var(--text2);font-family:'DM Mono',monospace}
+.back-link:hover{color:var(--accent)}
+.hero{padding:3rem 2rem 2.5rem;max-width:960px;margin:0 auto;border-bottom:1px solid var(--border)}
+.breadcrumb{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);margin-bottom:1rem;letter-spacing:.06em;text-transform:uppercase}
+.breadcrumb a{color:var(--text2)}
+h1{font-family:'DM Serif Display',Georgia,serif;font-size:32px;font-weight:400;line-height:1.2;margin-bottom:.75rem}
+.hero-sub{font-size:15px;color:var(--text2);line-height:1.7;max-width:660px;margin-bottom:1.5rem}
+.meta-row{display:flex;flex-wrap:wrap;gap:6px}
+.badge{font-family:'DM Mono',monospace;font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid var(--border);background:var(--bg2);color:var(--text2)}
+.badge-green{background:var(--green-bg);color:var(--green-text);border-color:transparent}
+.badge-accent{background:var(--accent-bg);color:var(--accent);border-color:transparent}
+.badge-gold{background:var(--gold-bg);color:var(--gold);border-color:transparent}
+.body{max-width:960px;margin:0 auto;padding:2.5rem 2rem 4rem}
+.sec{margin-bottom:3rem}
+.sec-label{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--text3);margin-bottom:1.25rem;padding-bottom:.625rem;border-bottom:1px solid var(--border)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
+.stat{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.125rem}
+.stat-l{font-size:11px;color:var(--text3);margin-bottom:5px;font-family:'DM Mono',monospace}
+.stat-v{font-size:22px;font-weight:600;color:var(--text)}
+.stat-v-sm{font-size:14px;font-weight:600;color:var(--text);margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:8px 12px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);background:var(--bg2);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--text)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg2)}
+.sample-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:8px}
+.mono{font-family:'DM Mono',monospace;font-size:11px}
+.note-cell{color:var(--text2);font-size:12px;line-height:1.5}
+.dot{width:7px;height:7px;border-radius:50%;display:inline-block;margin-right:6px;flex-shrink:0}
+.dot-g{background:#3fb950}.dot-a{background:#d29922}.dot-x{background:#484f58}
+.status-cell{display:flex;align-items:center;font-size:12px;white-space:nowrap}
+.bar-wrap{display:flex;align-items:center;gap:8px}
+.bar{height:5px;border-radius:3px;flex:1;background:var(--bg3);min-width:80px;overflow:hidden}
+.bar-i{height:100%;border-radius:3px}
+.fill-table{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.fill-table table{font-size:13px}
+.fill-table td{white-space:normal}
+.field-table{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.field-table table td,.field-table table th{white-space:normal}
+.imp-list{border:1px solid var(--border);border-radius:8px;overflow:hidden}
+.imp-row{display:flex;gap:12px;align-items:baseline;padding:10px 14px;border-bottom:1px solid var(--border);font-size:13px}
+.imp-row:last-child{border-bottom:none}
+.imp-row:hover{background:var(--bg2)}
+.imp-f{font-family:'DM Mono',monospace;font-size:11px;color:var(--text);min-width:180px;flex-shrink:0}
+.ease{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:600;flex-shrink:0;font-family:'DM Mono',monospace}
+.e-easy{background:var(--green-bg);color:var(--green-text)}
+.e-med{background:var(--amber-bg);color:var(--amber-text)}
+.imp-n{color:var(--text2);font-size:12px}
+.path{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:1rem 1.25rem;font-family:'DM Mono',monospace;font-size:12px;color:var(--text2);word-break:break-all;line-height:2}
+.path span{color:var(--accent);font-weight:500}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--text3);margin-top:10px;flex-wrap:wrap}
+.json-explainer{background:var(--bg2);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1rem}
+.json-header{padding:.625rem 1rem;font-family:'DM Mono',monospace;font-size:11px;color:var(--text3);border-bottom:1px solid var(--border);text-transform:uppercase;letter-spacing:.06em}
+.json-body{padding:1rem;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);line-height:1.8;overflow-x:auto}
+.json-key{color:var(--accent)}
+.json-str{color:var(--green-text)}
+.json-num{color:var(--amber-text)}
+.json-bool-t{color:var(--green-text)}
+.json-bool-f{color:#e05252}
+.json-null{color:var(--text3)}
+.json-desc{font-size:13px;color:var(--text2);line-height:1.7;margin-top:.75rem}
+.variant-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px;margin-bottom:1rem}
+.variant-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;padding:.875rem 1rem}
+.variant-name{font-family:'DM Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:.35rem;font-weight:500}
+.variant-desc{font-size:12px;color:var(--text2);line-height:1.5}
+.dept-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.dept{display:flex;justify-content:space-between;align-items:center;padding:7px 12px;border-radius:6px;background:var(--bg2);border:1px solid var(--border);font-size:13px}
+.dept-s{font-family:'DM Mono',monospace;font-size:11px;color:var(--text3)}
+.top-brands{display:flex;flex-wrap:wrap;gap:6px}
+.brand-tag{font-family:'DM Mono',monospace;font-size:11px;padding:3px 10px;border-radius:20px;background:var(--gold-bg);color:var(--gold);border:1px solid transparent}
+footer{border-top:1px solid var(--border);padding:1.5rem 2rem;background:var(--bg2);font-size:13px;color:var(--text2);text-align:center}
+@media(max-width:640px){
+  nav{padding:.75rem 1rem}
+  .hero,.body{padding-left:1.25rem;padding-right:1.25rem}
+  .dept-grid,.stats,.variant-grid{grid-template-columns:1fr}
+  h1{font-size:24px}
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand"><a href="https://anzywiz.github.io">anzywiz</a> / ounass</span>
+  <div class="nav-right">
+    <a href="https://anzywiz.github.io" class="back-link">← all datasets</a>
+    <button class="toggle-btn" onclick="toggleTheme()" id="theme-btn">☀ light</button>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="breadcrumb"><a href="https://anzywiz.github.io">datasets</a> &rsaquo; oun_001 &rsaquo; E0005r</div>
+  <h1>Ounass UAE — Luxury Fashion Catalog</h1>
+  <p class="hero-sub">Size-and-color variant level product data from ounass.ae — the Middle East's leading luxury fashion platform. 104K+ rows of luxury and designer products with real-time stock quantities, merchant brand pages, wishlisted counts, and deep category hierarchy across 1,300+ designer brands.</p>
+  <div class="meta-row">
+    <span class="badge badge-green">&#10003; Active</span>
+    <span class="badge">Schema: E0005r</span>
+    <span class="badge">Country: UAE</span>
+    <span class="badge">Currency: AED</span>
+    <span class="badge">Language: English</span>
+    <span class="badge">Competence date: 2026-04-10</span>
+    <span class="badge badge-gold">Luxury / Designer</span>
+  </div>
+</div>
+
+<div class="body">
+
+  <div class="sec">
+    <div class="sec-label">Scale</div>
+    <div class="stats">
+      <div class="stat"><div class="stat-l">Total rows</div><div class="stat-v">104K+</div></div>
+      <div class="stat"><div class="stat-l">Unique prod codes</div><div class="stat-v">104,366</div></div>
+      <div class="stat"><div class="stat-l">Designer brands</div><div class="stat-v">1,328</div></div>
+      <div class="stat"><div class="stat-l">Source</div><div class="stat-v-sm">ounass.ae</div></div>
+      <div class="stat"><div class="stat-l">Price range (AED)</div><div class="stat-v-sm">~200 – 99,999</div></div>
+      <div class="stat"><div class="stat-l">Competence date</div><div class="stat-v-sm">2026-04-10</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Top designer brands</div>
+    <div class="top-brands">
+      <span class="brand-tag">Emporio Armani (2,083)</span>
+      <span class="brand-tag">Dolce &amp; Gabbana (1,704)</span>
+      <span class="brand-tag">Prada (1,209)</span>
+      <span class="brand-tag">Gucci (1,185)</span>
+      <span class="brand-tag">SAINT LAURENT (1,151)</span>
+      <span class="brand-tag">Alaïa</span>
+      <span class="brand-tag">OAS</span>
+      <span class="brand-tag">WACKO MARIA</span>
+      <span class="brand-tag">L'Alingi</span>
+      <span class="brand-tag">+ 1,319 more</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Sample rows</div>
+    <div class="sample-wrap">
+      <table>
+        <thead>
+          <tr><th>product_code</th><th>brand</th><th>product_title</th><th>color_info</th><th>size_info</th><th>full_price (AED)</th><th>price (AED)</th><th>promotion_type</th><th>category2</th><th>category3</th><th>quantity</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="mono">219520539</td><td>Alaïa</td><td>Sanguine Panelled Pants in Cotton-poplin</td><td>Orange</td><td>34, 36, 38</td><td>7,400</td><td>7,400</td><td>NEW SEASON</td><td>clothing</td><td>pants</td><td>3</td></tr>
+          <tr><td class="mono">219520800</td><td>Alaïa</td><td>Short Sleeve Top</td><td>Orange</td><td>38</td><td>5,900</td><td>5,900</td><td>NEW SEASON</td><td>clothing</td><td>tops</td><td>1</td></tr>
+          <tr><td class="mono">218444207</td><td>Alaïa</td><td>Shoulder Bag in Cotton-poplin</td><td>Brown</td><td>One Size</td><td>13,500</td><td>13,500</td><td>NEW SEASON</td><td>bags</td><td>shoulder-bags</td><td>4</td></tr>
+          <tr><td class="mono">218445860</td><td>Alaïa</td><td>Heeled Mules</td><td>Brown</td><td>36, 37, 38, 41</td><td>5,000</td><td>5,000</td><td>NEW SEASON</td><td>shoes</td><td>heels</td><td>4</td></tr>
+          <tr><td class="mono">219308885</td><td>Alaïa</td><td>Sleeveless Dress</td><td>Pink</td><td>36, 38</td><td>21,900</td><td>21,900</td><td>NEW SEASON</td><td>clothing</td><td>dresses</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11px;color:var(--text3);margin-top:8px">5 of 104,366 rows shown. Note: 22 rows had prices exceeding 99,999.99 AED and were nulled per schema limits.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Product identification — code structure</div>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:.75rem">
+      <table>
+        <thead><tr><th>Field</th><th>Type value</th><th>Example value</th><th>Meaning</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">product_code</td><td class="mono">—</td><td class="mono">219520539</td><td class="note-cell">Unique row ID — one per size-color variant (the SKU)</td></tr>
+          <tr><td class="mono">additional_code_1</td><td class="mono">parentSku</td><td class="mono">219520511</td><td class="note-cell">Parent product ID — groups all size/color variants of the same style together</td></tr>
+          <tr><td class="mono">additional_code_2</td><td class="mono">styleColorId</td><td class="mono">219520511_22</td><td class="note-cell">Style + color combination ID — groups all sizes of a specific color together (parentSku_colorCode)</td></tr>
+          <tr><td class="mono">additional_code_3</td><td class="mono">sku</td><td class="mono">(empty)</td><td class="note-cell">Size-level SKU — type label present but value not collected</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7">This three-level ID hierarchy lets you group the data in multiple ways: use <span class="mono">additional_code_1</span> (parentSku) to find all variants of a style, use <span class="mono">additional_code_2</span> (styleColorId) to find all sizes of a specific color, or use <span class="mono">product_code</span> to pinpoint a single size-color row.</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Variant type — what each row represents</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">The <span class="mono">variant_info</span> field tells you what kind of variant each row is. Ounass uses three types:</p>
+    <div class="variant-grid">
+      <div class="variant-card">
+        <div class="variant-name">sizeOnlySimple</div>
+        <div class="variant-desc">Product comes in multiple sizes, all in one color. One row per size group.</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">colorAndSizeSimple</div>
+        <div class="variant-desc">Product comes in multiple colors and sizes. One row per color, with available sizes listed in size_info.</div>
+      </div>
+      <div class="variant-card">
+        <div class="variant-name">simpleWithoutSiblings</div>
+        <div class="variant-desc">Single variant product — no size or color siblings. Typical for bags and one-size accessories.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">specifications field — JSON structure</div>
+    <div class="json-explainer">
+      <div class="json-header">specifications (JSON object)</div>
+      <div class="json-body">{<br>
+        &nbsp;&nbsp;<span class="json-key">"division"</span>: <span class="json-str">"Fashion"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"group"</span>: <span class="json-str">"Womens"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"department"</span>: <span class="json-str">"Clothing"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"class"</span>: <span class="json-str">"Trousers"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"subClass"</span>: <span class="json-str">"Straight Leg"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"gender"</span>: <span class="json-str">"Womens"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"season"</span>: <span class="json-str">"SS 2026"</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"simpleType"</span>: <span class="json-str">"sizeOnlySimple"</span><br>
+      }
+      </div>
+    </div>
+    <div class="json-desc">Contains Ounass's internal product taxonomy. Useful for detailed classification beyond the URL-based category fields — notably includes <span class="mono">season</span> (e.g. "SS 2026"), <span class="mono">class</span> / <span class="mono">subClass</span> for granular product type, and <span class="mono">gender</span>. Parse as JSON to extract individual attributes.</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">additional_content field — JSON structure</div>
+    <div class="json-explainer">
+      <div class="json-header">additional_content (JSON object)</div>
+      <div class="json-body">{<br>
+        &nbsp;&nbsp;<span class="json-key">"exclusive"</span>: <span class="json-num">0</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"isClearance"</span>: <span class="json-bool-f">false</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"isPromotion"</span>: <span class="json-bool-f">false</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"wishlistCount"</span>: <span class="json-num">79</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"newIn"</span>: <span class="json-null">null</span>,<br>
+        &nbsp;&nbsp;<span class="json-key">"salePercentage"</span>: <span class="json-null">null</span><br>
+      }
+      </div>
+    </div>
+    <div class="json-desc" style="margin-top:.75rem">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:.75rem">
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.75rem">
+          <div class="mono" style="margin-bottom:4px">exclusive</div>
+          <div style="font-size:12px;color:var(--text2)">0 = not exclusive, 1 = Ounass exclusive product</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.75rem">
+          <div class="mono" style="margin-bottom:4px">isClearance / isPromotion</div>
+          <div style="font-size:12px;color:var(--text2)">Boolean flags — true when product is on clearance or active promotion</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.75rem">
+          <div class="mono" style="margin-bottom:4px">wishlistCount</div>
+          <div style="font-size:12px;color:var(--text2)">Number of users who have wishlisted this product — a demand signal</div>
+        </div>
+        <div style="background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:.75rem">
+          <div class="mono" style="margin-bottom:4px">salePercentage</div>
+          <div style="font-size:12px;color:var(--text2)">Discount % when on sale — null when full price</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">all_images field — JSON array (capped at 1,000 chars)</div>
+    <div class="json-explainer">
+      <div class="json-header">all_images (JSON array — truncated example)</div>
+      <div class="json-body">[<br>
+        &nbsp;&nbsp;<span class="json-str">"https://ounass-ae.atgcdn.ae/.../219520511_orange_in.jpg"</span>,<br>
+        &nbsp;&nbsp;<span class="json-str">"https://ounass-ae.atgcdn.ae/.../219520511_orange_fr.jpg"</span><br>
+        ]
+      </div>
+    </div>
+    <div class="json-desc">A JSON array of all image URLs for the product variant. The field is capped at 1,000 characters to keep file size manageable — products with many images may have the array truncated mid-string. Always attempt to parse as JSON; if parsing fails, the string is truncated and you can still extract URLs using the partial content. The <span class="mono">main_image_url</span> field always contains the primary image as a plain string and is never truncated.</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Category hierarchy — up to 6 levels</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:1rem">Ounass uses a URL-slug based category system with up to 6 levels. All values are lowercase slugs matching the site's navigation structure.</p>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <table>
+        <thead><tr><th>Field</th><th>Fill rate</th><th>Example values</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">category1</td><td>100%</td><td class="note-cell">women, men, kids, beauty, home</td></tr>
+          <tr><td class="mono">category2</td><td>100%</td><td class="note-cell">clothing, bags, shoes, accessories, jewelry</td></tr>
+          <tr><td class="mono">category3</td><td>100%</td><td class="note-cell">dresses, pants, tops, shoulder-bags, heels, clutch-bags</td></tr>
+          <tr><td class="mono">category4</td><td>78.7%</td><td class="note-cell">straight-leg, short-sleeve, maxi, sleeved</td></tr>
+          <tr><td class="mono">category5</td><td>22.5%</td><td class="note-cell">long-sleeved (deeper sub-type, sparsely populated)</td></tr>
+          <tr><td class="mono">category6</td><td>1.7%</td><td class="note-cell">Very rare — ultra-specific sub-type</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Merchant / brand pages</div>
+    <p style="font-size:13px;color:var(--text2);line-height:1.7;margin-bottom:.75rem">Ounass operates as a curated marketplace with each designer having a dedicated brand page. The merchant fields capture this:</p>
+    <div style="border:1px solid var(--border);border-radius:8px;overflow:hidden">
+      <table>
+        <thead><tr><th>Field</th><th>Status</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">merchant_name</td><td><span class="dot dot-g"></span>Filled</td><td class="note-cell">Alaïa, Prada, Gucci, Dolce &amp; Gabbana</td></tr>
+          <tr><td class="mono">merchant_url</td><td><span class="dot dot-g"></span>Filled</td><td class="note-cell">https://www.ounass.ae/women/designers/alaia — direct link to the brand's Ounass page</td></tr>
+          <tr><td class="mono">merchant_id</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note-cell">No numeric merchant ID exposed on site</td></tr>
+          <tr><td class="mono">merchant_image</td><td><span class="dot dot-x"></span>N/A on site</td><td class="note-cell">Not available</td></tr>
+          <tr><td class="mono">store_url</td><td><span class="dot dot-g"></span>Filled</td><td class="note-cell">https://www.ounass.ae (site root — constant across all rows)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Field fill rates</div>
+    <div class="fill-table">
+      <table><thead><tr><th>Field</th><th>Fill rate</th><th style="min-width:160px">Coverage</th></tr></thead>
+      <tbody id="fill-tbody"></tbody></table>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">All fields — status &amp; notes</div>
+    <div class="field-table">
+      <table>
+        <thead><tr><th>Field</th><th>Status</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">product_code</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Size-color SKU — unique per row</td></tr>
+          <tr><td class="mono">additional_code_1</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">parentSku — groups all variants of the same style</td></tr>
+          <tr><td class="mono">additional_code_1_type</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">"parentSku" for all rows</td></tr>
+          <tr><td class="mono">additional_code_2</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">styleColorId — parentSku_colorCode format</td></tr>
+          <tr><td class="mono">additional_code_2_type</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">"styleColorId" for all rows</td></tr>
+          <tr><td class="mono">additional_code_3</td><td><div class="status-cell"><span class="dot dot-x"></span>Not collected</div></td><td class="note-cell">Type label "sku" present but value empty — size-level SKU not collected</td></tr>
+          <tr><td class="mono">brand</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Designer brand name — 1,328 unique brands</td></tr>
+          <tr><td class="mono">merchant_name</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Same as brand — each brand has a dedicated Ounass page</td></tr>
+          <tr><td class="mono">merchant_url</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Direct link to the brand's page on ounass.ae</td></tr>
+          <tr><td class="mono">store_url</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">"https://www.ounass.ae" — constant across all rows</td></tr>
+          <tr><td class="mono">size_info</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Available sizes comma-separated — e.g. "34, 36, 38" or "One Size"</td></tr>
+          <tr><td class="mono">color_info</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Color name for this variant (~99.9% fill)</td></tr>
+          <tr><td class="mono">variant_info</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Variant type: sizeOnlySimple / colorAndSizeSimple / simpleWithoutSiblings</td></tr>
+          <tr><td class="mono">product_title</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Product name as shown on site</td></tr>
+          <tr><td class="mono">specifications</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">JSON object — division, group, department, class, subClass, gender, season, simpleType</td></tr>
+          <tr><td class="mono">additional_content</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">JSON object — exclusive flag, isClearance, isPromotion, wishlistCount, salePercentage</td></tr>
+          <tr><td class="mono">additional_tags</td><td><div class="status-cell"><span class="dot dot-a"></span>Partial</div></td><td class="note-cell">Promotional label as plain text — e.g. "NEW SEASON", "SALE" (~51.8% fill, when tag exists on site)</td></tr>
+          <tr><td class="mono">promotion_type</td><td><div class="status-cell"><span class="dot dot-a"></span>Partial</div></td><td class="note-cell">Same value as additional_tags (~51.8% fill)</td></tr>
+          <tr><td class="mono">in_stock</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">1 = in stock, 0 = out of stock</td></tr>
+          <tr><td class="mono">quantity</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Units available — 99 often indicates "many in stock" (display cap), lower values are exact</td></tr>
+          <tr><td class="mono">category1–3</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">100% fill — top 3 levels always present (e.g. women / clothing / dresses)</td></tr>
+          <tr><td class="mono">category4</td><td><div class="status-cell"><span class="dot dot-a"></span>Partial</div></td><td class="note-cell">~78.7% fill — sub-type (e.g. maxi, straight-leg)</td></tr>
+          <tr><td class="mono">category5</td><td><div class="status-cell"><span class="dot dot-a"></span>Partial</div></td><td class="note-cell">~22.5% fill — deeper sub-type</td></tr>
+          <tr><td class="mono">category6</td><td><div class="status-cell"><span class="dot dot-a"></span>Partial</div></td><td class="note-cell">~1.7% fill — ultra-specific</td></tr>
+          <tr><td class="mono">category7–10</td><td><div class="status-cell"><span class="dot dot-x"></span>N/A on site</div></td><td class="note-cell">Ounass hierarchy ends at 6 levels</td></tr>
+          <tr><td class="mono">full_price</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Regular retail price in AED — 22 rows with price &gt;99,999.99 were nulled per schema</td></tr>
+          <tr><td class="mono">price</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Actual offered price — lower than full_price when on sale</td></tr>
+          <tr><td class="mono">itemurl</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Direct product page URL including color variant parameter</td></tr>
+          <tr><td class="mono">main_image_url</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Primary image URL — always complete, never truncated</td></tr>
+          <tr><td class="mono">all_images</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">JSON array of all images — capped at 1,000 chars; parse as JSON, partial strings may occur</td></tr>
+          <tr><td class="mono">rank</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Collection order rank from the site at time of scraping</td></tr>
+          <tr><td class="mono">description</td><td><div class="status-cell"><span class="dot dot-x"></span>Not collected</div></td><td class="note-cell">Not present on Ounass product pages</td></tr>
+          <tr><td class="mono">material_info</td><td><div class="status-cell"><span class="dot dot-x"></span>Not collected</div></td><td class="note-cell">Not collected — improvement opportunity</td></tr>
+          <tr><td class="mono">delivery</td><td><div class="status-cell"><span class="dot dot-x"></span>Not collected</div></td><td class="note-cell">Delivery info not collected</td></tr>
+          <tr><td class="mono">ppu / unit_type</td><td><div class="status-cell"><span class="dot dot-x"></span>N/A on site</div></td><td class="note-cell">Not applicable to luxury fashion</td></tr>
+          <tr><td class="mono">promotion_end_date</td><td><div class="status-cell"><span class="dot dot-x"></span>N/A on site</div></td><td class="note-cell">Not displayed on Ounass product pages</td></tr>
+          <tr><td class="mono">store_id / store_name / store_address</td><td><div class="status-cell"><span class="dot dot-x"></span>N/A on site</div></td><td class="note-cell">Online-only platform</td></tr>
+          <tr><td class="mono">website_name</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">"Ounass"</td></tr>
+          <tr><td class="mono">competence_date</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">Date of collection (YYYY-MM-DD)</td></tr>
+          <tr><td class="mono">country_code</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">"ARE"</td></tr>
+          <tr><td class="mono">currency_code</td><td><div class="status-cell"><span class="dot dot-g"></span>Filled</div></td><td class="note-cell">"AED"</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="legend">
+      <span><span class="dot dot-g" style="display:inline-block"></span>Filled</span>
+      <span><span class="dot dot-a" style="display:inline-block"></span>Partial fill</span>
+      <span><span class="dot dot-x" style="display:inline-block"></span>Not collected / N/A on site</span>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Improvement opportunities</div>
+    <div class="imp-list">
+      <div class="imp-row"><span class="imp-f">material_info</span><span class="ease e-easy">Easy</span><span class="imp-n">Material composition visible on product pages — not currently collected</span></div>
+      <div class="imp-row"><span class="imp-f">additional_code_3 (sku)</span><span class="ease e-easy">Easy</span><span class="imp-n">Size-level SKU value available on site — type label collected but value empty</span></div>
+      <div class="imp-row"><span class="imp-f">delivery</span><span class="ease e-easy">Easy</span><span class="imp-n">Ounass offers express delivery info — visible on PDPs</span></div>
+      <div class="imp-row"><span class="imp-f">description</span><span class="ease e-med">Medium</span><span class="imp-n">Some products have descriptions — not currently collected</span></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">File delivery path</div>
+    <div class="path">s3://databoutique.com/sellers/<span>YOUR_SELLER_ID</span>/<span>YOUR_CONTRACT_ID</span>/<span>YYYY-MM-DD</span>/data_file.txt</div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">Contact</div>
+    <div style="font-size:14px;color:var(--text2);line-height:2.2">
+      <div><span style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px;margin-right:12px;display:inline-block;min-width:80px">provider</span>Ifeanyi Muotoe — Web Scraping Specialist</div>
+      <div><span style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px;margin-right:12px;display:inline-block;min-width:80px">email</span><a href="mailto:ifeanyi.webapp@gmail.com">ifeanyi.webapp@gmail.com</a></div>
+      <div><span style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px;margin-right:12px;display:inline-block;min-width:80px">github</span><a href="https://github.com/Anzywiz">github.com/Anzywiz</a></div>
+      <div><span style="color:var(--text3);font-family:'DM Mono',monospace;font-size:11px;margin-right:12px;display:inline-block;min-width:80px">portfolio</span><a href="https://ifeanyimuotoe.streamlit.app/">ifeanyimuotoe.streamlit.app</a></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Built by <a href="https://github.com/Anzywiz">Ifeanyi Muotoe</a> &nbsp;·&nbsp; Data sourced from ounass.ae &nbsp;·&nbsp; <a href="https://anzywiz.github.io">All datasets</a>
+</footer>
+
+<script>
+const fills=[
+  {n:"product_code",p:100,c:"#3fb950"},
+  {n:"additional_code_1 (parentSku)",p:100,c:"#3fb950"},
+  {n:"additional_code_1_type",p:100,c:"#3fb950"},
+  {n:"additional_code_2 (styleColorId)",p:100,c:"#3fb950"},
+  {n:"additional_code_2_type",p:100,c:"#3fb950"},
+  {n:"brand",p:100,c:"#3fb950"},
+  {n:"merchant_name",p:100,c:"#3fb950"},
+  {n:"merchant_url",p:100,c:"#3fb950"},
+  {n:"store_url",p:100,c:"#3fb950"},
+  {n:"size_info",p:100,c:"#3fb950"},
+  {n:"color_info",p:99.9,c:"#3fb950"},
+  {n:"variant_info",p:100,c:"#3fb950"},
+  {n:"product_title",p:100,c:"#3fb950"},
+  {n:"specifications",p:100,c:"#3fb950"},
+  {n:"additional_content",p:100,c:"#3fb950"},
+  {n:"in_stock",p:100,c:"#3fb950"},
+  {n:"quantity",p:100,c:"#3fb950"},
+  {n:"category1",p:100,c:"#3fb950"},
+  {n:"category2",p:100,c:"#3fb950"},
+  {n:"category3",p:100,c:"#3fb950"},
+  {n:"full_price",p:100,c:"#3fb950"},
+  {n:"price",p:100,c:"#3fb950"},
+  {n:"itemurl",p:100,c:"#3fb950"},
+  {n:"main_image_url",p:100,c:"#3fb950"},
+  {n:"all_images",p:100,c:"#3fb950"},
+  {n:"rank",p:100,c:"#3fb950"},
+  {n:"category4",p:78.7,c:"#d29922"},
+  {n:"promotion_type",p:51.8,c:"#d29922"},
+  {n:"additional_tags",p:51.8,c:"#d29922"},
+  {n:"category5",p:22.5,c:"#d29922"},
+  {n:"category6",p:1.7,c:"#d29922"},
+];
+const tb=document.getElementById("fill-tbody");
+fills.forEach(f=>{
+  const tr=document.createElement("tr");
+  tr.innerHTML=`<td style="font-family:'DM Mono',monospace;font-size:11px">${f.n}</td>
+    <td style="font-family:'DM Mono',monospace;font-size:12px;color:var(--text2)">${f.p}%</td>
+    <td><div class="bar-wrap"><div class="bar"><div class="bar-i" style="width:${Math.round(f.p)}%;background:${f.c}"></div></div></div></td>`;
+  tb.appendChild(tr);
+});
+function toggleTheme(){
+  const html=document.documentElement;
+  const isDark=html.getAttribute("data-theme")==="dark";
+  html.setAttribute("data-theme",isDark?"light":"dark");
+  document.getElementById("theme-btn").textContent=isDark?"☾ dark":"☀ light";
+}
+</script>
+</body>
+</html>
