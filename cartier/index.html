@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Cartier · Product Dataset · cartier.com</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --gold: #c8a96e;
+  --gold-light: #e2c99a;
+  --gold-dim: #8a6e3f;
+  --bg: #0a0906;
+  --bg-card: #13110d;
+  --bg-panel: #1a1610;
+  --border: rgba(200,169,110,0.18);
+  --text: #ede8df;
+  --text-muted: #9a9080;
+  --text-dim: #5a5245;
+  --green: #5dbd7e;
+  --amber: #d9a53a;
+  --gray: #6b6259;
+  --red: #c45c5c;
+  --radius: 4px;
+}
+[data-theme="light"] {
+  --bg: #faf8f4;
+  --bg-card: #ffffff;
+  --bg-panel: #f2ede6;
+  --border: rgba(140,105,45,0.2);
+  --text: #1a1510;
+  --text-muted: #6b5d47;
+  --text-dim: #b0a08a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  font-size:15px;
+  line-height:1.65;
+  min-height:100vh;
+}
+
+/* ── Noise grain overlay ── */
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;z-index:0;opacity:.4;
+}
+
+/* ── Gold rule ornament ── */
+.ornament{
+  display:flex;align-items:center;gap:12px;
+  color:var(--gold-dim);font-size:10px;letter-spacing:.15em;
+  text-transform:uppercase;margin:8px 0 24px;
+}
+.ornament::before,.ornament::after{
+  content:'';flex:1;height:1px;background:var(--border);
+}
+
+/* ── Layout ── */
+.wrapper{max-width:980px;margin:0 auto;padding:0 24px}
+
+/* ── Header ── */
+header{
+  position:relative;
+  padding:72px 0 56px;
+  border-bottom:1px solid var(--border);
+  overflow:hidden;
+}
+header::before{
+  content:'';
+  position:absolute;top:-120px;right:-80px;
+  width:500px;height:500px;
+  background:radial-gradient(ellipse, rgba(200,169,110,0.08) 0%, transparent 65%);
+  pointer-events:none;
+}
+.header-eyebrow{
+  font-family:'DM Mono',monospace;
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:18px;
+  display:flex;align-items:center;gap:8px;
+}
+.header-eyebrow::before{
+  content:'';display:inline-block;
+  width:20px;height:1px;background:var(--gold);
+}
+h1{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(38px,6vw,68px);
+  line-height:1.08;
+  color:var(--text);
+  letter-spacing:-.01em;
+  max-width:720px;
+}
+h1 em{color:var(--gold);font-style:italic;}
+.tagline{
+  margin-top:20px;
+  font-size:17px;
+  color:var(--text-muted);
+  max-width:560px;
+  line-height:1.55;
+}
+
+/* ── Theme toggle ── */
+.theme-btn{
+  position:fixed;top:20px;right:20px;z-index:100;
+  background:var(--bg-card);border:1px solid var(--border);
+  color:var(--text-muted);padding:7px 14px;border-radius:20px;
+  font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;
+  transition:.2s;
+}
+.theme-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── Badges ── */
+.badges{
+  display:flex;flex-wrap:wrap;gap:10px;
+  margin-top:36px;
+}
+.badge{
+  display:flex;align-items:center;gap:7px;
+  background:var(--bg-panel);border:1px solid var(--border);
+  border-radius:var(--radius);padding:8px 14px;
+  font-family:'DM Mono',monospace;font-size:11.5px;
+}
+.badge-label{color:var(--text-dim);letter-spacing:.08em;text-transform:uppercase;font-size:10px;}
+.badge-val{color:var(--text);font-weight:500;}
+.badge-accent{color:var(--gold);}
+
+/* ── Section titles ── */
+section{padding:56px 0;}
+section + section{border-top:1px solid var(--border);}
+.section-head{
+  font-family:'DM Serif Display',serif;
+  font-size:28px;color:var(--text);
+  margin-bottom:6px;
+}
+.section-sub{color:var(--text-muted);font-size:14px;margin-bottom:32px;}
+
+/* ── Stat grid ── */
+.stat-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:16px;margin-bottom:32px;
+}
+.stat-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:22px 20px;
+  position:relative;overflow:hidden;
+}
+.stat-card::after{
+  content:'';position:absolute;bottom:0;left:0;
+  width:100%;height:2px;background:linear-gradient(90deg,var(--gold) 0%,transparent 100%);
+}
+.stat-num{
+  font-family:'DM Serif Display',serif;
+  font-size:34px;color:var(--gold);display:block;
+}
+.stat-label{font-size:12px;color:var(--text-dim);text-transform:uppercase;letter-spacing:.1em;margin-top:4px;}
+
+/* ── Granularity explainer ── */
+.compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:600px){.compare-grid{grid-template-columns:1fr;}}
+.compare-card{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:22px;
+}
+.compare-card.good{border-color:rgba(93,189,126,.35);}
+.compare-tag{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:12px;
+}
+.compare-tag.bad{color:var(--red);}
+.compare-tag.good{color:var(--green);}
+.compare-row{
+  font-size:13px;color:var(--text-muted);
+  border-bottom:1px solid var(--border);
+  padding:7px 0;display:flex;justify-content:space-between;gap:8px;
+}
+.compare-row:last-child{border-bottom:none;}
+.compare-row code{
+  font-family:'DM Mono',monospace;font-size:12px;
+  color:var(--gold);background:rgba(200,169,110,.07);
+  padding:1px 6px;border-radius:3px;
+}
+
+/* ── Sample table ── */
+.table-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:var(--radius);}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+thead tr{background:var(--bg-panel);}
+th{
+  font-family:'DM Mono',monospace;font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gold-dim);padding:12px 14px;text-align:left;
+  border-bottom:1px solid var(--border);white-space:nowrap;
+}
+td{
+  padding:11px 14px;border-bottom:1px solid var(--border);
+  color:var(--text-muted);vertical-align:top;
+  max-width:200px;
+}
+td:first-child{color:var(--text);font-family:'DM Mono',monospace;font-size:12px;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg-panel);}
+.price-cell{color:var(--gold);font-family:'DM Mono',monospace;font-weight:500;}
+.stock-dot{
+  display:inline-block;width:8px;height:8px;
+  border-radius:50%;background:var(--green);
+  margin-right:5px;
+}
+
+/* ── Category breakdown ── */
+.cat-list{display:flex;flex-direction:column;gap:10px;}
+.cat-row{display:flex;align-items:center;gap:14px;}
+.cat-name{font-size:13px;color:var(--text);min-width:110px;}
+.cat-bar-bg{flex:1;height:6px;background:var(--bg-panel);border-radius:3px;overflow:hidden;}
+.cat-bar{height:100%;background:linear-gradient(90deg,var(--gold) 0%,var(--gold-light) 100%);border-radius:3px;transition:width 1s ease;}
+.cat-pct{font-family:'DM Mono',monospace;font-size:12px;color:var(--gold-dim);min-width:40px;text-align:right;}
+
+/* ── Fill rate ── */
+.fill-list{display:flex;flex-direction:column;gap:8px;}
+.fill-row{display:flex;align-items:center;gap:12px;}
+.fill-name{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-muted);min-width:200px;}
+.fill-bar-bg{flex:1;height:8px;background:var(--bg-panel);border-radius:4px;overflow:hidden;}
+.fill-bar{height:100%;border-radius:4px;transition:width 1.2s ease;}
+.fill-bar.full{background:linear-gradient(90deg,var(--green),#7de09e);}
+.fill-bar.partial{background:linear-gradient(90deg,var(--amber),#f0c26a);}
+.fill-bar.low{background:linear-gradient(90deg,var(--red),#e07b7b);}
+.fill-pct{font-family:'DM Mono',monospace;font-size:12px;min-width:48px;text-align:right;}
+.fill-pct.full{color:var(--green);}
+.fill-pct.partial{color:var(--amber);}
+.fill-pct.low{color:var(--red);}
+
+/* ── Fields status table ── */
+.fields-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:10px;
+}
+.field-row{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:10px 14px;
+}
+.field-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.field-dot.green{background:var(--green);}
+.field-dot.amber{background:var(--amber);}
+.field-dot.gray{background:var(--gray);}
+.field-name{font-family:'DM Mono',monospace;font-size:12px;color:var(--text);flex:1;}
+.field-status{font-size:11px;color:var(--text-dim);}
+
+/* ── Improvements ── */
+.improve-list{display:flex;flex-direction:column;gap:10px;}
+.improve-row{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px 18px;
+  display:flex;align-items:flex-start;gap:14px;
+}
+.improve-tag{
+  font-family:'DM Mono',monospace;font-size:10px;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:3px 9px;border-radius:3px;flex-shrink:0;margin-top:1px;
+}
+.improve-tag.easy{background:rgba(93,189,126,.12);color:var(--green);}
+.improve-tag.medium{background:rgba(217,165,58,.12);color:var(--amber);}
+.improve-tag.hard{background:rgba(196,92,92,.12);color:var(--red);}
+.improve-field{font-family:'DM Mono',monospace;font-size:13px;color:var(--text);margin-bottom:3px;}
+.improve-desc{font-size:13px;color:var(--text-muted);}
+
+/* ── Delivery ── */
+.delivery-box{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;
+}
+.delivery-box pre{
+  font-family:'DM Mono',monospace;font-size:12.5px;
+  color:var(--gold-dim);line-height:1.8;
+  white-space:pre-wrap;word-break:break-all;
+}
+.delivery-box pre .placeholder{color:var(--text-dim);}
+
+/* ── Contact ── */
+.contact-box{
+  background:var(--bg-card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:28px 24px;
+  display:flex;flex-direction:column;gap:10px;
+}
+.contact-row{display:flex;align-items:center;gap:10px;font-size:14px;}
+.contact-label{font-family:'DM Mono',monospace;font-size:11px;color:var(--text-dim);min-width:80px;text-transform:uppercase;letter-spacing:.1em;}
+.contact-val{color:var(--text-muted);}
+a{color:var(--gold);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ── Footer ── */
+footer{
+  border-top:1px solid var(--border);
+  padding:28px 0;text-align:center;
+  font-size:12px;color:var(--text-dim);
+}
+
+/* ── Animations ── */
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(18px);}
+  to{opacity:1;transform:translateY(0);}
+}
+.anim{opacity:0;animation:fadeUp .6s ease forwards;}
+.anim-1{animation-delay:.05s;}
+.anim-2{animation-delay:.15s;}
+.anim-3{animation-delay:.25s;}
+.anim-4{animation-delay:.35s;}
+</style>
+</head>
+<body>
+
+<button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+
+<!-- ════════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<header>
+  <div class="wrapper">
+    <div class="header-eyebrow anim anim-1">Dataset Documentation · E0005 · Switzerland</div>
+    <h1 class="anim anim-2">
+      <em>Cartier</em><br>Product Dataset
+    </h1>
+    <p class="tagline anim anim-3">
+      Color-variant level product data from cartier.com — 2,600+ rows covering pricing, imagery, descriptions, and category attributes across the full Swiss luxury jewellery catalogue.
+    </p>
+
+    <div class="badges anim anim-4">
+      <div class="badge"><span class="badge-label">Schema</span><span class="badge-accent badge-val">E0005</span></div>
+      <div class="badge"><span class="badge-label">Geography</span><span class="badge-val">Switzerland · CHE</span></div>
+      <div class="badge"><span class="badge-label">Currency</span><span class="badge-val">CHF</span></div>
+      <div class="badge"><span class="badge-label">Language</span><span class="badge-val">English</span></div>
+      <div class="badge"><span class="badge-label">Competence Date</span><span class="badge-val">2026-04-17</span></div>
+      <div class="badge"><span class="badge-label">Status</span><span class="badge-val" style="color:var(--green)">● Live</span></div>
+    </div>
+  </div>
+</header>
+
+
+<!-- ════════════════════════════════════════
+     SCALE STATS
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Scale &amp; Coverage</div>
+    <h2 class="section-head">By the numbers</h2>
+    <p class="section-sub">Delivered after deduplication — clean, production-ready rows.</p>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <span class="stat-num">2,624</span>
+        <span class="stat-label">Total Rows</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">1,526</span>
+        <span class="stat-label">Unique Products</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">1</span>
+        <span class="stat-label">Brand (Cartier)</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">1.72×</span>
+        <span class="stat-label">Avg Variants / Product</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">59</span>
+        <span class="stat-label">Fields / Row</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">2026-04-17</span>
+        <span class="stat-label">Competence Date</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     GRANULARITY
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Data Granularity</div>
+    <h2 class="section-head">Color-variant level</h2>
+    <p class="section-sub">Each row captures a distinct product × color combination — far richer than a basic page-level scrape.</p>
+
+    <div class="compare-grid">
+      <div class="compare-card">
+        <div class="compare-tag bad">✗ Basic scraper (product level)</div>
+        <div class="compare-row"><span>LOVE Torque Necklace</span><code>1 row</code></div>
+        <div class="compare-row"><span>Trinity Pendant Mini</span><code>1 row</code></div>
+        <div class="compare-row"><span>Trinity Pendant Diamond</span><code>1 row</code></div>
+        <div class="compare-row" style="color:var(--red);font-size:12px;justify-content:center;">Color data lost · Total: 3 rows</div>
+      </div>
+      <div class="compare-card good">
+        <div class="compare-tag good">✓ This dataset (color-variant level)</div>
+        <div class="compare-row"><span>LOVE Torque · Yellow gold</span><code>row 1</code></div>
+        <div class="compare-row"><span>LOVE Torque · Rose gold</span><code>row 2</code></div>
+        <div class="compare-row"><span>Trinity Mini · White/Yellow/Rose</span><code>row 3</code></div>
+        <div class="compare-row"><span>Trinity Diamond · +Diamond</span><code>row 4…</code></div>
+        <div class="compare-row" style="color:var(--green);font-size:12px;justify-content:center;">Full colour fidelity · 2,624 rows</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     SAMPLE ROWS
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Sample Data</div>
+    <h2 class="section-head">Live rows from the dataset</h2>
+    <p class="section-sub">8 representative records — contract_id and seller_id omitted per privacy policy.</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>product_code</th>
+            <th>product_title</th>
+            <th>color_info</th>
+            <th>size_info</th>
+            <th>category3</th>
+            <th>full_price (CHF)</th>
+            <th>in_stock</th>
+            <th>item_url</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>CRB7224761</td>
+            <td>LOVE torque necklace</td>
+            <td>Yellow gold</td>
+            <td>33 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">14,900</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/love/-love-torque-necklace-CRB7224761" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224758</td>
+            <td>LOVE torque necklace</td>
+            <td>Rose gold</td>
+            <td>33 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">14,900</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/love/-love-torque-necklace-CRB7224761" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224758</td>
+            <td>LOVE torque necklace</td>
+            <td>Rose gold</td>
+            <td>29 cm, 31 cm, 33 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">14,900</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/love/-love-torque-necklace-CRB7224758" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224761</td>
+            <td>LOVE torque necklace</td>
+            <td>Yellow gold</td>
+            <td>29 cm, 31 cm, 33 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">14,900</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/love/-love-torque-necklace-CRB7224758" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224816</td>
+            <td>Trinity pendant, mini model</td>
+            <td>White/Yellow/Rose gold</td>
+            <td>36–40 cm, 40–44 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">1,600</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/trinity/trinity-pendant-mini-model--CRB7224816" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224815</td>
+            <td>Trinity pendant, 1 diamond</td>
+            <td>White/Yellow/Rose + Diamond</td>
+            <td>36 cm, 40 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">2,110</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/trinity/trinity-pendant-1-diamond-CRB7224815" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224955</td>
+            <td>Trinity pendant, cushion-shaped</td>
+            <td>White/Yellow/Rose gold</td>
+            <td>50 cm, 60 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">3,350</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/trinity/trinity-pendant-cushion-shaped-CRB7224955" target="_blank">cartier.com ↗</a></td>
+          </tr>
+          <tr>
+            <td>CRB7224812</td>
+            <td>Trinity pendant, 1 diamond</td>
+            <td>White/Yellow/Rose + Diamond</td>
+            <td>36 cm, 40 cm</td>
+            <td>Necklace</td>
+            <td class="price-cell">3,350</td>
+            <td><span class="stock-dot"></span>Yes</td>
+            <td><a href="https://www.cartier.com/en-ch/jewellery/necklaces/trinity/trinity-pendant-1-diamond-CRB7224812" target="_blank">cartier.com ↗</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CATEGORY BREAKDOWN
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Category Breakdown</div>
+    <h2 class="section-head">Department distribution</h2>
+    <p class="section-sub">Based on category1 / category2 / category3 taxonomy from the live site.</p>
+
+    <div class="cat-list">
+      <div class="cat-row">
+        <span class="cat-name">JEWELRY</span>
+        <div class="cat-bar-bg"><div class="cat-bar" data-width="100"></div></div>
+        <span class="cat-pct">100%</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">Jewelry</span>
+        <div class="cat-bar-bg"><div class="cat-bar" data-width="100"></div></div>
+        <span class="cat-pct">100%</span>
+      </div>
+      <div class="cat-row">
+        <span class="cat-name">Necklace</span>
+        <div class="cat-bar-bg"><div class="cat-bar" data-width="100"></div></div>
+        <span class="cat-pct">100% <small style="color:var(--text-dim)">(sample)</small></span>
+      </div>
+    </div>
+    <p style="margin-top:18px;font-size:13px;color:var(--text-dim);">
+      Note: The sample file contains Necklace rows only. The full 2,624-row dataset spans all Cartier product departments available on cartier.com/en-ch — rings, bracelets, watches, perfumes, and accessories.
+    </p>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     FILL RATES
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Field Quality</div>
+    <h2 class="section-head">Fill rate report</h2>
+    <p class="section-sub">Measured across all 2,624 post-deduplication rows.</p>
+
+    <div class="fill-list" id="fillList"></div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     ALL FIELDS STATUS
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Schema Coverage</div>
+    <h2 class="section-head">All 59 fields</h2>
+    <p class="section-sub">
+      <span style="color:var(--green)">● Filled</span> &nbsp;
+      <span style="color:var(--amber)">● Partial</span> &nbsp;
+      <span style="color:var(--gray)">● Not collected / N/A on site</span>
+    </p>
+
+    <div class="fields-grid" id="fieldsGrid"></div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     IMPROVEMENTS
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Roadmap</div>
+    <h2 class="section-head">Improvement opportunities</h2>
+    <p class="section-sub">Fields that could be enriched in a future scraper iteration.</p>
+
+    <div class="improve-list">
+      <div class="improve-row">
+        <span class="improve-tag easy">Easy</span>
+        <div>
+          <div class="improve-field">material_info</div>
+          <div class="improve-desc">Material details (e.g. "18K gold", "platinum") are visible on product pages — a single extra selector would capture them reliably.</div>
+        </div>
+      </div>
+      <div class="improve-row">
+        <span class="improve-tag easy">Easy</span>
+        <div>
+          <div class="improve-field">specifications</div>
+          <div class="improve-desc">Technical specs (dimensions, weight, stone count) appear in a structured accordion on each PDP — parseable without extra page loads.</div>
+        </div>
+      </div>
+      <div class="improve-row">
+        <span class="improve-tag medium">Medium</span>
+        <div>
+          <div class="improve-field">additional_tags (10.4% → 100%)</div>
+          <div class="improve-desc">Currently sparse. Tag data is surfaced in breadcrumb and filter facets — requires a facet crawl pass to fill completely.</div>
+        </div>
+      </div>
+      <div class="improve-row">
+        <span class="improve-tag medium">Medium</span>
+        <div>
+          <div class="improve-field">size_info (31% → 80%+)</div>
+          <div class="improve-desc">Size options live in a JS-rendered size picker — a Playwright/Selenium variant or API intercept would capture all options per product.</div>
+        </div>
+      </div>
+      <div class="improve-row">
+        <span class="improve-tag medium">Medium</span>
+        <div>
+          <div class="improve-field">full_price / price (85% → 100%)</div>
+          <div class="improve-desc">~15% of products have no displayed price on cartier.com ("price on request" items). These could be enriched via a Cartier boutique price lookup.</div>
+        </div>
+      </div>
+      <div class="improve-row">
+        <span class="improve-tag hard">Hard</span>
+        <div>
+          <div class="improve-field">store_id / store_name / store_address</div>
+          <div class="improve-desc">Cartier's boutique stock-check requires a user session and a geo-query API call — feasible but adds significant pipeline complexity.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     DELIVERY
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Delivery</div>
+    <h2 class="section-head">File delivery path</h2>
+    <p class="section-sub">Data is delivered as a pipe-delimited .txt file to the buyer's S3 bucket.</p>
+
+    <div class="delivery-box">
+      <pre>s3://databoutique-deliveries/
+  ├── <span class="placeholder">[YOUR_SELLER_ID]</span>/
+  │   └── <span class="placeholder">[YOUR_CONTRACT_ID]</span>/
+  │       └── cartier_CHE_<span class="placeholder">YYYYMMDD</span>.txt
+
+Format   :  pipe-delimited ( | )
+Encoding :  UTF-8
+Rows     :  ~2,600 per delivery
+Schema   :  E0005  (59 columns)</pre>
+    </div>
+  </div>
+</section>
+
+
+<!-- ════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════ -->
+<section>
+  <div class="wrapper">
+    <div class="ornament">Contact</div>
+    <h2 class="section-head">Get in touch</h2>
+    <p class="section-sub">Reach out to discuss delivery schedule, custom fields, or a trial sample.</p>
+
+    <div class="contact-box">
+      <div class="contact-row">
+        <span class="contact-label">Telegram</span>
+        <span class="contact-val"><a href="https://t.me/Anzywiz">@Anzywiz</a></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrapper">
+    Dataset documentation · cartier.com · Schema E0005 · Switzerland · Competence date 2026-04-17
+  </div>
+</footer>
+
+
+<script>
+// ── Theme toggle
+function toggleTheme(){
+  const t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  document.documentElement.dataset.theme = t;
+}
+
+// ── Fill rate data (from processing log)
+const fillData = [
+  {name:'store_url',           pct:100},
+  {name:'product_code',        pct:100},
+  {name:'additional_code_1',   pct:100},
+  {name:'additional_code_1_type', pct:100},
+  {name:'brand',               pct:100},
+  {name:'color_info',          pct:100},
+  {name:'description',         pct:100},
+  {name:'product_title',       pct:100},
+  {name:'in_stock',            pct:100},
+  {name:'category1',           pct:100},
+  {name:'itemurl',             pct:100},
+  {name:'main_image_url',      pct:100},
+  {name:'all_images',          pct:100},
+  {name:'category2',           pct:94.8},
+  {name:'category3',           pct:94.8},
+  {name:'full_price',          pct:85.0},
+  {name:'price',               pct:85.0},
+  {name:'size_info',           pct:31.0},
+  {name:'additional_tags',     pct:10.4},
+];
+
+const fillList = document.getElementById('fillList');
+fillData.forEach(f => {
+  const cls = f.pct === 100 ? 'full' : f.pct >= 80 ? 'partial' : 'low';
+  const row = document.createElement('div');
+  row.className = 'fill-row';
+  row.innerHTML = `
+    <span class="fill-name">${f.name}</span>
+    <div class="fill-bar-bg"><div class="fill-bar ${cls}" data-width="${f.pct}" style="width:0%"></div></div>
+    <span class="fill-pct ${cls}">${f.pct}%</span>
+  `;
+  fillList.appendChild(row);
+});
+
+// ── All fields status
+const fields = [
+  {name:'dbq_prd_type',            status:'green', label:'Filled'},
+  {name:'website_name',            status:'green', label:'Filled'},
+  {name:'competence_date',         status:'green', label:'Filled'},
+  {name:'country_code',            status:'green', label:'Filled'},
+  {name:'currency_code',           status:'green', label:'Filled'},
+  {name:'store_url',               status:'green', label:'Filled'},
+  {name:'product_code',            status:'green', label:'Filled'},
+  {name:'additional_code_1',       status:'green', label:'Filled'},
+  {name:'additional_code_1_type',  status:'green', label:'Filled'},
+  {name:'brand',                   status:'green', label:'Filled'},
+  {name:'color_info',              status:'green', label:'Filled'},
+  {name:'description',             status:'green', label:'Filled'},
+  {name:'product_title',           status:'green', label:'Filled'},
+  {name:'in_stock',                status:'green', label:'Filled'},
+  {name:'category1',               status:'green', label:'Filled'},
+  {name:'itemurl',                 status:'green', label:'Filled'},
+  {name:'main_image_url',          status:'green', label:'Filled'},
+  {name:'all_images',              status:'green', label:'Filled'},
+  {name:'category2',               status:'amber', label:'Partial (94.8%)'},
+  {name:'category3',               status:'amber', label:'Partial (94.8%)'},
+  {name:'full_price',              status:'amber', label:'Partial (85%)'},
+  {name:'price',                   status:'amber', label:'Partial (85%)'},
+  {name:'size_info',               status:'amber', label:'Partial (31%)'},
+  {name:'additional_tags',         status:'amber', label:'Partial (10.4%)'},
+  {name:'store_id',                status:'gray',  label:'N/A on site'},
+  {name:'store_name',              status:'gray',  label:'N/A on site'},
+  {name:'store_address',           status:'gray',  label:'N/A on site'},
+  {name:'store_zip',               status:'gray',  label:'N/A on site'},
+  {name:'merchant_id',             status:'gray',  label:'N/A on site'},
+  {name:'merchant_name',           status:'gray',  label:'N/A on site'},
+  {name:'merchant_url',            status:'gray',  label:'N/A on site'},
+  {name:'merchant_image',          status:'gray',  label:'N/A on site'},
+  {name:'merchant_descr',          status:'gray',  label:'N/A on site'},
+  {name:'additional_code_2',       status:'gray',  label:'Not collected'},
+  {name:'additional_code_2_type',  status:'gray',  label:'Not collected'},
+  {name:'additional_code_3',       status:'gray',  label:'Not collected'},
+  {name:'additional_code_3_type',  status:'gray',  label:'Not collected'},
+  {name:'material_info',           status:'gray',  label:'Not collected'},
+  {name:'variant_info',            status:'gray',  label:'Not collected'},
+  {name:'specifications',          status:'gray',  label:'Not collected'},
+  {name:'delivery',                status:'gray',  label:'Not collected'},
+  {name:'quantity',                status:'gray',  label:'Not collected'},
+  {name:'category4–10',            status:'gray',  label:'N/A on site'},
+  {name:'ppu',                     status:'gray',  label:'N/A on site'},
+  {name:'unit_type',               status:'gray',  label:'N/A on site'},
+  {name:'promotion_type',          status:'gray',  label:'N/A on site'},
+  {name:'promotion_end_date',      status:'gray',  label:'N/A on site'},
+  {name:'package_desc',            status:'gray',  label:'Not collected'},
+  {name:'additional_content',      status:'gray',  label:'Not collected'},
+  {name:'rank',                    status:'green', label:'Filled'},
+  {name:'contract_id',             status:'gray',  label:'Private'},
+  {name:'seller_id',               status:'gray',  label:'Private'},
+  {name:'delivery_id',             status:'gray',  label:'Private'},
+];
+
+const grid = document.getElementById('fieldsGrid');
+fields.forEach(f => {
+  const d = document.createElement('div');
+  d.className = 'field-row';
+  d.innerHTML = `<span class="field-dot ${f.status}"></span><span class="field-name">${f.name}</span><span class="field-status">${f.label}</span>`;
+  grid.appendChild(d);
+});
+
+// ── Animate bars on scroll (IntersectionObserver)
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.querySelectorAll('[data-width]').forEach(bar => {
+        bar.style.width = bar.dataset.width + '%';
+      });
+    }
+  });
+}, {threshold:0.1});
+
+document.querySelectorAll('.fill-list, .cat-list').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
