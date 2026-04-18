@@ -107,10 +107,35 @@ h1 em{color:var(--gold);font-style:italic;}
 }
 
 /* ── Theme toggle ── */
+/* ── Navigation ── */
+nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 24px;border-bottom:1px solid var(--border);
+  background:var(--bg-card);position:sticky;top:0;z-index:100;
+}
+.nav-brand{
+  font-family:'DM Mono',monospace;font-size:13px;color:var(--text-muted);
+}
+.nav-brand a{
+  color:var(--gold);font-weight:500;text-decoration:none;
+}
+.nav-brand a:hover{
+  text-decoration:underline;
+}
+.nav-right{
+  display:flex;align-items:center;gap:14px;
+}
+.back-link{
+  font-size:12px;color:var(--text-muted);font-family:'DM Mono',monospace;
+  text-decoration:none;
+}
+.back-link:hover{
+  color:var(--gold);
+}
+
 .theme-btn{
-  position:fixed;top:20px;right:20px;z-index:100;
-  background:var(--bg-card);border:1px solid var(--border);
-  color:var(--text-muted);padding:7px 14px;border-radius:20px;
+  background:transparent;border:1px solid var(--border);
+  color:var(--text-muted);padding:6px 12px;border-radius:4px;
   font-family:'DM Mono',monospace;font-size:11px;cursor:pointer;
   transition:.2s;
 }
@@ -317,7 +342,14 @@ footer{
 </head>
 <body>
 
-<button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+<nav>
+  <span class="nav-brand"><a href="https://anzywiz.github.io">anzywiz</a> / cartier</span>
+  <div class="nav-right">
+    <a href="https://anzywiz.github.io" class="back-link">← all datasets</a>
+    <button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+  </div>
+</nav>  
+
 
 <!-- ════════════════════════════════════════
      HEADER
