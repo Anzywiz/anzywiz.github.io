@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TAG Heuer Dataset · tagheuer.com · Reinox Web Scrapers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:        #0a0a0c;
+    --surface:   #111116;
+    --surface2:  #18181f;
+    --border:    rgba(255,255,255,0.07);
+    --accent:    #c9a84c;
+    --accent2:   #e8d5a3;
+    --text:      #e8e6e1;
+    --muted:     #6b6875;
+    --green:     #4caf7a;
+    --amber:     #e8a33a;
+    --gray:      #555566;
+    --red:       #c05555;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Syne', sans-serif;
+    font-size: 15px;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* ─── NAV ──────────────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 52px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(12px);
+  }
+  .nav-brand {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    letter-spacing: .06em;
+    color: var(--muted);
+  }
+  .nav-brand a {
+    color: var(--accent);
+    text-decoration: none;
+    transition: opacity .2s;
+  }
+  .nav-brand a:hover { opacity: .7; }
+  .nav-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .back-link {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .06em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .2s;
+  }
+  .back-link:hover { color: var(--accent); }
+  .theme-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 5px 13px;
+    border-radius: 20px;
+    cursor: pointer;
+    letter-spacing: .06em;
+    transition: all .2s;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  @media (max-width: 720px) {
+    nav { padding: 0 20px; }
+    .back-link span { display: none; }
+  }
+
+  body.light {
+    --bg:       #f5f3ef;
+    --surface:  #faf9f7;
+    --surface2: #ece9e3;
+    --border:   rgba(0,0,0,0.09);
+    --text:     #1a1814;
+    --muted:    #8a8070;
+  }
+
+  /* ─── HERO ─────────────────────────────────────────────── */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 48px 72px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 60% 50% at 80% 50%, rgba(201,168,76,.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    border: 1px solid var(--accent);
+    padding: 4px 12px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 7vw, 84px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -.02em;
+    max-width: 800px;
+    margin-bottom: 24px;
+  }
+  .hero h1 em {
+    font-style: italic;
+    color: var(--accent2);
+  }
+  .hero-desc {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 620px;
+    line-height: 1.75;
+    margin-bottom: 40px;
+  }
+  .hero-watermark {
+    position: absolute;
+    right: -20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 200px;
+    font-weight: 300;
+    color: rgba(201,168,76,.04);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+
+  /* ─── BADGES ────────────────────────────────────────────── */
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  .badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .06em;
+    padding: 5px 14px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .badge span { color: var(--muted); margin-right: 6px; }
+  .badge strong { color: var(--accent2); }
+
+  /* ─── LAYOUT ────────────────────────────────────────────── */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 48px; }
+
+  section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 36px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 300;
+    margin-bottom: 20px;
+    line-height: 1.15;
+  }
+  h3 {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    margin-bottom: 12px;
+    color: var(--accent2);
+  }
+
+  p { color: var(--muted); line-height: 1.8; }
+
+  /* ─── STAT GRID ─────────────────────────────────────────── */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 2px;
+    margin-top: 40px;
+    border: 1px solid var(--border);
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .stat-card {
+    background: var(--surface);
+    padding: 28px 24px;
+    transition: background .2s;
+  }
+  .stat-card:hover { background: var(--surface2); }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ─── GRANULARITY COMPARE ───────────────────────────────── */
+  .compare-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    margin-top: 36px;
+    border: 1px solid var(--border);
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .compare-col { background: var(--surface); padding: 28px 28px; }
+  .compare-col.good { background: rgba(76,175,122,.04); }
+  .compare-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .compare-label.bad { color: var(--red); }
+  .compare-label.good { color: var(--green); }
+
+  .compare-row {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+  .compare-row:last-child { border-bottom: none; }
+  .compare-row .ico { flex-shrink: 0; margin-top: 2px; }
+
+  /* ─── SAMPLE TABLE ──────────────────────────────────────── */
+  .table-wrap { overflow-x: auto; margin-top: 32px; }
+  table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+  thead tr { background: var(--surface2); }
+  th {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 16px;
+    text-align: left;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border);
+  }
+  td {
+    padding: 11px 16px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text);
+    white-space: nowrap;
+    max-width: 220px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: middle;
+  }
+  tr:hover td { background: var(--surface2); }
+  .mono { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--accent2); }
+  .pill {
+    display: inline-block;
+    padding: 2px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .04em;
+  }
+  .pill-in  { background: rgba(76,175,122,.15);  color: var(--green); }
+  .pill-out { background: rgba(192,85,85,.12);   color: var(--red); }
+
+  /* ─── FILL RATES ────────────────────────────────────────── */
+  .fill-table { width: 100%; margin-top: 32px; }
+  .fill-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 60px;
+    align-items: center;
+    gap: 16px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .fill-field {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .fill-bar-wrap { height: 4px; background: var(--surface2); border-radius: 2px; }
+  .fill-bar { height: 100%; border-radius: 2px; transition: width .6s ease; }
+  .fill-pct {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* ─── ALL FIELDS TABLE ──────────────────────────────────── */
+  .fields-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2px;
+    margin-top: 32px;
+    border: 1px solid var(--border);
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+    padding: 12px 16px;
+    gap: 12px;
+    transition: background .15s;
+  }
+  .field-row:hover { background: var(--surface2); }
+  .field-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text);
+    flex: 1;
+  }
+  .field-desc { font-size: 11px; color: var(--muted); max-width: 160px; text-align: right; line-height: 1.3; }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+  }
+  .dot-green  { background: var(--green); box-shadow: 0 0 6px rgba(76,175,122,.5); }
+  .dot-amber  { background: var(--amber); box-shadow: 0 0 6px rgba(232,163,58,.4); }
+  .dot-gray   { background: var(--gray); }
+
+  /* ─── IMPROVEMENTS ──────────────────────────────────────── */
+  .improve-list { margin-top: 32px; display: flex; flex-direction: column; gap: 2px; }
+  .improve-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--surface);
+    padding: 16px 20px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+  }
+  .improve-name { flex: 1; font-size: 13px; font-weight: 600; }
+  .improve-desc { flex: 2; font-size: 12px; color: var(--muted); }
+  .tag-easy   { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.06em; padding:3px 10px; border-radius:20px; background:rgba(76,175,122,.12); color:var(--green); }
+  .tag-medium { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.06em; padding:3px 10px; border-radius:20px; background:rgba(232,163,58,.12); color:var(--amber); }
+  .tag-hard   { font-family:'DM Mono',monospace; font-size:10px; letter-spacing:.06em; padding:3px 10px; border-radius:20px; background:rgba(192,85,85,.12); color:var(--red); }
+
+  /* ─── DELIVERY ──────────────────────────────────────────── */
+  .code-block {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    margin-top: 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    line-height: 2;
+    color: var(--muted);
+    overflow-x: auto;
+  }
+  .code-block .hl { color: var(--accent2); }
+  .code-block .ph { color: var(--muted); opacity: .5; font-style: italic; }
+
+  /* ─── CONTACT ───────────────────────────────────────────── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 2px;
+    margin-top: 36px;
+    border: 1px solid var(--border);
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .contact-card {
+    background: var(--surface);
+    padding: 24px 24px;
+  }
+  .contact-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .contact-val {
+    font-size: 14px;
+    color: var(--text);
+    font-weight: 600;
+  }
+  .contact-val a { color: var(--accent); text-decoration: none; }
+  .contact-val a:hover { text-decoration: underline; }
+
+  /* ─── FOOTER ────────────────────────────────────────────── */
+  footer {
+    padding: 40px 0;
+    text-align: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  /* ─── RESPONSIVE ────────────────────────────────────────── */
+  @media (max-width: 720px) {
+    .hero { padding: 80px 24px 60px; }
+    .container { padding: 0 24px; }
+    .compare-grid { grid-template-columns: 1fr; }
+    .fill-row { grid-template-columns: 130px 1fr 50px; }
+    .hero-watermark { display: none; }
+  }
+
+  /* ─── ANIMATIONS ────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .hero-tag   { animation: fadeUp .5s ease both; }
+  .hero h1    { animation: fadeUp .5s .1s ease both; }
+  .hero-desc  { animation: fadeUp .5s .2s ease both; }
+  .badges     { animation: fadeUp .5s .3s ease both; }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand"><a href="https://anzywiz.github.io">anzywiz</a> / tagheuer</span>
+  <div class="nav-right">
+    <a href="https://anzywiz.github.io" class="back-link">← all datasets</a>
+    <button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+  </div>
+</nav>
+
+<!-- ─── HERO ─────────────────────────────────────────── -->
+<div class="hero">
+  <div class="hero-watermark">TAG HEUER</div>
+  <div class="hero-tag">Dataset Documentation · E0005r · tagheuer.com</div>
+  <h1>TAG Heuer<br><em>Product Intelligence</em></h1>
+  <p class="hero-desc">
+    Product-level watch data from tagheuer.com — 299 rows covering pricing, specifications,
+    color variants, materials, and media across the full TAG Heuer catalogue for Switzerland.
+    Delivered as a semicolon-delimited flat file, updated weekly.
+  </p>
+  <div class="badges">
+    <div class="badge"><span>Schema</span><strong>E0005r</strong></div>
+    <div class="badge"><span>Country</span><strong>CHE · Switzerland</strong></div>
+    <div class="badge"><span>Currency</span><strong>CHF</strong></div>
+    <div class="badge"><span>Language</span><strong>English</strong></div>
+    <div class="badge"><span>Delimiter</span><strong>Semicolon ( ; )</strong></div>
+    <div class="badge"><span>Competence Date</span><strong>2026-04-18</strong></div>
+    <div class="badge"><span>Status</span><strong>🟢 Active</strong></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ─── SCALE ───────────────────────────────────────── -->
+  <section>
+    <div class="section-label">01 — Scale & Coverage</div>
+    <h2>What you get in every delivery</h2>
+    <p>Each delivery is a complete snapshot of the TAG Heuer Switzerland catalogue as observed on the competence date. Products are deduplicated by <span style="font-family:'DM Mono',monospace;font-size:12px;color:var(--accent2)">product_code</span> prior to delivery — ensuring clean, analytics-ready rows without bloat.</p>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-num">299</div>
+        <div class="stat-label">Total Rows</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">299</div>
+        <div class="stat-label">Unique Product Codes</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">1</div>
+        <div class="stat-label">Brand (TAG Heuer)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">59</div>
+        <div class="stat-label">Schema Columns</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">24</div>
+        <div class="stat-label">Actively Filled Fields</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">CHF 8.8K–23K</div>
+        <div class="stat-label">Observed Price Range</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── GRANULARITY ──────────────────────────────────── -->
+  <section>
+    <div class="section-label">02 — Granularity</div>
+    <h2>Product-level, not variant-stacked</h2>
+    <p>This dataset operates at the <strong>product level</strong>: each row represents a single watch SKU as identified by its website product code (e.g. <span style="font-family:'DM Mono',monospace;color:var(--accent2);font-size:12px">CDW2181.FC8360</span>). Color, size, and material information is captured as structured text attributes within the row — not as separate rows per variant.</p>
+    <div class="compare-grid">
+      <div class="compare-col">
+        <div class="compare-label bad">✕ Basic scraper</div>
+        <div class="compare-row"><span class="ico">✗</span><span>Only product title and price captured</span></div>
+        <div class="compare-row"><span class="ico">✗</span><span>No EAN / GTIN barcodes</span></div>
+        <div class="compare-row"><span class="ico">✗</span><span>No material breakdown per SKU</span></div>
+        <div class="compare-row"><span class="ico">✗</span><span>No technical specifications</span></div>
+        <div class="compare-row"><span class="ico">✗</span><span>No full image gallery</span></div>
+        <div class="compare-row"><span class="ico">✗</span><span>Duplicates not removed</span></div>
+      </div>
+      <div class="compare-col good">
+        <div class="compare-label good">✓ This dataset</div>
+        <div class="compare-row"><span class="ico">✓</span><span>EAN + MasterID cross-reference codes</span></div>
+        <div class="compare-row"><span class="ico">✓</span><span>Color, material, size per product</span></div>
+        <div class="compare-row"><span class="ico">✓</span><span>Movement, case, strap, water resistance specs</span></div>
+        <div class="compare-row"><span class="ico">✓</span><span>Full image gallery in JSON array</span></div>
+        <div class="compare-row"><span class="ico">✓</span><span>Category hierarchy (cat1 + cat2)</span></div>
+        <div class="compare-row"><span class="ico">✓</span><span>Deduplicated, schema-stamped, dated</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── CATEGORY BREAKDOWN ───────────────────────────── -->
+  <section>
+    <div class="section-label">03 — Category Breakdown</div>
+    <h2>Observed catalogue structure</h2>
+    <p>All 299 rows fall under the <strong>Tag Heuer Monaco</strong> collection. Two sub-categories were observed in this delivery, reflecting the catalogue's current product composition.</p>
+    <div class="stat-grid" style="margin-top:32px; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr))">
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:32px">~90%</div>
+        <div class="stat-label">Tag Heuer Monaco · Chronograph</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" style="font-size:32px">~10%</div>
+        <div class="stat-label">Tag Heuer Monaco · Evergraph</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── SAMPLE ROWS ──────────────────────────────────── -->
+  <section>
+    <div class="section-label">04 — Sample Data</div>
+    <h2>Five rows from the latest delivery</h2>
+    <p>The table below shows a representative extract from the delivered file. All values are as-seen on tagheuer.com as of the competence date.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>product_code</th>
+            <th>product_title</th>
+            <th>brand</th>
+            <th>color_info</th>
+            <th>material_info</th>
+            <th>size_info</th>
+            <th>full_price</th>
+            <th>in_stock</th>
+            <th>category1</th>
+            <th>category2</th>
+            <th>additional_code_1</th>
+            <th>additional_code_1_type</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="mono">CDW2181.FC8360</td>
+            <td>TAG Heuer Monaco Chronograph</td>
+            <td>TAG Heuer</td>
+            <td>BLUE</td>
+            <td>Titanium</td>
+            <td>39 mm</td>
+            <td class="mono">8800</td>
+            <td><span class="pill pill-out">Out of Stock</span></td>
+            <td>Tag Heuer Monaco</td>
+            <td>Chronograph</td>
+            <td class="mono">7612533185692</td>
+            <td class="mono">EAN</td>
+          </tr>
+          <tr>
+            <td class="mono">CDW2180.FC8360</td>
+            <td>TAG Heuer Monaco Chronograph</td>
+            <td>TAG Heuer</td>
+            <td>GREEN</td>
+            <td>Titanium</td>
+            <td>39 mm</td>
+            <td class="mono">8800</td>
+            <td><span class="pill pill-in">In Stock</span></td>
+            <td>Tag Heuer Monaco</td>
+            <td>Chronograph</td>
+            <td class="mono">7612533185487</td>
+            <td class="mono">EAN</td>
+          </tr>
+          <tr>
+            <td class="mono">CDW2150.FC8360</td>
+            <td>TAG Heuer Monaco Chronograph</td>
+            <td>TAG Heuer</td>
+            <td>BLACK</td>
+            <td>Titanium &amp; 18K 5N rose gold</td>
+            <td>39 mm</td>
+            <td class="mono">12300</td>
+            <td><span class="pill pill-out">Out of Stock</span></td>
+            <td>Tag Heuer Monaco</td>
+            <td>Chronograph</td>
+            <td class="mono">7612533185715</td>
+            <td class="mono">EAN</td>
+          </tr>
+          <tr>
+            <td class="mono">CEW5181.FT8123</td>
+            <td>TAG Heuer Monaco Evergraph</td>
+            <td>TAG Heuer</td>
+            <td>TRANSPARENT</td>
+            <td>Titanium</td>
+            <td>40 mm</td>
+            <td class="mono">23000</td>
+            <td><span class="pill pill-out">Out of Stock</span></td>
+            <td>Tag Heuer Monaco</td>
+            <td>Evergraph</td>
+            <td class="mono">7612533189195</td>
+            <td class="mono">EAN</td>
+          </tr>
+          <tr>
+            <td class="mono">CEW5180.FT8122</td>
+            <td>TAG Heuer Monaco Evergraph</td>
+            <td>TAG Heuer</td>
+            <td>BLACK</td>
+            <td>Titanium coated with black DLC</td>
+            <td>40 mm</td>
+            <td class="mono">23000</td>
+            <td><span class="pill pill-out">Out of Stock</span></td>
+            <td>Tag Heuer Monaco</td>
+            <td>Evergraph</td>
+            <td class="mono">7612533189164</td>
+            <td class="mono">EAN</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ─── FILL RATES ───────────────────────────────────── -->
+  <section>
+    <div class="section-label">05 — Field Fill Rates</div>
+    <h2>Coverage across actively collected fields</h2>
+    <p>Fill rates are calculated from the latest delivery (299 rows). Fields that scored below 95% carry a partial designation in the schema status table below.</p>
+    <div class="fill-table" id="fill-table"></div>
+  </section>
+
+  <!-- ─── ALL FIELDS STATUS ────────────────────────────── -->
+  <section>
+    <div class="section-label">06 — Schema Field Status</div>
+    <h2>Full field inventory · E0005r schema</h2>
+    <p>Every field in the E0005r schema is listed below with its collection status for this dataset. Fields marked <em>N/A on site</em> are structurally absent from tagheuer.com (e.g. no third-party seller marketplace, no physical stores).</p>
+    <div class="fields-grid" id="fields-grid"></div>
+  </section>
+
+  <!-- ─── IMPROVEMENTS ─────────────────────────────────── -->
+  <section>
+    <div class="section-label">07 — Improvement Opportunities</div>
+    <h2>Fields available to add on request</h2>
+    <p>The following fields exist on tagheuer.com but are not yet collected in the standard delivery. They can be activated under a custom build agreement.</p>
+    <div class="improve-list">
+      <div class="improve-item">
+        <div class="improve-name">delivery</div>
+        <div class="improve-desc">Shipping and delivery information shown on product pages</div>
+        <span class="tag-easy">Easy</span>
+      </div>
+      <div class="improve-item">
+        <div class="improve-name">promotion_type</div>
+        <div class="improve-desc">Promotion label applied to a product (e.g. "Limited Edition", "New")</div>
+        <span class="tag-easy">Easy</span>
+      </div>
+      <div class="improve-item">
+        <div class="improve-name">additional_tags</div>
+        <div class="improve-desc">Product badges visible on listing pages (e.g. "NEW", "Bestseller")</div>
+        <span class="tag-easy">Easy</span>
+      </div>
+      <div class="improve-item">
+        <div class="improve-name">category3 – category10</div>
+        <div class="improve-desc">Deeper navigation tree levels, if exposed under collection sub-pages</div>
+        <span class="tag-medium">Medium</span>
+      </div>
+    </div>
+    <p style="margin-top:24px; font-size:13px;">
+      <strong style="color:var(--accent2)">Note on pricing:</strong> tagheuer.com displays a single price per product — no promotional or sale price exists on the site. <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent2)">price</span> and <span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--accent2)">full_price</span> are therefore identical in every row and both are delivered. Store-level pricing is not available on tagheuer.com.
+    </p>
+  </section>
+
+  <!-- ─── DELIVERY PATH ────────────────────────────────── -->
+  <section>
+    <div class="section-label">08 — File Delivery</div>
+    <h2>S3 delivery path</h2>
+    <p>Files are delivered to your designated S3 bucket using the path structure below. The filename encodes the delivery timestamp for traceability. The file uses a <strong>semicolon ( ; ) delimiter</strong> and UTF-8 encoding.</p>
+    <div class="code-block">
+      s3://<span class="ph">[YOUR_BUCKET]</span>/sellers/<span class="ph">[YOUR_SELLER_ID]</span>/contracts/<span class="ph">[YOUR_CONTRACT_ID]</span>/tagheuer/<br>
+      &nbsp;&nbsp;└── <span class="hl">data_file_</span><span class="ph">[DELIVERY_TIMESTAMP]</span><span class="hl">.txt</span><br><br>
+      <span class="ph"># Format details</span><br>
+      Delimiter&nbsp;&nbsp;&nbsp;: <span class="hl">;</span> (semicolon)<br>
+      Encoding&nbsp;&nbsp;&nbsp;: <span class="hl">UTF-8</span><br>
+      Header row : <span class="hl">Yes (row 1)</span><br>
+      Schema&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: <span class="hl">E0005r</span><br>
+      Columns&nbsp;&nbsp;&nbsp;&nbsp;: <span class="hl">59</span>
+    </div>
+  </section>
+
+  <!-- ─── CONTACT ──────────────────────────────────────── -->
+  <section>
+    <div class="section-label">09 — Contact & Custom Builds</div>
+    <h2>Get in touch</h2>
+    <p>
+      Need a custom field added, a different country or currency, a higher delivery cadence, or a bespoke scraper built from scratch?
+      Reach out directly — Reinox Web Scrapers builds to specification.
+    </p>
+    <div class="contact-grid">
+      <div class="contact-card">
+        <div class="contact-label">Author</div>
+        <div class="contact-val">Ifeanyi Muotoe</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">Company</div>
+        <div class="contact-val">Reinox Web Scrapers</div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">Telegram</div>
+        <div class="contact-val"><a href="https://t.me/Anzywiz" target="_blank">@Anzywiz</a></div>
+      </div>
+      <div class="contact-card">
+        <div class="contact-label">Custom Build</div>
+        <div class="contact-val" style="font-size:12px; line-height:1.5; color:var(--muted)">Open to new contracts — any retailer, any country, any schedule.</div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /container -->
+
+<footer>
+  <div class="container">
+    © 2026 Reinox Web Scrapers · Ifeanyi Muotoe · Dataset: tagheuer.com · Schema: E0005r · Competence: 2026-04-18
+  </div>
+</footer>
+
+<script>
+function toggleTheme() { document.body.classList.toggle('light'); }
+
+/* ── FILL RATES ──────────────────────────────────────────── */
+const fills = [
+  { field: 'merchant_name',          pct: 100 },
+  { field: 'merchant_url',           pct: 100 },
+  { field: 'product_code',           pct: 100 },
+  { field: 'additional_code_1',      pct: 100 },
+  { field: 'additional_code_1_type', pct: 100 },
+  { field: 'additional_code_2',      pct: 100 },
+  { field: 'additional_code_2_type', pct: 100 },
+  { field: 'brand',                  pct: 100 },
+  { field: 'product_title',          pct: 100 },
+  { field: 'in_stock',               pct: 100 },
+  { field: 'quantity',               pct: 100 },
+  { field: 'additional_content',     pct: 100 },
+  { field: 'itemurl',                pct: 100 },
+  { field: 'main_image_url',         pct: 100 },
+  { field: 'all_images',             pct: 100 },
+  { field: 'full_price',             pct: 96.3 },
+  { field: 'category1',              pct: 99.7 },
+  { field: 'size_info',              pct: 90.6 },
+  { field: 'material_info',          pct: 90.6 },
+  { field: 'variant_info',           pct: 90.6 },
+  { field: 'description',            pct: 90.6 },
+  { field: 'specifications',         pct: 90.6 },
+  { field: 'category2',              pct: 90.6 },
+  { field: 'color_info',             pct: 87.0 },
+];
+
+const ftEl = document.getElementById('fill-table');
+fills.forEach(f => {
+  const color = f.pct === 100 ? 'var(--green)' : f.pct >= 95 ? 'var(--accent)' : 'var(--amber)';
+  ftEl.innerHTML += `
+    <div class="fill-row">
+      <div class="fill-field">${f.field}</div>
+      <div class="fill-bar-wrap"><div class="fill-bar" style="width:${f.pct}%;background:${color}"></div></div>
+      <div class="fill-pct">${f.pct}%</div>
+    </div>`;
+});
+
+/* ── ALL FIELDS STATUS ───────────────────────────────────── */
+const fields = [
+  // Standardized
+  { name:'website_name',          status:'filled', desc:'tagheuer.com' },
+  { name:'competence_date',       status:'filled', desc:'2026-04-18' },
+  { name:'country_code',          status:'filled', desc:'CHE' },
+  { name:'currency_code',         status:'filled', desc:'CHF' },
+  // Store fields
+  { name:'store_id',              status:'na',     desc:'N/A on site' },
+  { name:'store_name',            status:'na',     desc:'N/A on site' },
+  { name:'store_address',         status:'na',     desc:'N/A on site' },
+  { name:'store_zip',             status:'na',     desc:'N/A on site' },
+  { name:'store_url',             status:'na',     desc:'N/A on site' },
+  // Merchant
+  { name:'merchant_id',           status:'na',     desc:'N/A on site' },
+  { name:'merchant_name',         status:'filled', desc:'100%' },
+  { name:'merchant_url',          status:'filled', desc:'100%' },
+  { name:'merchant_image',        status:'na',     desc:'Not collected' },
+  { name:'merchant_descr',        status:'na',     desc:'Not collected' },
+  // Product IDs
+  { name:'product_code',          status:'filled', desc:'100%' },
+  { name:'additional_code_1',     status:'filled', desc:'EAN · 100%' },
+  { name:'additional_code_1_type',status:'filled', desc:'100%' },
+  { name:'additional_code_2',     status:'filled', desc:'MasterID · 100%' },
+  { name:'additional_code_2_type',status:'filled', desc:'100%' },
+  { name:'additional_code_3',     status:'na',     desc:'Not collected' },
+  { name:'additional_code_3_type',status:'na',     desc:'Not collected' },
+  // Attributes
+  { name:'size_info',             status:'partial', desc:'90.6%' },
+  { name:'brand',                 status:'filled', desc:'100%' },
+  { name:'color_info',            status:'partial', desc:'87.0%' },
+  { name:'material_info',         status:'partial', desc:'90.6%' },
+  { name:'variant_info',          status:'partial', desc:'90.6%' },
+  { name:'description',           status:'partial', desc:'90.6%' },
+  { name:'product_title',         status:'filled', desc:'100%' },
+  { name:'specifications',        status:'partial', desc:'90.6%' },
+  { name:'delivery',              status:'not',    desc:'Not collected' },
+  // Stock
+  { name:'in_stock',              status:'filled', desc:'100%' },
+  { name:'quantity',              status:'filled', desc:'100%' },
+  // Categories
+  { name:'category1',             status:'filled', desc:'99.7%' },
+  { name:'category2',             status:'partial', desc:'90.6%' },
+  { name:'category3',             status:'not',    desc:'Not collected' },
+  { name:'category4',             status:'not',    desc:'Not collected' },
+  { name:'category5–10',          status:'not',    desc:'Not collected' },
+  // Price
+  { name:'full_price',            status:'filled', desc:'96.3%' },
+  { name:'price',                 status:'not',    desc:'Not collected' },
+  { name:'ppu',                   status:'na',     desc:'N/A on site' },
+  { name:'unit_type',             status:'na',     desc:'N/A on site' },
+  { name:'promotion_type',        status:'not',    desc:'Not collected' },
+  { name:'promotion_end_date',    status:'not',    desc:'Not collected' },
+  { name:'package_desc',          status:'na',     desc:'N/A on site' },
+  { name:'additional_tags',       status:'not',    desc:'Not collected' },
+  { name:'additional_content',    status:'filled', desc:'100%' },
+  // URLs & media
+  { name:'itemurl',               status:'filled', desc:'100%' },
+  { name:'main_image_url',        status:'filled', desc:'100%' },
+  { name:'all_images',            status:'filled', desc:'JSON · 100%' },
+];
+
+const dotClass = { filled: 'dot-green', partial: 'dot-amber', not: 'dot-gray', na: 'dot-gray' };
+const fgEl = document.getElementById('fields-grid');
+fields.forEach(f => {
+  fgEl.innerHTML += `
+    <div class="field-row">
+      <span class="dot ${dotClass[f.status]}"></span>
+      <span class="field-name">${f.name}</span>
+      <span class="field-desc">${f.desc}</span>
+    </div>`;
+});
+</script>
+</body>
+</html>
