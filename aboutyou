@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AboutYou DE · Product Dataset — Reinox Web Scrapers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0b0c0f;
+    --surface: #111318;
+    --surface2: #181b22;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8eaf0;
+    --muted: #6b7280;
+    --accent: #4fffb0;
+    --accent-dim: rgba(79,255,176,0.12);
+    --accent-dim2: rgba(79,255,176,0.06);
+    --amber: #f59e0b;
+    --red: #ef4444;
+    --green: #4fffb0;
+    --gray: #4b5563;
+    --radius: 10px;
+    --font-mono: 'DM Mono', monospace;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'Cormorant Garamond', serif;
+  }
+  body.light {
+    --bg: #f5f5f0;
+    --surface: #fffffe;
+    --surface2: #f0f0eb;
+    --border: rgba(0,0,0,0.09);
+    --text: #111318;
+    --muted: #6b7280;
+    --accent: #0a7c4e;
+    --accent-dim: rgba(10,124,78,0.1);
+    --accent-dim2: rgba(10,124,78,0.05);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 17px;
+    line-height: 1.7;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: var(--bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand { font-family: var(--font-mono); font-size: 12px; color: var(--muted); }
+  .nav-brand a { color: var(--accent); text-decoration: none; font-weight: 500; }
+  .nav-brand a:hover { opacity: 0.8; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .back-link { font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--accent); }
+  .theme-btn {
+    background: none; border: 1px solid var(--border); color: var(--muted);
+    font-size: 11px; font-family: var(--font-mono); cursor: pointer;
+    padding: 4px 10px; border-radius: 4px;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 64px 0; border-bottom: 1px solid var(--border); }
+  section:last-of-type { border-bottom: none; }
+
+  /* HERO */
+  .hero { padding: 80px 0 64px; }
+  .hero-eyebrow {
+    font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 20px;
+  }
+  .hero h1 {
+    font-family: var(--font-display); font-size: clamp(36px, 6vw, 68px);
+    font-weight: 800; line-height: 1.05; letter-spacing: -0.02em;
+    margin-bottom: 24px;
+  }
+  .hero h1 em { font-style: italic; color: var(--accent); }
+  .hero-desc {
+    font-family: var(--font-body); font-size: 20px; color: var(--muted);
+    max-width: 640px; line-height: 1.6; margin-bottom: 40px;
+  }
+  .badge-row { display: flex; flex-wrap: wrap; gap: 10px; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono); font-size: 11px;
+    border: 1px solid var(--border); border-radius: 20px;
+    padding: 5px 14px; color: var(--muted);
+    background: var(--surface);
+  }
+  .badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+  .badge.active { border-color: var(--accent); color: var(--accent); }
+
+  /* SECTION HEADERS */
+  .section-label {
+    font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em;
+    text-transform: uppercase; color: var(--accent); margin-bottom: 8px;
+  }
+  h2 {
+    font-family: var(--font-display); font-size: 32px; font-weight: 700;
+    margin-bottom: 32px; letter-spacing: -0.01em;
+  }
+
+  /* GRANULARITY */
+  .gran-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .gran-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px;
+  }
+  .gran-card.highlight { border-color: var(--accent); background: var(--accent-dim2); }
+  .gran-card h3 { font-family: var(--font-display); font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+  .gran-card .label { font-family: var(--font-mono); font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 16px; }
+  .gran-card ul { list-style: none; }
+  .gran-card ul li { font-size: 15px; color: var(--muted); padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .gran-card ul li:last-child { border-bottom: none; }
+  .gran-card ul li span { color: var(--text); }
+  .miss { color: var(--red) !important; }
+  .hit { color: var(--accent) !important; }
+
+  /* STATS */
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 28px 24px;
+  }
+  .stat-card .num {
+    font-family: var(--font-display); font-size: 38px; font-weight: 700;
+    color: var(--accent); line-height: 1; margin-bottom: 8px;
+  }
+  .stat-card .label { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+
+  /* TABLE */
+  .sample-wrap { overflow-x: auto; border-radius: var(--radius); border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-family: var(--font-mono); font-size: 12px; }
+  thead { background: var(--surface2); }
+  th { padding: 12px 16px; text-align: left; color: var(--muted); font-weight: 400; white-space: nowrap; border-bottom: 1px solid var(--border); }
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text); white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .truncate { max-width: 180px; overflow: hidden; text-overflow: ellipsis; }
+
+  /* FILL RATES */
+  .fill-list { display: flex; flex-direction: column; gap: 10px; }
+  .fill-row { display: grid; grid-template-columns: 200px 1fr 60px; align-items: center; gap: 16px; }
+  .fill-name { font-family: var(--font-mono); font-size: 12px; color: var(--text); }
+  .fill-bar-bg { background: var(--surface2); border-radius: 4px; height: 6px; overflow: hidden; }
+  .fill-bar { height: 100%; border-radius: 4px; background: var(--accent); transition: width 0.6s ease; }
+  .fill-bar.warn { background: var(--amber); }
+  .fill-bar.low { background: var(--red); }
+  .fill-pct { font-family: var(--font-mono); font-size: 11px; color: var(--muted); text-align: right; }
+
+  /* FIELD STATUS */
+  .fields-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .field-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 10px 16px; background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; font-family: var(--font-mono); font-size: 12px;
+  }
+  .field-name { color: var(--text); }
+  .field-status { display: flex; align-items: center; gap: 6px; }
+  .status-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .status-dot.filled { background: var(--green); }
+  .status-dot.partial { background: var(--amber); }
+  .status-dot.not-collected { background: var(--gray); }
+  .status-dot.na { background: var(--gray); opacity: 0.5; }
+  .status-label { font-size: 10px; color: var(--muted); }
+
+  /* IMPROVEMENTS */
+  .impr-list { display: flex; flex-direction: column; gap: 16px; }
+  .impr-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px;
+    display: flex; justify-content: space-between; align-items: flex-start; gap: 16px;
+  }
+  .impr-info h4 { font-family: var(--font-display); font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .impr-info p { font-size: 14px; color: var(--muted); }
+  .impr-tag {
+    font-family: var(--font-mono); font-size: 10px; padding: 4px 12px;
+    border-radius: 20px; white-space: nowrap; flex-shrink: 0;
+    border: 1px solid; letter-spacing: 0.05em;
+  }
+  .impr-tag.easy { color: var(--green); border-color: var(--green); }
+  .impr-tag.medium { color: var(--amber); border-color: var(--amber); }
+  .impr-tag.hard { color: var(--red); border-color: var(--red); }
+  .note-box {
+    margin-top: 24px; padding: 18px 24px; background: var(--accent-dim2);
+    border: 1px solid rgba(79,255,176,0.15); border-radius: var(--radius);
+    font-size: 15px; color: var(--muted);
+  }
+  .note-box strong { color: var(--text); }
+
+  /* DELIVERY */
+  .code-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 24px; overflow-x: auto;
+    font-family: var(--font-mono); font-size: 13px; color: var(--muted);
+    line-height: 1.8;
+  }
+  .code-block .accent { color: var(--accent); }
+  .code-block .key { color: #818cf8; }
+
+  /* CONTACT */
+  .contact-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 36px; display: flex;
+    justify-content: space-between; align-items: center; gap: 24px;
+    flex-wrap: wrap;
+  }
+  .contact-name { font-family: var(--font-display); font-size: 28px; font-weight: 700; }
+  .contact-meta { font-family: var(--font-mono); font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .tg-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: var(--accent); color: #0b0c0f;
+    font-family: var(--font-mono); font-size: 13px; font-weight: 500;
+    padding: 12px 24px; border-radius: 6px; text-decoration: none;
+    transition: opacity 0.2s;
+  }
+  .tg-btn:hover { opacity: 0.85; }
+
+  /* CATS */
+  .cats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .cat-pill {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 12px 16px; font-family: var(--font-mono); font-size: 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cat-pill .pct { color: var(--accent); }
+
+  @media (max-width: 680px) {
+    .gran-grid, .stats-grid, .fields-grid, .cats-grid { grid-template-columns: 1fr; }
+    nav { padding: 0 16px; }
+    .container { padding: 0 16px; }
+    .fill-row { grid-template-columns: 140px 1fr 50px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand"><a href="https://anzywiz.github.io">anzywiz</a> / aboutyou</span>
+  <div class="nav-right">
+    <a href="https://anzywiz.github.io" class="back-link">← all datasets</a>
+    <button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="container">
+  <div class="hero">
+    <div class="hero-eyebrow">Reinox Web Scrapers · Dataset Documentation</div>
+    <h1>AboutYou DE<br><em>Product Dataset</em></h1>
+    <p class="hero-desc">
+      Color-variant level product data from aboutyou.de — 545K+ rows covering pricing, images, material info, and multi-level categories across 2,500+ brands and all fashion departments.
+    </p>
+    <div class="badge-row">
+      <span class="badge active"><span class="dot"></span>Active</span>
+      <span class="badge">Schema E0005r</span>
+      <span class="badge">Germany · EUR</span>
+      <span class="badge">545,866 rows</span>
+      <span class="badge">2,522 brands</span>
+      <span class="badge">Competence 2026-03-25</span>
+    </div>
+  </div>
+</div>
+
+<!-- GRANULARITY -->
+<section>
+  <div class="container">
+    <div class="section-label">01 — Granularity</div>
+    <h2>What makes this dataset different</h2>
+    <div class="gran-grid">
+      <div class="gran-card">
+        <div class="label">Basic scraper</div>
+        <h3>Product level</h3>
+        <ul>
+          <li><span class="miss">✗</span> One row per product listing</li>
+          <li><span class="miss">✗</span> Color variants collapsed or missing</li>
+          <li><span class="miss">✗</span> Loses per-color pricing signals</li>
+          <li><span class="miss">✗</span> No size availability by color</li>
+          <li><span class="miss">✗</span> Material info often skipped</li>
+        </ul>
+      </div>
+      <div class="gran-card highlight">
+        <div class="label">This dataset</div>
+        <h3>Color-variant level</h3>
+        <ul>
+          <li><span class="hit">✓</span> One row per product × color combination</li>
+          <li><span class="hit">✓</span> Each color gets its own image set</li>
+          <li><span class="hit">✓</span> Promotion status per color variant</li>
+          <li><span class="hit">✓</span> Size availability linked to color</li>
+          <li><span class="hit">✓</span> Material composition per variant</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCALE -->
+<section>
+  <div class="container">
+    <div class="section-label">02 — Scale</div>
+    <h2>Dataset at a glance</h2>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="num">545K+</div>
+        <div class="label">Total rows delivered</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">2,522</div>
+        <div class="label">Unique brands</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">55</div>
+        <div class="label">Schema fields (E0005r)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">€20.9–€1,499</div>
+        <div class="label">Price range (EUR)</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">2026-03-25</div>
+        <div class="label">Competence date</div>
+      </div>
+      <div class="stat-card">
+        <div class="num">40.7%</div>
+        <div class="label">Products on promotion</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE -->
+<section>
+  <div class="container">
+    <div class="section-label">03 — Sample data</div>
+    <h2>Real rows from the dataset</h2>
+    <div class="sample-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>product_code</th>
+            <th>brand</th>
+            <th>product_title</th>
+            <th>color_info</th>
+            <th>size_info</th>
+            <th>category1</th>
+            <th>category3</th>
+            <th>full_price</th>
+            <th>price</th>
+            <th>promotion_type</th>
+            <th>in_stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>29359740</td>
+            <td>10Days</td>
+            <td class="truncate">10Days T-Shirt in Dunkelgrau</td>
+            <td>dunkelgrau</td>
+            <td>XS</td>
+            <td>Frauen</td>
+            <td>Shirts & Tops</td>
+            <td>89.90</td>
+            <td>89.90</td>
+            <td>—</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>29476706</td>
+            <td>10Days</td>
+            <td class="truncate">10Days Wide Leg Hose in Schwarz</td>
+            <td>Schwarz;Grau</td>
+            <td>34|36|38|40</td>
+            <td>Frauen</td>
+            <td>Hosen</td>
+            <td>129.00</td>
+            <td>129.00</td>
+            <td>SALE</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>29465971</td>
+            <td>10Days</td>
+            <td class="truncate">10Days Sweatshirt in Rostbraun</td>
+            <td>Braun;Grau</td>
+            <td>XL</td>
+            <td>Frauen</td>
+            <td>Sweat</td>
+            <td>149.00</td>
+            <td>149.00</td>
+            <td>—</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>24400992</td>
+            <td>& Other Stories</td>
+            <td class="truncate">& Other Stories Sonnenbrille in Braun</td>
+            <td>Braun;Rot</td>
+            <td>—</td>
+            <td>Frauen</td>
+            <td>Accessoires</td>
+            <td>28.90</td>
+            <td>28.90</td>
+            <td>—</td>
+            <td>1</td>
+          </tr>
+          <tr>
+            <td>27189955</td>
+            <td>& Other Stories</td>
+            <td class="truncate">& Other Stories Sonnenbrille in Eierschale</td>
+            <td>eierschale</td>
+            <td>—</td>
+            <td>Frauen</td>
+            <td>Accessoires</td>
+            <td>23.12</td>
+            <td>20.90</td>
+            <td>SALE</td>
+            <td>1</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORIES -->
+<section>
+  <div class="container">
+    <div class="section-label">04 — Categories</div>
+    <h2>Top brands by volume</h2>
+    <p style="color:var(--muted);font-size:15px;margin-bottom:28px;">Leading brands across 2,522 total — dataset spans all fashion segments from mass market to premium.</p>
+    <div class="cats-grid">
+      <div class="cat-pill"><span>ADIDAS</span><span class="pct">7,358 rows</span></div>
+      <div class="cat-pill"><span>ADIDAS PERFORMANCE</span><span class="pct">6,715 rows</span></div>
+      <div class="cat-pill"><span>Hummel</span><span class="pct">6,479 rows</span></div>
+      <div class="cat-pill"><span>JACK & JONES</span><span class="pct">6,032 rows</span></div>
+      <div class="cat-pill"><span>LASCANA</span><span class="pct">6,019 rows</span></div>
+      <div class="cat-pill"><span>+ 2,517 more brands</span><span class="pct">→</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FILL RATES -->
+<section>
+  <div class="container">
+    <div class="section-label">05 — Field fill rates</div>
+    <h2>Coverage across key fields</h2>
+    <div class="fill-list" id="fill-list"></div>
+  </div>
+</section>
+
+<!-- FIELD STATUS -->
+<section>
+  <div class="container">
+    <div class="section-label">06 — All fields</div>
+    <h2>Complete schema status</h2>
+    <div class="fields-grid" id="fields-grid"></div>
+  </div>
+</section>
+
+<!-- IMPROVEMENTS -->
+<section>
+  <div class="container">
+    <div class="section-label">07 — Improvements</div>
+    <h2>Available on request</h2>
+    <div class="impr-list">
+      <div class="impr-card">
+        <div class="impr-info">
+          <h4>Size-level stock availability</h4>
+          <p>AboutYou displays per-size stock counts on PDP — could be captured as an additional field per variant row.</p>
+        </div>
+        <span class="impr-tag easy">Easy</span>
+      </div>
+      <div class="impr-card">
+        <div class="impr-info">
+          <h4>Product description (long-form)</h4>
+          <p>Full marketing descriptions exist on PDP but aren't currently in the schema; fill rate for description field is currently 0%.</p>
+        </div>
+        <span class="impr-tag easy">Easy</span>
+      </div>
+      <div class="impr-card">
+        <div class="impr-info">
+          <h4>Promotion end date</h4>
+          <p>Countdown timers shown on sale items indicate a promotion end date — field exists in schema but is not yet populated.</p>
+        </div>
+        <span class="impr-tag medium">Medium</span>
+      </div>
+      <div class="impr-card">
+        <div class="impr-info">
+          <h4>Merchant / seller attribution</h4>
+          <p>AboutYou operates as a multi-vendor marketplace — merchant_name and merchant_url fields could be populated for third-party sellers.</p>
+        </div>
+        <span class="impr-tag medium">Medium</span>
+      </div>
+      <div class="impr-card">
+        <div class="impr-info">
+          <h4>Price-per-unit (ppu) and unit_type</h4>
+          <p>For applicable categories (fragrances, cosmetics), PPU is shown on site and can be extracted as a separate data point.</p>
+        </div>
+        <span class="impr-tag medium">Medium</span>
+      </div>
+    </div>
+    <div class="note-box">
+      <strong>Note on pricing:</strong> AboutYou displays both a full price and a promotional price where sales apply. The dataset captures both <code>full_price</code> and <code>price</code> — when no promotion is active they are identical; during sales, <code>price</code> reflects the discounted value and <code>promotion_type</code> is set to "SALE".
+    </div>
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section>
+  <div class="container">
+    <div class="section-label">08 — File delivery</div>
+    <h2>S3 delivery path</h2>
+    <div class="code-block">
+      <span class="key">s3://</span><span class="accent">reinox-datasets</span>/<span class="key">sellers</span>/YOUR_SELLER_ID/<span class="key">contracts</span>/YOUR_CONTRACT_ID/<span class="accent">aboutyou</span>/<br>
+      &nbsp;&nbsp;<span class="accent">data_file.txt</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:var(--muted)">← pipe-delimited, UTF-8, 545,866 rows</span><br>
+      &nbsp;&nbsp;<span class="accent">brand_counts.csv</span>&nbsp;&nbsp;&nbsp;<span style="color:var(--muted)">← 2,522 brands with row counts</span><br>
+      &nbsp;&nbsp;<span class="accent">fill_rate_report.csv</span>&nbsp;<span style="color:var(--muted)">← per-field fill rates</span>
+    </div>
+    <p style="font-family:var(--font-mono);font-size:12px;color:var(--muted);margin-top:16px;">
+      Delimiter: <strong style="color:var(--text)">pipe ( | )</strong> &nbsp;·&nbsp; Encoding: <strong style="color:var(--text)">UTF-8</strong> &nbsp;·&nbsp; Schema: <strong style="color:var(--text)">E0005r</strong>
+    </p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section>
+  <div class="container">
+    <div class="section-label">09 — Contact</div>
+    <h2>Get this dataset</h2>
+    <div class="contact-card">
+      <div>
+        <div class="contact-name">Reinox Web Scrapers</div>
+        <div class="contact-meta">@Anzywiz · t.me/Anzywiz</div>
+      </div>
+      <a href="https://t.me/Anzywiz" class="tg-btn" target="_blank">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.1 13.617l-2.94-.92c-.64-.204-.654-.64.135-.954l11.566-4.458c.537-.194 1.006.131.833.936z"/></svg>
+        Message on Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+<script>
+function toggleTheme() { document.body.classList.toggle('light'); }
+
+// Fill rates data
+const fills = [
+  { name: 'product_code', pct: 100.0 },
+  { name: 'brand', pct: 100.0 },
+  { name: 'color_info', pct: 100.0 },
+  { name: 'in_stock', pct: 100.0 },
+  { name: 'category1', pct: 100.0 },
+  { name: 'full_price', pct: 100.0 },
+  { name: 'price', pct: 100.0 },
+  { name: 'itemurl', pct: 100.0 },
+  { name: 'category2', pct: 95.4 },
+  { name: 'category3', pct: 95.4 },
+  { name: 'category4', pct: 95.2 },
+  { name: 'main_image_url', pct: 99.9 },
+  { name: 'all_images', pct: 99.9 },
+  { name: 'product_title', pct: 94.4 },
+  { name: 'material_info', pct: 92.1 },
+  { name: 'category5', pct: 92.8 },
+  { name: 'size_info', pct: 66.9 },
+  { name: 'additional_tags', pct: 48.4 },
+  { name: 'promotion_type', pct: 40.7 },
+  { name: 'category6', pct: 42.9 },
+  { name: 'category7', pct: 9.4 },
+  { name: 'category8', pct: 0.7 },
+];
+
+const fillList = document.getElementById('fill-list');
+fills.forEach(f => {
+  const cls = f.pct >= 95 ? '' : f.pct >= 50 ? 'warn' : 'low';
+  fillList.innerHTML += `
+    <div class="fill-row">
+      <span class="fill-name">${f.name}</span>
+      <div class="fill-bar-bg"><div class="fill-bar ${cls}" style="width:${f.pct}%"></div></div>
+      <span class="fill-pct">${f.pct}%</span>
+    </div>`;
+});
+
+// Field status
+const fields = [
+  { name: 'dbq_prd_type', status: 'filled' },
+  { name: 'website_name', status: 'filled' },
+  { name: 'competence_date', status: 'filled' },
+  { name: 'country_code', status: 'filled' },
+  { name: 'currency_code', status: 'filled' },
+  { name: 'product_code', status: 'filled' },
+  { name: 'brand', status: 'filled' },
+  { name: 'color_info', status: 'filled' },
+  { name: 'in_stock', status: 'filled' },
+  { name: 'category1', status: 'filled' },
+  { name: 'category2', status: 'filled' },
+  { name: 'category3', status: 'filled' },
+  { name: 'category4', status: 'filled' },
+  { name: 'full_price', status: 'filled' },
+  { name: 'price', status: 'filled' },
+  { name: 'itemurl', status: 'filled' },
+  { name: 'main_image_url', status: 'filled' },
+  { name: 'all_images', status: 'filled' },
+  { name: 'product_title', status: 'partial' },
+  { name: 'material_info', status: 'partial' },
+  { name: 'category5', status: 'partial' },
+  { name: 'size_info', status: 'partial' },
+  { name: 'promotion_type', status: 'partial' },
+  { name: 'category6', status: 'partial' },
+  { name: 'additional_tags', status: 'partial' },
+  { name: 'category7', status: 'partial' },
+  { name: 'category8', status: 'partial' },
+  { name: 'description', status: 'not-collected' },
+  { name: 'specifications', status: 'not-collected' },
+  { name: 'delivery', status: 'not-collected' },
+  { name: 'promotion_end_date', status: 'not-collected' },
+  { name: 'ppu', status: 'not-collected' },
+  { name: 'unit_type', status: 'not-collected' },
+  { name: 'additional_content', status: 'not-collected' },
+  { name: 'store_id', status: 'na' },
+  { name: 'store_name', status: 'na' },
+  { name: 'store_address', status: 'na' },
+  { name: 'store_url', status: 'na' },
+  { name: 'merchant_id', status: 'na' },
+  { name: 'quantity', status: 'na' },
+  { name: 'rank', status: 'na' },
+  { name: 'variant_info', status: 'na' },
+];
+
+const statusLabel = { filled: 'Filled', partial: 'Partial', 'not-collected': 'Not collected', na: 'N/A on site' };
+const fg = document.getElementById('fields-grid');
+fields.forEach(f => {
+  fg.innerHTML += `
+    <div class="field-row">
+      <span class="field-name">${f.name}</span>
+      <span class="field-status">
+        <span class="status-dot ${f.status}"></span>
+        <span class="status-label">${statusLabel[f.status]}</span>
+      </span>
+    </div>`;
+});
+</script>
+</body>
+</html>
