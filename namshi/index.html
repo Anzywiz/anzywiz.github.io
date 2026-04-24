@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Namshi · Product Dataset — Reinox Web Scrapers</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@300;400;500&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0d0f;
+    --surface: #141417;
+    --surface2: #1a1a1f;
+    --border: rgba(255,255,255,0.07);
+    --text: #e8e6e0;
+    --muted: #6b6860;
+    --accent: #c9a96e;
+    --accent2: #7eb8a4;
+    --green: #4caf7d;
+    --amber: #e0a43a;
+    --gray: #555;
+    --red: #e05a5a;
+  }
+  body.light {
+    --bg: #f5f3ef;
+    --surface: #eceae4;
+    --surface2: #e4e2dc;
+    --border: rgba(0,0,0,0.08);
+    --text: #1a1a18;
+    --muted: #8a8880;
+    --accent: #a07a3e;
+    --accent2: #3d8a78;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    height: 52px;
+    background: var(--bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+  }
+  .nav-brand { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+  .nav-brand a { color: var(--accent); text-decoration: none; }
+  .nav-brand a:hover { opacity: 0.8; }
+  .nav-right { display: flex; align-items: center; gap: 20px; }
+  .back-link { font-size: 11px; color: var(--muted); text-decoration: none; letter-spacing: 0.03em; }
+  .back-link:hover { color: var(--accent); }
+  .theme-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-size: 11px; font-family: inherit;
+    padding: 4px 10px; border-radius: 4px; cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 80px 32px 64px;
+    max-width: 960px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(44px, 7vw, 72px);
+    font-weight: 600; line-height: 1.05;
+    letter-spacing: -0.01em;
+    margin-bottom: 24px;
+  }
+  .hero-title span { color: var(--accent); font-style: italic; }
+  .hero-desc {
+    font-size: 13px; color: var(--muted); max-width: 600px;
+    line-height: 1.8; margin-bottom: 40px;
+  }
+
+  /* ── BADGES ── */
+  .badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 0; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: var(--surface); border: 1px solid var(--border);
+    padding: 6px 12px; border-radius: 4px;
+    font-size: 11px; letter-spacing: 0.04em;
+  }
+  .badge-label { color: var(--muted); }
+  .badge-value { color: var(--text); }
+  .badge-status { color: var(--green); }
+
+  /* ── SECTION ── */
+  section {
+    max-width: 960px; margin: 0 auto;
+    padding: 56px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 700;
+    margin-bottom: 24px; letter-spacing: -0.01em;
+  }
+
+  /* ── GRANULARITY EXPLAINER ── */
+  .gran-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .gran-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px;
+  }
+  .gran-card.highlight { border-color: var(--accent); }
+  .gran-card-title { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 16px; }
+  .gran-card.highlight .gran-card-title { color: var(--accent); }
+  .gran-card .muted { color: var(--muted); }
+  .gran-row { font-size: 12px; padding: 6px 0; border-bottom: 1px solid var(--border); display: flex; gap: 12px; }
+  .gran-row:last-child { border-bottom: none; }
+  .gran-row .tag { background: var(--surface2); padding: 2px 8px; border-radius: 3px; font-size: 10px; }
+  .gran-row .tag.accent { background: rgba(201,169,110,0.12); color: var(--accent); }
+
+  /* ── SCALE STATS ── */
+  .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .stat-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px 24px;
+  }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 28px; font-weight: 800;
+    color: var(--accent); line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-label { font-size: 11px; color: var(--muted); letter-spacing: 0.04em; }
+
+  /* ── SAMPLE TABLE ── */
+  .table-wrap { overflow-x: auto; }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  thead th {
+    text-align: left; padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted); font-weight: 400;
+    letter-spacing: 0.06em; text-transform: uppercase; font-size: 10px;
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text); vertical-align: top;
+    max-width: 180px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  tbody tr:hover td { background: var(--surface); }
+  .pill {
+    display: inline-block; padding: 2px 8px; border-radius: 3px;
+    font-size: 10px; background: var(--surface2);
+  }
+  .pill.promo { background: rgba(201,169,110,0.12); color: var(--accent); }
+  .pill.stock { background: rgba(76,175,125,0.12); color: var(--green); }
+
+  /* ── FILL RATES ── */
+  .fill-table { width: 100%; border-collapse: collapse; }
+  .fill-table tr { border-bottom: 1px solid var(--border); }
+  .fill-table td { padding: 8px 0; font-size: 12px; vertical-align: middle; }
+  .fill-col-name { color: var(--text); width: 200px; }
+  .fill-col-pct { color: var(--muted); width: 60px; text-align: right; padding-right: 16px; font-size: 11px; }
+  .fill-bar-wrap { flex: 1; }
+  .fill-bar-bg { background: var(--surface2); border-radius: 2px; height: 6px; width: 100%; }
+  .fill-bar { height: 6px; border-radius: 2px; transition: width 1s ease; }
+  .fill-bar.high { background: var(--green); }
+  .fill-bar.mid { background: var(--amber); }
+  .fill-bar.low { background: var(--muted); }
+  .fill-bar.zero { background: var(--surface2); }
+  .fill-col-bar { width: 240px; }
+
+  /* ── FIELD STATUS TABLE ── */
+  .fields-table { width: 100%; border-collapse: collapse; }
+  .fields-table th {
+    text-align: left; padding: 8px 12px;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--muted); border-bottom: 1px solid var(--border);
+    font-weight: 400;
+  }
+  .fields-table td { padding: 8px 12px; font-size: 12px; border-bottom: 1px solid var(--border); }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 8px; }
+  .dot.green { background: var(--green); }
+  .dot.amber { background: var(--amber); }
+  .dot.gray { background: var(--muted); }
+  .status-filled { color: var(--green); }
+  .status-partial { color: var(--amber); }
+  .status-not { color: var(--muted); }
+
+  /* ── IMPROVEMENTS ── */
+  .impr-list { display: flex; flex-direction: column; gap: 12px; }
+  .impr-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 16px 20px;
+    display: flex; align-items: flex-start; gap: 16px;
+  }
+  .impr-tag {
+    font-size: 10px; letter-spacing: 0.06em; padding: 3px 8px;
+    border-radius: 3px; white-space: nowrap; margin-top: 2px;
+  }
+  .impr-tag.easy { background: rgba(76,175,125,0.12); color: var(--green); }
+  .impr-tag.medium { background: rgba(224,164,58,0.12); color: var(--amber); }
+  .impr-tag.hard { background: rgba(224,90,90,0.12); color: var(--red); }
+  .impr-body { font-size: 12px; color: var(--text); }
+  .impr-body strong { color: var(--text); }
+  .impr-body .desc { color: var(--muted); margin-top: 3px; }
+
+  /* ── DELIVERY ── */
+  .code-block {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 20px 24px;
+    font-size: 12px; line-height: 1.8;
+    overflow-x: auto;
+  }
+  .code-block .key { color: var(--muted); }
+  .code-block .val { color: var(--accent); }
+
+  /* ── CONTACT ── */
+  .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .contact-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px;
+  }
+  .contact-card a { color: var(--accent); text-decoration: none; }
+  .contact-card a:hover { text-decoration: underline; }
+  .contact-label { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+  .contact-val { font-size: 14px; color: var(--text); }
+
+  /* ── NOTE BOX ── */
+  .note-box {
+    background: var(--surface); border-left: 3px solid var(--amber);
+    padding: 14px 18px; border-radius: 0 6px 6px 0;
+    font-size: 12px; color: var(--muted); margin-top: 20px;
+    line-height: 1.7;
+  }
+  .note-box strong { color: var(--text); }
+
+  /* ── FOOTER ── */
+  footer {
+    max-width: 960px; margin: 0 auto;
+    padding: 40px 32px; color: var(--muted); font-size: 11px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+
+  @media (max-width: 640px) {
+    nav { padding: 0 16px; }
+    .hero { padding: 48px 16px 40px; }
+    section { padding: 40px 16px; }
+    .gran-grid, .stats-grid, .contact-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-brand"><a href="https://anzywiz.github.io">anzywiz</a> / namshi</span>
+  <div class="nav-right">
+    <a href="https://anzywiz.github.io" class="back-link">← all datasets</a>
+    <button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Reinox Web Scrapers · Dataset Documentation</div>
+  <h1 class="hero-title">Namshi<br><span>Product Dataset</span></h1>
+  <p class="hero-desc">Color-variant level product data from namshi.com — 221,691+ rows covering pricing, promotions, images, descriptions, and size/color attributes across 1,100+ brands and all fashion departments.</p>
+  <div class="badges">
+    <div class="badge"><span class="badge-label">Schema</span><span class="badge-value">E0005r</span></div>
+    <div class="badge"><span class="badge-label">Country</span><span class="badge-value">United Arab Emirates · ARE</span></div>
+    <div class="badge"><span class="badge-label">Currency</span><span class="badge-value">AED</span></div>
+    <div class="badge"><span class="badge-label">Language</span><span class="badge-value">English</span></div>
+    <div class="badge"><span class="badge-label">Delimiter</span><span class="badge-value">Tab-separated (.txt)</span></div>
+    <div class="badge"><span class="badge-label">Frequency</span><span class="badge-value">Monthly</span></div>
+    <div class="badge"><span class="badge-label">Competence date</span><span class="badge-value">2026-04-23</span></div>
+    <div class="badge"><span class="badge-label">Last delivered</span><span class="badge-value">2026-04-24</span></div>
+    <div class="badge"><span class="badge-label">Status</span><span class="badge-status">● Active</span></div>
+  </div>
+</div>
+
+<!-- GRANULARITY -->
+<section>
+  <div class="section-label">01 · Granularity</div>
+  <h2>Color-variant level data</h2>
+  <div class="gran-grid">
+    <div class="gran-card">
+      <div class="gran-card-title muted">Basic scraper — product level</div>
+      <div class="gran-row"><span class="tag">Z0278B0B1CF60683B5D91Z</span><span>Crew Neck Mesh Dress</span></div>
+      <div class="gran-row muted" style="font-size:11px">→ 1 row. Color lost. No size data.</div>
+    </div>
+    <div class="gran-card highlight">
+      <div class="gran-card-title">This dataset — color-variant level</div>
+      <div class="gran-row"><span class="tag accent">Z0278B0B1CF60683B5D91Z-1</span><span>Crew Neck Mesh Dress · black</span></div>
+      <div class="gran-row"><span class="tag accent">Z0278B0B1CF60683B5D91Z-2</span><span>Crew Neck Mesh Dress · white</span></div>
+      <div class="gran-row"><span class="tag accent">Z0278B0B1CF60683B5D91Z-3</span><span>Crew Neck Mesh Dress · red</span></div>
+      <div class="gran-row" style="font-size:11px;color:var(--accent)">→ 1 row per color. Size availability per color.</div>
+    </div>
+  </div>
+</section>
+
+<!-- SCALE -->
+<section>
+  <div class="section-label">02 · Scale</div>
+  <h2>Dataset at a glance</h2>
+  <div class="stats-grid">
+    <div class="stat-box"><div class="stat-num">221,691</div><div class="stat-label">Total rows</div></div>
+    <div class="stat-box"><div class="stat-num">221,691</div><div class="stat-label">Unique product codes</div></div>
+    <div class="stat-box"><div class="stat-num">1,100</div><div class="stat-label">Unique brands</div></div>
+    <div class="stat-box"><div class="stat-num">59</div><div class="stat-label">Columns per row</div></div>
+    <div class="stat-box"><div class="stat-num">AED</div><div class="stat-label">Currency</div></div>
+    <div class="stat-box"><div class="stat-num">2026-04-23</div><div class="stat-label">Competence date</div></div>
+  </div>
+</section>
+
+<!-- SAMPLE ROWS -->
+<section>
+  <div class="section-label">03 · Sample rows</div>
+  <h2>Real data extract</h2>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>product_code</th>
+          <th>brand</th>
+          <th>product_title</th>
+          <th>color_info</th>
+          <th>category1</th>
+          <th>category3</th>
+          <th>full_price</th>
+          <th>price</th>
+          <th>promotion</th>
+          <th>in_stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Z0278B0B1CF60683B5D91Z-1</td>
+          <td>CHASE</td>
+          <td>Crew Neck Mesh Detailed Dress</td>
+          <td>black</td>
+          <td>Women</td>
+          <td>Arabian Clothing</td>
+          <td>777</td>
+          <td>684</td>
+          <td><span class="pill promo">12% off</span></td>
+          <td><span class="pill stock">Yes</span></td>
+        </tr>
+        <tr>
+          <td>ZD3816CC2422BA533DA77Z-2</td>
+          <td>Adrianna Papell</td>
+          <td>Jacquard Off shoulder Maxi Dress</td>
+          <td>burgundy</td>
+          <td>Women</td>
+          <td>Dresses</td>
+          <td>1,074</td>
+          <td>585</td>
+          <td><span class="pill promo">46% off</span></td>
+          <td><span class="pill stock">Yes</span></td>
+        </tr>
+        <tr>
+          <td>Z76E769DCDFEAF5CE7682Z-4</td>
+          <td>BEAUUT</td>
+          <td>Embellished V-Neck Sequin Maxi Dress</td>
+          <td>gold</td>
+          <td>Women</td>
+          <td>Dresses</td>
+          <td>1,040</td>
+          <td>884</td>
+          <td><span class="pill promo">15% off</span></td>
+          <td><span class="pill stock">Yes</span></td>
+        </tr>
+        <tr>
+          <td>Z7902ADB989BF2CBCC513Z-1</td>
+          <td>MARYISA</td>
+          <td>Embellished Cape Sleeve Sequin Maxi Dress</td>
+          <td>plum</td>
+          <td>Women</td>
+          <td>Dresses</td>
+          <td>1,210</td>
+          <td>1,210</td>
+          <td><span class="pill">—</span></td>
+          <td><span class="pill stock">Yes</span></td>
+        </tr>
+        <tr>
+          <td>ZD0F3CD7634AEA9198516Z-1</td>
+          <td>LACOSTE</td>
+          <td>Classic Fit Monogram Jacquard Polo Shirt</td>
+          <td>CALLUNA/GRAPHITE</td>
+          <td>Men</td>
+          <td>Polo Shirts</td>
+          <td>788</td>
+          <td>788</td>
+          <td><span class="pill">—</span></td>
+          <td><span class="pill stock">Yes</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FILL RATES -->
+<section>
+  <div class="section-label">04 · Fill rates</div>
+  <h2>Field coverage</h2>
+  <table class="fill-table" id="fillTable">
+    <tbody></tbody>
+  </table>
+</section>
+
+<!-- ALL FIELDS -->
+<section>
+  <div class="section-label">05 · Field index</div>
+  <h2>All 59 fields</h2>
+  <table class="fields-table">
+    <thead>
+      <tr><th>Field</th><th>Status</th><th>Notes</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>dbq_prd_type</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">Schema identifier — E0005r</td></tr>
+      <tr><td>website_name</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">namshi</td></tr>
+      <tr><td>competence_date</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">Snapshot date of the data</td></tr>
+      <tr><td>country_code</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">ARE</td></tr>
+      <tr><td>currency_code</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">AED</td></tr>
+      <tr><td>store_id</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">No store concept on Namshi</td></tr>
+      <tr><td>store_name</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">No store concept on Namshi</td></tr>
+      <tr><td>store_address</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">No store concept on Namshi</td></tr>
+      <tr><td>store_zip</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">No store concept on Namshi</td></tr>
+      <tr><td>store_url</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — namshi.com root</td></tr>
+      <tr><td>merchant_id</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Single-merchant retailer</td></tr>
+      <tr><td>merchant_name</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Single-merchant retailer</td></tr>
+      <tr><td>merchant_url</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Single-merchant retailer</td></tr>
+      <tr><td>merchant_image</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Single-merchant retailer</td></tr>
+      <tr><td>merchant_descr</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Single-merchant retailer</td></tr>
+      <tr><td>product_code</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — parentSku::colorIndex</td></tr>
+      <tr><td>additional_code_1</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — parentSku</td></tr>
+      <tr><td>additional_code_1_type</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — "parentSku"</td></tr>
+      <tr><td>additional_code_2</td><td><span class="dot gray"></span><span class="status-not">Not collected</span></td><td class="muted">Not currently populated</td></tr>
+      <tr><td>additional_code_2_type</td><td><span class="dot gray"></span><span class="status-not">Not collected</span></td><td class="muted">Not currently populated</td></tr>
+      <tr><td>additional_code_3</td><td><span class="dot gray"></span><span class="status-not">Not collected</span></td><td class="muted">Not currently populated</td></tr>
+      <tr><td>additional_code_3_type</td><td><span class="dot gray"></span><span class="status-not">Not collected</span></td><td class="muted">Not currently populated</td></tr>
+      <tr><td>size_info</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">82.9% — JSON with sizes + low_stock flags</td></tr>
+      <tr><td>brand</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — 1,100 unique brands</td></tr>
+      <tr><td>color_info</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">91.1% — color name per variant</td></tr>
+      <tr><td>material_info</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">33.5% — shown only when listed by brand</td></tr>
+      <tr><td>variant_info</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">17.1% — additional variant details</td></tr>
+      <tr><td>description</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — full product description</td></tr>
+      <tr><td>product_title</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — clean product name</td></tr>
+      <tr><td>specifications</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">95.9% — JSON key-value specs</td></tr>
+      <tr><td>delivery</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">0.4% — rarely surfaced on PDPs</td></tr>
+      <tr><td>in_stock</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — boolean stock flag</td></tr>
+      <tr><td>quantity</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — available quantity</td></tr>
+      <tr><td>category1</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — top-level category</td></tr>
+      <tr><td>category2</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — second level</td></tr>
+      <tr><td>category3</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">98.9% — third level</td></tr>
+      <tr><td>category4</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">77.6% — fourth level where available</td></tr>
+      <tr><td>category5</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">18.1% — deepest level, sparse</td></tr>
+      <tr><td>category6–10</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Namshi taxonomy stops at 5 levels</td></tr>
+      <tr><td>full_price</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — original listed price</td></tr>
+      <tr><td>price</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — current selling price</td></tr>
+      <tr><td>ppu</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">No per-unit pricing on fashion items</td></tr>
+      <tr><td>unit_type</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Not applicable</td></tr>
+      <tr><td>promotion_type</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">75.7% — discount label (e.g. "46% off")</td></tr>
+      <tr><td>promotion_end_date</td><td><span class="dot gray"></span><span class="status-not">Not collected</span></td><td class="muted">Not displayed on Namshi PDPs</td></tr>
+      <tr><td>package_desc</td><td><span class="dot gray"></span><span class="status-not">N/A on site</span></td><td class="muted">Not applicable for fashion</td></tr>
+      <tr><td>additional_tags</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">45.1% — e.g. "Free delivery", "Premium"</td></tr>
+      <tr><td>additional_content</td><td><span class="dot amber"></span><span class="status-partial">Partial</span></td><td class="muted">22.8% — supplementary content where present</td></tr>
+      <tr><td>itemurl</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — direct PDP URL</td></tr>
+      <tr><td>main_image_url</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — primary product image</td></tr>
+      <tr><td>all_images</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — JSON array of all image URLs</td></tr>
+      <tr><td>rank</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — position in listing page</td></tr>
+      <tr><td>contract_id</td><td><span class="dot gray"></span><span class="status-not">Private</span></td><td class="muted">Not included in delivery file</td></tr>
+      <tr><td>seller_id</td><td><span class="dot gray"></span><span class="status-not">Private</span></td><td class="muted">Not included in delivery file</td></tr>
+      <tr><td>delivery_id</td><td><span class="dot green"></span><span class="status-filled">Filled</span></td><td class="muted">100% — unique delivery identifier</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- IMPROVEMENTS -->
+<section>
+  <div class="section-label">06 · Improvement opportunities</div>
+  <h2>Fields available on site, not yet collected</h2>
+  <div class="impr-list">
+    <div class="impr-item">
+      <span class="impr-tag easy">Easy</span>
+      <div class="impr-body">
+        <strong>promotion_end_date</strong>
+        <div class="desc">Sale countdown timers appear on some promotional PDPs. Scraping the timer element would populate this field for discounted products.</div>
+      </div>
+    </div>
+    <div class="impr-item">
+      <span class="impr-tag easy">Easy</span>
+      <div class="impr-body">
+        <strong>material_info (coverage improvement)</strong>
+        <div class="desc">Currently at 33.5%. Many brands list fabric composition in the specifications JSON — parsing and promoting it to material_info would raise coverage significantly.</div>
+      </div>
+    </div>
+    <div class="impr-item">
+      <span class="impr-tag medium">Medium</span>
+      <div class="impr-body">
+        <strong>delivery</strong>
+        <div class="desc">Delivery information (e.g. "Express delivery available") appears on product pages for select items. Structured extraction would improve the current 0.4% fill rate.</div>
+      </div>
+    </div>
+    <div class="impr-item">
+      <span class="impr-tag medium">Medium</span>
+      <div class="impr-body">
+        <strong>size_info (coverage improvement)</strong>
+        <div class="desc">Currently at 82.9%. Missing rows are products without size selectors (accessories, etc.). Identifying and tagging these as "one-size" would document coverage gaps explicitly.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FILE DELIVERY -->
+<section>
+  <div class="section-label">07 · File delivery</div>
+  <h2>S3 delivery path</h2>
+  <div class="code-block">
+    <div><span class="key">bucket  </span> <span class="val">s3://databoutique-deliveries/</span></div>
+    <div><span class="key">path    </span> <span class="val">YOUR_SELLER_ID/YOUR_CONTRACT_ID/data_file.txt</span></div>
+    <div><span class="key">format  </span> <span class="val">Tab-separated (.txt), UTF-8</span></div>
+    <div><span class="key">rows    </span> <span class="val">221,691 rows + header</span></div>
+    <div><span class="key">columns </span> <span class="val">59</span></div>
+    <div><span class="key">frequency</span> <span class="val">Monthly</span></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section>
+  <div class="section-label">08 · Contact</div>
+  <h2>Get in touch</h2>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <div class="contact-label">Company</div>
+      <div class="contact-val">Reinox Web Scrapers</div>
+    </div>
+    <div class="contact-card">
+      <div class="contact-label">Telegram</div>
+      <div class="contact-val"><a href="https://t.me/Anzywiz">@Anzywiz</a></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 Reinox Web Scrapers</span>
+  <span><a href="https://anzywiz.github.io" style="color:var(--accent);text-decoration:none">anzywiz.github.io</a></span>
+</footer>
+
+<script>
+function toggleTheme() { document.body.classList.toggle('light'); }
+
+// Fill rate data
+const fillData = [
+  { name: 'store_url', pct: 100 },
+  { name: 'product_code', pct: 100 },
+  { name: 'additional_code_1', pct: 100 },
+  { name: 'additional_code_1_type', pct: 100 },
+  { name: 'brand', pct: 100 },
+  { name: 'description', pct: 100 },
+  { name: 'product_title', pct: 100 },
+  { name: 'in_stock', pct: 100 },
+  { name: 'quantity', pct: 100 },
+  { name: 'category1', pct: 100 },
+  { name: 'category2', pct: 100 },
+  { name: 'full_price', pct: 100 },
+  { name: 'price', pct: 100 },
+  { name: 'itemurl', pct: 100 },
+  { name: 'main_image_url', pct: 100 },
+  { name: 'all_images', pct: 100 },
+  { name: 'specifications', pct: 95.9 },
+  { name: 'category3', pct: 98.9 },
+  { name: 'color_info', pct: 91.1 },
+  { name: 'size_info', pct: 82.9 },
+  { name: 'category4', pct: 77.6 },
+  { name: 'promotion_type', pct: 75.7 },
+  { name: 'additional_tags', pct: 45.1 },
+  { name: 'material_info', pct: 33.5 },
+  { name: 'additional_content', pct: 22.8 },
+  { name: 'category5', pct: 18.1 },
+  { name: 'variant_info', pct: 17.1 },
+  { name: 'delivery', pct: 0.4 },
+];
+
+const tbody = document.querySelector('#fillTable tbody');
+fillData.forEach(f => {
+  const cls = f.pct >= 95 ? 'high' : f.pct >= 50 ? 'mid' : 'low';
+  tbody.innerHTML += `
+    <tr>
+      <td class="fill-col-name">${f.name}</td>
+      <td class="fill-col-pct">${f.pct}%</td>
+      <td class="fill-col-bar"><div class="fill-bar-bg"><div class="fill-bar ${cls}" style="width:0%" data-w="${f.pct}%"></div></div></td>
+    </tr>`;
+});
+
+// Animate bars on load
+setTimeout(() => {
+  document.querySelectorAll('.fill-bar').forEach(b => { b.style.width = b.dataset.w; });
+}, 200);
+</script>
+</body>
+</html>
