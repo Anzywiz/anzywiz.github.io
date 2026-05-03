@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>fashiondays.ro · Product Dataset — Anzywiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --bg: #0b0e14;
+    --surface: #111520;
+    --surface2: #181d2a;
+    --border: rgba(255,255,255,0.07);
+    --accent: #e8c96d;
+    --accent2: #5aaeff;
+    --text: #d4d8e8;
+    --muted: #6b7280;
+    --green: #4ade80;
+    --amber: #fbbf24;
+    --red: #f87171;
+    --gray: #6b7280;
+  }
+  body.light {
+    --bg: #f7f5f0;
+    --surface: #ffffff;
+    --surface2: #f0ede6;
+    --border: rgba(0,0,0,0.08);
+    --accent: #b8860b;
+    --accent2: #1a6ab1;
+    --text: #1a1c22;
+    --muted: #6b7280;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    transition: background 0.3s, color 0.3s;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 200;
+    height: 52px;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 32px;
+    background: var(--bg);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-brand { font-size: 12px; color: var(--muted); }
+  .nav-brand a { color: var(--accent); text-decoration: none; }
+  .nav-brand a:hover { text-decoration: underline; }
+  .nav-right { display: flex; align-items: center; gap: 16px; }
+  .back-link { font-size: 11px; color: var(--muted); text-decoration: none; }
+  .back-link:hover { color: var(--accent); }
+  .theme-btn {
+    background: none; border: 1px solid var(--border);
+    color: var(--muted); font-family: inherit; font-size: 11px;
+    padding: 4px 8px; cursor: pointer; border-radius: 4px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* LAYOUT */
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px; }
+
+  /* HERO */
+  .hero {
+    padding: 72px 24px 48px;
+    max-width: 960px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-size: 11px; color: var(--accent); letter-spacing: 0.12em;
+    text-transform: uppercase; margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 6vw, 64px);
+    font-weight: 600; line-height: 1.1;
+    color: var(--text); margin-bottom: 20px;
+  }
+  .hero h1 span { color: var(--accent); }
+  .hero-desc {
+    font-size: 13px; color: var(--muted);
+    max-width: 620px; line-height: 1.8;
+  }
+
+  /* BADGES */
+  .badges {
+    padding: 32px 24px;
+    max-width: 960px; margin: 0 auto;
+    display: flex; flex-wrap: wrap; gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .badge {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 6px 14px; border-radius: 4px;
+    font-size: 11px; color: var(--muted);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .badge strong { color: var(--text); }
+  .badge-accent { border-color: rgba(232,201,109,0.3); }
+  .badge-accent strong { color: var(--accent); }
+  .status-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--green); box-shadow: 0 0 6px var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 1; } 50% { opacity: 0.5; }
+  }
+
+  /* SECTIONS */
+  section { padding: 56px 24px; max-width: 960px; margin: 0 auto; border-bottom: 1px solid var(--border); }
+  .section-label {
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+  }
+  h2 {
+    font-family: 'Syne', sans-serif;
+    font-size: 22px; font-weight: 600;
+    color: var(--text); margin-bottom: 8px;
+  }
+  .sub { color: var(--muted); font-size: 12px; margin-bottom: 32px; }
+
+  /* GRANULARITY EXPLAINER */
+  .gran-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .gran-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px;
+  }
+  .gran-card.highlight { border-color: rgba(232,201,109,0.4); }
+  .gran-card h3 {
+    font-family: 'Syne', sans-serif; font-size: 13px; font-weight: 600;
+    margin-bottom: 16px; color: var(--muted);
+  }
+  .gran-card.highlight h3 { color: var(--accent); }
+  .gran-row {
+    display: grid; gap: 4px; margin-bottom: 6px;
+    background: var(--surface2); border-radius: 4px; padding: 8px 10px;
+    font-size: 11px;
+  }
+  .gran-row-head {
+    color: var(--muted); font-size: 10px; letter-spacing: 0.05em;
+    border-bottom: 1px solid var(--border); padding-bottom: 4px; margin-bottom: 4px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+  }
+  .gran-row-data {
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    color: var(--text);
+  }
+  .gran-miss { color: var(--red); }
+  .gran-note { font-size: 11px; color: var(--muted); margin-top: 12px; }
+
+  /* STATS GRID */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .stat-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 20px;
+  }
+  .stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+  .stat-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px; font-weight: 600; color: var(--text); line-height: 1;
+  }
+  .stat-value small { font-size: 16px; color: var(--muted); }
+
+  /* SAMPLE TABLE */
+  .table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  thead tr { background: var(--surface2); }
+  th {
+    padding: 10px 14px; text-align: left;
+    color: var(--muted); font-weight: 500;
+    font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+    border-bottom: 1px solid var(--border); white-space: nowrap;
+  }
+  td {
+    padding: 10px 14px; border-bottom: 1px solid var(--border);
+    color: var(--text); max-width: 220px;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: var(--surface); }
+  .td-url { color: var(--accent2); font-size: 10px; }
+  .td-price { color: var(--accent); }
+  .td-promo { color: var(--green); }
+
+  /* FILL RATE */
+  .fill-table { width: 100%; border-collapse: collapse; }
+  .fill-table tr { border-bottom: 1px solid var(--border); }
+  .fill-table tr:last-child { border-bottom: none; }
+  .fill-table td { padding: 10px 0; vertical-align: middle; }
+  .fill-col-name { font-size: 12px; color: var(--text); width: 220px; }
+  .fill-col-pct { font-size: 11px; color: var(--muted); width: 60px; text-align: right; padding-right: 14px; }
+  .fill-bar-wrap { flex: 1; height: 6px; background: var(--surface2); border-radius: 3px; overflow: hidden; }
+  .fill-bar { height: 100%; border-radius: 3px; transition: width 1s ease; }
+  .fill-bar.full { background: var(--green); }
+  .fill-bar.partial { background: var(--amber); }
+  .fill-bar.low { background: var(--red); }
+  .fill-row-inner { display: flex; align-items: center; gap: 12px; }
+  .fill-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+  /* FIELD STATUS */
+  .field-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 8px;
+  }
+  .field-row {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 6px; padding: 10px 14px;
+    font-size: 11px;
+  }
+  .f-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+  .f-dot.green { background: var(--green); }
+  .f-dot.amber { background: var(--amber); }
+  .f-dot.gray { background: var(--gray); }
+  .f-name { flex: 1; color: var(--text); font-family: 'DM Mono', monospace; }
+  .f-status { font-size: 10px; color: var(--muted); }
+
+  /* DELIVERY */
+  .delivery-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px 28px;
+    font-size: 12px;
+  }
+  .delivery-box .path {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--accent); word-break: break-all; line-height: 2;
+  }
+  .delivery-box .path span { color: var(--muted); }
+
+  /* IMPROVEMENTS */
+  .improv-item {
+    display: flex; gap: 14px;
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+  }
+  .improv-item:last-child { border-bottom: none; }
+  .diff-tag {
+    font-size: 10px; padding: 3px 8px; border-radius: 3px;
+    white-space: nowrap; height: fit-content; margin-top: 2px;
+    flex-shrink: 0;
+  }
+  .diff-easy { background: rgba(74,222,128,0.1); color: var(--green); }
+  .diff-medium { background: rgba(251,191,36,0.1); color: var(--amber); }
+  .diff-hard { background: rgba(248,113,113,0.1); color: var(--red); }
+  .improv-field { font-size: 12px; color: var(--text); margin-bottom: 3px; }
+  .improv-desc { font-size: 11px; color: var(--muted); }
+
+  /* DELIMITER BOX */
+  .delim-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 0; overflow: hidden;
+  }
+  .delim-row {
+    display: grid; grid-template-columns: 180px 1fr;
+    border-bottom: 1px solid var(--border);
+  }
+  .delim-row:last-child { border-bottom: none; }
+  .delim-key {
+    padding: 12px 16px; background: var(--surface2);
+    font-size: 11px; color: var(--muted);
+    border-right: 1px solid var(--border);
+  }
+  .delim-val {
+    padding: 12px 16px; font-size: 11px; color: var(--text);
+  }
+  .delim-val code {
+    background: var(--surface2); padding: 2px 6px;
+    border-radius: 3px; color: var(--accent); font-size: 11px;
+  }
+
+  /* CONTACT */
+  .contact-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 8px; padding: 28px;
+    display: flex; gap: 24px; align-items: flex-start;
+  }
+  .contact-avatar {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--accent); display: flex; align-items: center;
+    justify-content: center; font-family: 'Syne', sans-serif;
+    font-size: 18px; font-weight: 700; color: var(--bg);
+    flex-shrink: 0;
+  }
+  .contact-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .contact-co { font-size: 11px; color: var(--muted); margin-bottom: 12px; }
+  .contact-links { display: flex; gap: 12px; flex-wrap: wrap; }
+  .contact-link {
+    font-size: 11px; color: var(--accent2); text-decoration: none;
+    border: 1px solid rgba(90,174,255,0.25); padding: 5px 12px; border-radius: 4px;
+  }
+  .contact-link:hover { background: rgba(90,174,255,0.08); }
+
+  .pricing-note {
+    background: var(--surface); border-left: 3px solid var(--amber);
+    padding: 14px 18px; border-radius: 0 6px 6px 0;
+    font-size: 11px; color: var(--muted); margin-top: 24px; line-height: 1.7;
+  }
+  .pricing-note strong { color: var(--text); }
+
+  @media (max-width: 640px) {
+    .gran-grid { grid-template-columns: 1fr; }
+    .contact-card { flex-direction: column; }
+    nav { padding: 0 16px; }
+    .hero { padding: 48px 16px 32px; }
+    section { padding: 40px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <span class="nav-brand"><a href="https://anzywiz.github.io">anzywiz</a> / fashiondays</span>
+  <div class="nav-right">
+    <a href="https://anzywiz.github.io" class="back-link">← all datasets</a>
+    <button class="theme-btn" onclick="toggleTheme()">☀ / ☾</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">Dataset Documentation</div>
+  <h1>fashiondays<span>.ro</span><br/>Product Dataset</h1>
+  <p class="hero-desc">
+    Color-variant level product data from fashiondays.ro — 314K+ rows covering pricing, images, descriptions, categories, and promotional data across 2,925 brands and all fashion departments in Romania.
+  </p>
+</div>
+
+<!-- BADGES -->
+<div class="badges">
+  <div class="badge badge-accent">
+    <div class="status-dot"></div>
+    <strong>Active</strong>
+  </div>
+  <div class="badge"><span>Schema</span>&nbsp;<strong>E0005r</strong></div>
+  <div class="badge"><span>Country</span>&nbsp;<strong>Romania (ROU)</strong></div>
+  <div class="badge"><span>Currency</span>&nbsp;<strong>RON</strong></div>
+  <div class="badge"><span>Language</span>&nbsp;<strong>Romanian</strong></div>
+  <div class="badge"><span>File format</span>&nbsp;<strong>.txt, semicolon-delimited</strong></div>
+  <div class="badge"><span>Multi-value sep.</span>&nbsp;<code style="color:var(--accent);background:var(--surface2);padding:1px 6px;border-radius:3px;">|</code></div>
+  <div class="badge"><span>Competence date</span>&nbsp;<strong>2026-05-03</strong></div>
+</div>
+
+<!-- GRANULARITY -->
+<section>
+  <div class="section-label">01 — Granularity</div>
+  <h2>Color-variant level</h2>
+  <p class="sub">One row per product × color combination. Here's what that means in practice.</p>
+  <div class="gran-grid">
+    <div class="gran-card">
+      <h3>❌ Basic scraper (product level)</h3>
+      <div class="gran-row">
+        <div class="gran-row-head"><span>product_id</span><span>brand</span><span>price</span></div>
+        <div class="gran-row-data"><span>P001</span><span>Tommy H.</span><span>384.99</span></div>
+      </div>
+      <p class="gran-note">One row. You lose per-color pricing, stock status, and individual image sets. Colors are invisible.</p>
+    </div>
+    <div class="gran-card highlight">
+      <h3>✓ This dataset (color-variant level)</h3>
+      <div class="gran-row">
+        <div class="gran-row-head"><span>product_code</span><span>color_info</span><span>price</span></div>
+        <div class="gran-row-data"><span>FW0FW08631::YBS</span><span>Auriu/Alb optic</span><span>384.99</span></div>
+      </div>
+      <div class="gran-row">
+        <div class="gran-row-data"><span>FW0FW08631::BDS</span><span>Negru/Argintiu</span><span>339.99</span></div>
+      </div>
+      <div class="gran-row">
+        <div class="gran-row-data"><span>FW0FW08631::GRI</span><span>Alb/Gri deschis</span><span>269.99</span></div>
+      </div>
+      <p class="gran-note">Three rows. Per-color stock, images, and price captured separately — each variant is trackable independently.</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCALE STATS -->
+<section>
+  <div class="section-label">02 — Scale</div>
+  <h2>Dataset at a glance</h2>
+  <p class="sub">Figures from the 2026-05-03 delivery.</p>
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-label">Total rows</div>
+      <div class="stat-value">314<small>K+</small></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Unique products</div>
+      <div class="stat-value">312<small>K+</small></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Brands</div>
+      <div class="stat-value">2,925</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Columns</div>
+      <div class="stat-value">59</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">File size</div>
+      <div class="stat-value">534<small> MB</small></div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">Competence date</div>
+      <div class="stat-value" style="font-size:18px;line-height:1.4">2026-<br/>05-03</div>
+    </div>
+  </div>
+</section>
+
+<!-- SAMPLE ROWS -->
+<section>
+  <div class="section-label">03 — Sample rows</div>
+  <h2>Real data preview</h2>
+  <p class="sub">5 rows from the latest delivery. Prices in RON.</p>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>brand</th>
+          <th>product_title</th>
+          <th>color_info</th>
+          <th>category1</th>
+          <th>category2</th>
+          <th>category3</th>
+          <th>full_price</th>
+          <th>price</th>
+          <th>promotion_type</th>
+          <th>additional_tags</th>
+          <th>in_stock</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Tommy Hilfiger</td>
+          <td>Pantofi sport de piele cu logo, Auriu/Alb optic</td>
+          <td>Auriu/Alb optic</td>
+          <td>Femei</td>
+          <td>FOOTWEAR</td>
+          <td>PERFORMANCE SHOES AND SNEAKERS</td>
+          <td class="td-price">644.21</td>
+          <td class="td-price">384.99</td>
+          <td class="td-promo">40% discount</td>
+          <td>PREMIUM</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Tommy Hilfiger</td>
+          <td>Pantofi sport din piele intoarsa cu insertii din material textil</td>
+          <td>Alb/Gri deschis</td>
+          <td>Femei</td>
+          <td>FOOTWEAR</td>
+          <td>PERFORMANCE SHOES AND SNEAKERS</td>
+          <td class="td-price">581.60</td>
+          <td class="td-price">269.99</td>
+          <td class="td-promo">53% discount</td>
+          <td>ULTIMELE MARIMI</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Tommy Hilfiger</td>
+          <td>Pantofi sport flatform de piele cu logo, Negru/Argintiu</td>
+          <td>Negru/Argintiu</td>
+          <td>Femei</td>
+          <td>FOOTWEAR</td>
+          <td>PERFORMANCE SHOES AND SNEAKERS</td>
+          <td class="td-price">641.99</td>
+          <td class="td-price">339.99</td>
+          <td class="td-promo">47% discount</td>
+          <td>PREMIUM</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Tommy Hilfiger</td>
+          <td>Camasa slim fit din material pique cu logo discret</td>
+          <td>Alb/Albastru lavanda</td>
+          <td>Femei</td>
+          <td>CLOTHING</td>
+          <td>SHIRTS</td>
+          <td class="td-price">544.99</td>
+          <td class="td-price">399.99</td>
+          <td class="td-promo">26% discount</td>
+          <td>PREMIUM</td>
+          <td>1</td>
+        </tr>
+        <tr>
+          <td>Tommy Hilfiger</td>
+          <td>Espadrile cu detaliu logo, Alb murdar</td>
+          <td>Alb murdar</td>
+          <td>Femei</td>
+          <td>FOOTWEAR</td>
+          <td>ESPADRILLES</td>
+          <td class="td-price">143.00</td>
+          <td class="td-price">143.00</td>
+          <td class="td-promo">0% discount</td>
+          <td>PREMIUM</td>
+          <td>1</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- FILE FORMAT & DELIMITERS -->
+<section>
+  <div class="section-label">04 — File format &amp; delimiters</div>
+  <h2>How the data is structured</h2>
+  <p class="sub">The output is a flat <code style="color:var(--accent)">.txt</code> file. Two separator characters are used at different levels.</p>
+
+  <div class="delim-box" style="margin-bottom:24px">
+    <div class="delim-row">
+      <div class="delim-key">File format</div>
+      <div class="delim-val">Plain text (<code>.txt</code>), one row per product-color variant, UTF-8 encoded</div>
+    </div>
+    <div class="delim-row">
+      <div class="delim-key">Column separator</div>
+      <div class="delim-val"><code>;</code> (semicolon) — separates every field in the row</div>
+    </div>
+    <div class="delim-row">
+      <div class="delim-key">Multi-value separator</div>
+      <div class="delim-val"><code>|</code> (pipe) — used <em>within</em> a field when that field holds multiple items</div>
+    </div>
+    <div class="delim-row">
+      <div class="delim-key">Fields using <code>|</code></div>
+      <div class="delim-val"><code>all_images</code> — pipe-separated list of image URLs<br/>
+      <code>additional_content</code> → <code>availability_id</code> sub-field — pipe-separated per-size availability counts<br/>
+      <code>additional_content</code> → <code>is_consignment</code> sub-field — pipe-separated yes/no per size</div>
+    </div>
+    <div class="delim-row">
+      <div class="delim-key">String cap</div>
+      <div class="delim-val">All string columns capped at <code>1,000 chars</code> to comply with validator constraints</div>
+    </div>
+    <div class="delim-row">
+      <div class="delim-key">Price cap</div>
+      <div class="delim-val">Prices capped at <code>99,999,999.99</code> — matches DBQ validator type <code>NUMERIC(10,2)</code>. Values exceeding this are nulled (13 rows affected in latest delivery).</div>
+    </div>
+    <div class="delim-row">
+      <div class="delim-key">Date format</div>
+      <div class="delim-val"><code>YYYY-MM-DD</code> for <code>competence_date</code> and <code>promotion_end_date</code></div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--muted);line-height:1.8">
+    <strong style="color:var(--text)">Example — all_images field:</strong><br/>
+    <code style="color:var(--accent2);word-break:break-all;font-size:10px">
+      https://fdcdn.akamaized.net/.../res_940599d3.jpg|https://fdcdn.akamaized.net/.../res_9f5f6286.jpg
+    </code><br/>
+    Each URL separated by <code>|</code> — split on pipe to get the full image list per variant.
+  </p>
+</section>
+
+<!-- FILL RATES -->
+<section>
+  <div class="section-label">05 — Fill rates</div>
+  <h2>Field coverage</h2>
+  <p class="sub">Based on 314,421 rows in the 2026-05-03 delivery.</p>
+
+  <table class="fill-table" id="fillTable">
+    <tbody>
+    </tbody>
+  </table>
+</section>
+
+<!-- FIELD STATUS -->
+<section>
+  <div class="section-label">06 — All fields</div>
+  <h2>Schema reference</h2>
+  <p class="sub">Every field in the E0005r schema and its collection status.</p>
+  <div class="field-grid" id="fieldGrid"></div>
+</section>
+
+<!-- IMPROVEMENTS -->
+<section>
+  <div class="section-label">07 — Improvement opportunities</div>
+  <h2>What could be added</h2>
+  <p class="sub">Fields that exist on fashiondays.ro but aren't yet collected.</p>
+
+  <div class="improv-item">
+    <span class="diff-tag diff-easy">Easy</span>
+    <div class="improv-body">
+      <div class="improv-field">size_info</div>
+      <div class="improv-desc">Available sizes are shown per product listing (e.g. 36, 37, 38…). Currently not captured. Could be scraped in a single pass from existing product pages.</div>
+    </div>
+  </div>
+  <div class="improv-item">
+    <span class="diff-tag diff-easy">Easy</span>
+    <div class="improv-body">
+      <div class="improv-field">material_info</div>
+      <div class="improv-desc">Fabric composition (e.g. "100% cotton", "piele naturală") is listed in the product details accordion on most items. Visible on the same page — one additional selector.</div>
+    </div>
+  </div>
+  <div class="improv-item">
+    <span class="diff-tag diff-easy">Easy</span>
+    <div class="improv-body">
+      <div class="improv-field">promotion_end_date (coverage)</div>
+      <div class="improv-desc">Currently at 8.2% fill — the field exists and is being collected, but only populated when a countdown timer is visible on the page. Broader date parsing could improve coverage.</div>
+    </div>
+  </div>
+  <div class="improv-item">
+    <span class="diff-tag diff-medium">Medium</span>
+    <div class="improv-body">
+      <div class="improv-field">delivery</div>
+      <div class="improv-desc">Estimated delivery timeframe shown at checkout or in the product detail sidebar. Requires following a deeper page-level interaction or a secondary request per product.</div>
+    </div>
+  </div>
+  <div class="improv-item">
+    <span class="diff-tag diff-medium">Medium</span>
+    <div class="improv-body">
+      <div class="improv-field">quantity / size-level stock</div>
+      <div class="improv-desc">The <code>availability_id</code> sub-field in <code>additional_content</code> already captures per-size availability codes (e.g. 5 | 3 | 3 | 5 | 5). Mapping these codes to labeled sizes would elevate this to a proper per-size stock field.</div>
+    </div>
+  </div>
+  <div class="improv-item">
+    <span class="diff-tag diff-hard">Hard</span>
+    <div class="improv-body">
+      <div class="improv-field">price_eur (normalised)</div>
+      <div class="improv-desc">EUR-equivalent price is already captured inside <code>additional_content</code> as a JSON sub-field. Promoting it to a top-level column would make cross-currency comparison instant without JSON parsing on the buyer's side.</div>
+    </div>
+  </div>
+
+  <div class="pricing-note">
+    <strong>Note on pricing:</strong> fashiondays.ro is a multi-merchant marketplace with active promotions. Both <code>price</code> (current selling price) and <code>full_price</code> (pre-discount RRP) are collected and will differ whenever a promotion is active. The discount percentage is also delivered in <code>promotion_type</code>.
+  </div>
+</section>
+
+<!-- DELIVERY -->
+<section>
+  <div class="section-label">08 — Delivery</div>
+  <h2>File delivery path</h2>
+  <p class="sub">Delivered to S3 on each competence date.</p>
+  <div class="delivery-box">
+    <div style="margin-bottom:16px;font-size:11px;color:var(--muted)">S3 target path template:</div>
+    <div class="path">
+      s3://databoutique.com/sellers/<span style="color:var(--muted)">YOUR_SELLER_ID</span>/<span style="color:var(--muted)">YOUR_CONTRACT_ID</span>/<span style="color:var(--amber)">YYYY-MM-DD</span>/data_file.txt
+    </div>
+    <div style="margin-top:20px;display:grid;grid-template-columns:120px 1fr;gap:8px;font-size:11px;">
+      <span style="color:var(--muted)">File</span><span>data_file.txt</span>
+      <span style="color:var(--muted)">Format</span><span>.txt, semicolon-delimited, UTF-8</span>
+      <span style="color:var(--muted)">Approx. size</span><span>~534 MB per delivery</span>
+      <span style="color:var(--muted)">Frequency</span><span>Daily</span>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section>
+  <div class="section-label">09 — Contact</div>
+  <h2>Get this dataset</h2>
+  <p class="sub">Reach out to discuss pricing, trial data, or custom field additions.</p>
+  <div class="contact-card">
+    <div class="contact-avatar">A</div>
+    <div>
+      <div class="contact-name">Anzywiz</div>
+      <div class="contact-co">Reinox Web Scrapers</div>
+      <div class="contact-links">
+        <a href="https://t.me/Anzywiz" class="contact-link">Telegram @Anzywiz</a>
+        <a href="https://anzywiz.github.io" class="contact-link">All datasets →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div style="padding:32px 24px;max-width:960px;margin:0 auto;font-size:10px;color:var(--muted);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+  <span>fashiondays.ro · E0005r · Romania · RON</span>
+  <span>Reinox Web Scrapers · <a href="https://anzywiz.github.io" style="color:var(--muted)">anzywiz.github.io</a></span>
+</div>
+
+<script>
+function toggleTheme() { document.body.classList.toggle('light'); }
+
+// Fill rates data
+const fillRates = [
+  { name: 'merchant_name',         pct: 100.0 },
+  { name: 'product_code',          pct: 100.0 },
+  { name: 'additional_code_1',     pct: 100.0 },
+  { name: 'additional_code_1_type',pct: 100.0 },
+  { name: 'brand',                 pct: 100.0 },
+  { name: 'description',           pct: 100.0 },
+  { name: 'product_title',         pct: 100.0 },
+  { name: 'in_stock',              pct: 100.0 },
+  { name: 'category1',             pct: 100.0 },
+  { name: 'category4',             pct: 100.0 },
+  { name: 'category5',             pct: 100.0 },
+  { name: 'price',                 pct: 100.0 },
+  { name: 'full_price',            pct: 100.0 },
+  { name: 'promotion_type',        pct: 100.0 },
+  { name: 'additional_content',    pct: 100.0 },
+  { name: 'itemurl',               pct: 100.0 },
+  { name: 'main_image_url',        pct: 100.0 },
+  { name: 'all_images',            pct: 100.0 },
+  { name: 'specifications',        pct:  98.3 },
+  { name: 'category2',             pct:  98.3 },
+  { name: 'category3',             pct:  98.3 },
+  { name: 'color_info',            pct:  82.3 },
+  { name: 'additional_tags',       pct:  48.5 },
+  { name: 'promotion_end_date',    pct:   8.2 },
+];
+
+const tbody = document.querySelector('#fillTable tbody');
+fillRates.forEach(r => {
+  const cls = r.pct >= 95 ? 'full' : r.pct >= 50 ? 'partial' : 'low';
+  const dotColor = r.pct >= 95 ? 'var(--green)' : r.pct >= 50 ? 'var(--amber)' : 'var(--red)';
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td class="fill-col-name">${r.name}</td>
+    <td class="fill-col-pct">${r.pct}%</td>
+    <td style="width:100%">
+      <div class="fill-row-inner">
+        <div class="fill-bar-wrap">
+          <div class="fill-bar ${cls}" style="width:0%" data-w="${r.pct}"></div>
+        </div>
+      </div>
+    </td>`;
+  tbody.appendChild(tr);
+});
+
+// Field status data
+const fields = [
+  { name: 'dbq_prd_type',            status: 'Filled',        dot: 'green' },
+  { name: 'website_name',            status: 'Filled',        dot: 'green' },
+  { name: 'competence_date',         status: 'Filled',        dot: 'green' },
+  { name: 'country_code',            status: 'Filled',        dot: 'green' },
+  { name: 'currency_code',           status: 'Filled',        dot: 'green' },
+  { name: 'store_id',                status: 'N/A on site',   dot: 'gray'  },
+  { name: 'store_name',              status: 'N/A on site',   dot: 'gray'  },
+  { name: 'store_address',           status: 'N/A on site',   dot: 'gray'  },
+  { name: 'store_zip',               status: 'N/A on site',   dot: 'gray'  },
+  { name: 'store_url',               status: 'N/A on site',   dot: 'gray'  },
+  { name: 'merchant_id',             status: 'N/A on site',   dot: 'gray'  },
+  { name: 'merchant_name',           status: 'Filled',        dot: 'green' },
+  { name: 'merchant_url',            status: 'Not collected', dot: 'gray'  },
+  { name: 'merchant_image',          status: 'Not collected', dot: 'gray'  },
+  { name: 'merchant_descr',          status: 'Not collected', dot: 'gray'  },
+  { name: 'product_code',            status: 'Filled',        dot: 'green' },
+  { name: 'additional_code_1',       status: 'Filled',        dot: 'green' },
+  { name: 'additional_code_1_type',  status: 'Filled',        dot: 'green' },
+  { name: 'additional_code_2',       status: 'Not collected', dot: 'gray'  },
+  { name: 'additional_code_3',       status: 'Not collected', dot: 'gray'  },
+  { name: 'size_info',               status: 'Not collected', dot: 'gray'  },
+  { name: 'brand',                   status: 'Filled',        dot: 'green' },
+  { name: 'color_info',              status: 'Partial (82%)', dot: 'amber' },
+  { name: 'material_info',           status: 'Not collected', dot: 'gray'  },
+  { name: 'variant_info',            status: 'Not collected', dot: 'gray'  },
+  { name: 'description',             status: 'Filled',        dot: 'green' },
+  { name: 'product_title',           status: 'Filled',        dot: 'green' },
+  { name: 'specifications',          status: 'Partial (98%)', dot: 'amber' },
+  { name: 'delivery',                status: 'Not collected', dot: 'gray'  },
+  { name: 'in_stock',                status: 'Filled',        dot: 'green' },
+  { name: 'quantity',                status: 'Not collected', dot: 'gray'  },
+  { name: 'category1',               status: 'Filled',        dot: 'green' },
+  { name: 'category2',               status: 'Partial (98%)', dot: 'amber' },
+  { name: 'category3',               status: 'Partial (98%)', dot: 'amber' },
+  { name: 'category4',               status: 'Filled',        dot: 'green' },
+  { name: 'category5',               status: 'Filled',        dot: 'green' },
+  { name: 'category6–10',            status: 'N/A on site',   dot: 'gray'  },
+  { name: 'full_price',              status: 'Filled',        dot: 'green' },
+  { name: 'price',                   status: 'Filled',        dot: 'green' },
+  { name: 'ppu',                     status: 'N/A on site',   dot: 'gray'  },
+  { name: 'unit_type',               status: 'N/A on site',   dot: 'gray'  },
+  { name: 'promotion_type',          status: 'Filled',        dot: 'green' },
+  { name: 'promotion_end_date',      status: 'Partial (8%)',  dot: 'amber' },
+  { name: 'package_desc',            status: 'Not collected', dot: 'gray'  },
+  { name: 'additional_tags',         status: 'Partial (49%)', dot: 'amber' },
+  { name: 'additional_content',      status: 'Filled',        dot: 'green' },
+  { name: 'itemurl',                 status: 'Filled',        dot: 'green' },
+  { name: 'main_image_url',          status: 'Filled',        dot: 'green' },
+  { name: 'all_images',              status: 'Filled',        dot: 'green' },
+  { name: 'rank',                    status: 'Filled',        dot: 'green' },
+];
+
+const grid = document.getElementById('fieldGrid');
+fields.forEach(f => {
+  const div = document.createElement('div');
+  div.className = 'field-row';
+  div.innerHTML = `<div class="f-dot ${f.dot}"></div><div class="f-name">${f.name}</div><div class="f-status">${f.status}</div>`;
+  grid.appendChild(div);
+});
+
+// Animate fill bars on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      document.querySelectorAll('.fill-bar').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+      observer.disconnect();
+    }
+  });
+}, { threshold: 0.1 });
+observer.observe(document.querySelector('#fillTable'));
+</script>
+</body>
+</html>
